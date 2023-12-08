@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from pictures.models import PictureModel
+from utils.constants import FOR_AGES
 
 
 class BannerModel(models.Model):
@@ -23,3 +25,11 @@ class BannerModel(models.Model):
 
     def __str__(self):
         return f'{str(self.id)}. {self.text}'
+
+
+class SourceModel(models.Model):
+    url = models.CharField(max_length=1024)
+    title = models.TextField()
+    topic = models.CharField(max_length=255)
+    profi = models.BooleanField(default=False)
+    for_age = models.CharField(max_length=256, choices=FOR_AGES, default='16-90+')

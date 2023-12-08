@@ -3,8 +3,9 @@ from rest_framework import generics, status
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-from .models import BannerModel
-from .serializers import BannerSerializer
+from utils.pagination import ApiPagination
+from .models import BannerModel, SourceModel
+from .serializers import BannerSerializer, SourceModelSerializer
 
 
 class BannerView(generics.GenericAPIView):
@@ -19,3 +20,11 @@ class BannerView(generics.GenericAPIView):
     def get(self, request):
         banners = BannerModel.objects.order_by("-sort")
         return Response(data=self.serializer_class(banners, many=True).data, status=status.HTTP_200_OK)
+
+
+class SourcesListView(generics.ListAPIView):
+    pagination_class = ApiPagination
+    serializer_class = SourceModelSerializer
+    permission_classes = ()
+    authentication_classes = ()
+    queryset = SourceModel.objects.all()

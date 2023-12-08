@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from banners.models import SourceModel
 from pictures.serializers import PictureSerializer
 
 
@@ -9,3 +11,9 @@ class BannerSerializer(serializers.Serializer):
     link = serializers.URLField()
     type = serializers.CharField()
     images = PictureSerializer(many=True)
+
+
+class SourceModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SourceModel
+        fields = '__all__'

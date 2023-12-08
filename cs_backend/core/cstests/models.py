@@ -3,6 +3,7 @@ from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 
 from authorization.models import Users
+from utils.constants import FOR_AGES
 
 
 class QuestionModel(models.Model):
@@ -38,11 +39,6 @@ class CSTestModel(models.Model):
         ('hard', _('Сложный')),
     ]
 
-    FOR_AGES = [
-        ('6-12+', _('6-12+')),
-        ('13-16+', _('13-16+')),
-        ('16-90+', _('16-90+')),
-    ]
     name = models.CharField(max_length=255)
     picture = models.URLField(null=True, blank=True)
     topic = models.CharField(max_length=255)
