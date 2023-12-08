@@ -42,7 +42,7 @@ class AppComponents {
 
   Future<void> init() async {
     dio.options
-      ..baseUrl = 'https://it-profession.fbtw.ru/'
+      ..baseUrl = 'https://cybertest.fbtw.ru/'
       ..connectTimeout = timeout
       ..receiveTimeout = timeout
       ..sendTimeout = timeout;

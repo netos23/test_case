@@ -26,7 +26,7 @@ class App extends StatelessWidget {
 
         useMaterial3: true,
         colorScheme: lightColorScheme,
-        textTheme: GoogleFonts.montserratTextTheme(),
+        textTheme:  GoogleFonts.jetBrainsMonoTextTheme(),
         appBarTheme: AppBarTheme(
           titleTextStyle: GoogleFonts.montserrat(
             fontSize: 22,
@@ -37,7 +37,7 @@ class App extends StatelessWidget {
       darkTheme: ThemeData(
         useMaterial3: true,
         colorScheme: darkColorScheme,
-        textTheme: GoogleFonts.montserratTextTheme(),
+        textTheme:  GoogleFonts.jetBrainsMonoTextTheme(),
         appBarTheme: AppBarTheme(
           titleTextStyle: GoogleFonts.montserrat(
             fontSize: 22,
