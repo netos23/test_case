@@ -1,15 +1,15 @@
 version: "3.9"
 services:
 
-#  certbot:
-#    image: 'certbot/certbot'
-#    depends_on:
-#      ingress:
-#        condition: service_started
-#    volumes:
-#      - letsencrypt-data:/etc/letsencrypt
-#      - nginx-static-data:/var/www/html
-#    command: certonly --webroot --webroot-path /var/www/html --email nikmoroz2002@yandex.ru --agree-tos --no-eff-email  -d cybertest.fbtw.ru
+  certbot:
+    image: 'certbot/certbot'
+    depends_on:
+      ingress:
+        condition: service_started
+    volumes:
+      - letsencrypt-data:/etc/letsencrypt
+      - nginx-static-data:/var/www/html
+    command: certonly --webroot --webroot-path /var/www/html --email nikmoroz2002@yandex.ru --agree-tos --no-eff-email  -d cybertest.fbtw.ru
 
   web:
     build:
@@ -52,16 +52,16 @@ services:
         reservations:
           cpus: "0.25"
           memory: "128M"
-#  ingress:
-#    build: ./ingress/
-#    image: 'cybertest-ingress:1.0'
-#    ports:
-#      - '80:80'
-#      - '443:443'
-#    container_name: cybertest-ingress
-#    volumes:
-#      - letsencrypt-data:/etc/letsencrypt
-#      - nginx-static-data:/var/www/html
+  ingress:
+    build: ./ingress/
+    image: 'cybertest-ingress:1.0'
+    ports:
+      - '80:80'
+      - '443:443'
+    container_name: cybertest-ingress
+    volumes:
+      - letsencrypt-data:/etc/letsencrypt
+      - nginx-static-data:/var/www/html
 
 volumes:
   letsencrypt-data:
