@@ -20,11 +20,13 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Question {
-  int get id => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'explain_answer')
+  String get explainAnswer => throw _privateConstructorUsedError;
+  List<Variant> get variants => throw _privateConstructorUsedError;
+  String get question => throw _privateConstructorUsedError;
+  String? get picture => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
-  List<Answer>? get answers => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,11 +40,12 @@ abstract class $QuestionCopyWith<$Res> {
       _$QuestionCopyWithImpl<$Res, Question>;
   @useResult
   $Res call(
-      {int id,
-      String? name,
-      String? description,
+      {@JsonKey(name: 'explain_answer') String explainAnswer,
+      List<Variant> variants,
+      String question,
+      String? picture,
       String? type,
-      List<Answer>? answers});
+      int? id});
 }
 
 /// @nodoc
@@ -58,33 +61,38 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? name = freezed,
-    Object? description = freezed,
+    Object? explainAnswer = null,
+    Object? variants = null,
+    Object? question = null,
+    Object? picture = freezed,
     Object? type = freezed,
-    Object? answers = freezed,
+    Object? id = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
+      explainAnswer: null == explainAnswer
+          ? _value.explainAnswer
+          : explainAnswer // ignore: cast_nullable_to_non_nullable
+              as String,
+      variants: null == variants
+          ? _value.variants
+          : variants // ignore: cast_nullable_to_non_nullable
+              as List<Variant>,
+      question: null == question
+          ? _value.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String,
+      picture: freezed == picture
+          ? _value.picture
+          : picture // ignore: cast_nullable_to_non_nullable
               as String?,
       type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
-      answers: freezed == answers
-          ? _value.answers
-          : answers // ignore: cast_nullable_to_non_nullable
-              as List<Answer>?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -98,11 +106,12 @@ abstract class _$$QuestionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      String? name,
-      String? description,
+      {@JsonKey(name: 'explain_answer') String explainAnswer,
+      List<Variant> variants,
+      String question,
+      String? picture,
       String? type,
-      List<Answer>? answers});
+      int? id});
 }
 
 /// @nodoc
@@ -116,72 +125,81 @@ class __$$QuestionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? name = freezed,
-    Object? description = freezed,
+    Object? explainAnswer = null,
+    Object? variants = null,
+    Object? question = null,
+    Object? picture = freezed,
     Object? type = freezed,
-    Object? answers = freezed,
+    Object? id = freezed,
   }) {
     return _then(_$QuestionImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
+      explainAnswer: null == explainAnswer
+          ? _value.explainAnswer
+          : explainAnswer // ignore: cast_nullable_to_non_nullable
+              as String,
+      variants: null == variants
+          ? _value._variants
+          : variants // ignore: cast_nullable_to_non_nullable
+              as List<Variant>,
+      question: null == question
+          ? _value.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String,
+      picture: freezed == picture
+          ? _value.picture
+          : picture // ignore: cast_nullable_to_non_nullable
               as String?,
       type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
-      answers: freezed == answers
-          ? _value._answers
-          : answers // ignore: cast_nullable_to_non_nullable
-              as List<Answer>?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _$QuestionImpl implements _Question {
   _$QuestionImpl(
-      {required this.id,
-      this.name,
-      this.description,
+      {@JsonKey(name: 'explain_answer') required this.explainAnswer,
+      required final List<Variant> variants,
+      required this.question,
+      this.picture,
       this.type,
-      final List<Answer>? answers})
-      : _answers = answers;
+      this.id})
+      : _variants = variants;
 
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionImplFromJson(json);
 
   @override
-  final int id;
+  @JsonKey(name: 'explain_answer')
+  final String explainAnswer;
+  final List<Variant> _variants;
   @override
-  final String? name;
-  @override
-  final String? description;
-  @override
-  final String? type;
-  final List<Answer>? _answers;
-  @override
-  List<Answer>? get answers {
-    final value = _answers;
-    if (value == null) return null;
-    if (_answers is EqualUnmodifiableListView) return _answers;
+  List<Variant> get variants {
+    if (_variants is EqualUnmodifiableListView) return _variants;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_variants);
   }
 
   @override
+  final String question;
+  @override
+  final String? picture;
+  @override
+  final String? type;
+  @override
+  final int? id;
+
+  @override
   String toString() {
-    return 'Question(id: $id, name: $name, description: $description, type: $type, answers: $answers)';
+    return 'Question(explainAnswer: $explainAnswer, variants: $variants, question: $question, picture: $picture, type: $type, id: $id)';
   }
 
   @override
@@ -189,18 +207,26 @@ class _$QuestionImpl implements _Question {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuestionImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
+            (identical(other.explainAnswer, explainAnswer) ||
+                other.explainAnswer == explainAnswer) &&
+            const DeepCollectionEquality().equals(other._variants, _variants) &&
+            (identical(other.question, question) ||
+                other.question == question) &&
+            (identical(other.picture, picture) || other.picture == picture) &&
             (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality().equals(other._answers, _answers));
+            (identical(other.id, id) || other.id == id));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description, type,
-      const DeepCollectionEquality().hash(_answers));
+  int get hashCode => Object.hash(
+      runtimeType,
+      explainAnswer,
+      const DeepCollectionEquality().hash(_variants),
+      question,
+      picture,
+      type,
+      id);
 
   @JsonKey(ignore: true)
   @override
@@ -218,25 +244,29 @@ class _$QuestionImpl implements _Question {
 
 abstract class _Question implements Question {
   factory _Question(
-      {required final int id,
-      final String? name,
-      final String? description,
+      {@JsonKey(name: 'explain_answer') required final String explainAnswer,
+      required final List<Variant> variants,
+      required final String question,
+      final String? picture,
       final String? type,
-      final List<Answer>? answers}) = _$QuestionImpl;
+      final int? id}) = _$QuestionImpl;
 
   factory _Question.fromJson(Map<String, dynamic> json) =
       _$QuestionImpl.fromJson;
 
   @override
-  int get id;
+  @JsonKey(name: 'explain_answer')
+  String get explainAnswer;
   @override
-  String? get name;
+  List<Variant> get variants;
   @override
-  String? get description;
+  String get question;
+  @override
+  String? get picture;
   @override
   String? get type;
   @override
-  List<Answer>? get answers;
+  int? get id;
   @override
   @JsonKey(ignore: true)
   _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>

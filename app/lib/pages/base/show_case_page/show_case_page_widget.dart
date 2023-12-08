@@ -138,7 +138,7 @@ class _ImageBannerWidget extends StatelessWidget {
               },
               errorWidget: (_, __, ___) {
                 return Image.asset(
-                  'assets/images/satellite.png',
+                  'assets/images/logo.png',
                   fit: BoxFit.fill,
                 );
               },
@@ -292,7 +292,7 @@ class _SliderBannerWidgetState extends State<_SliderBannerWidget> {
                       },
                       errorWidget: (_, __, ___) {
                         return Image.asset(
-                          'assets/images/satellite.png',
+                          'assets/images/logo.png',
                           fit: BoxFit.fill,
                         );
                       },
