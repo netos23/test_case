@@ -7,19 +7,19 @@ import 'package:test_case/domain/models/banner.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'show_case_page_wm.dart';
+import 'test_page_wm.dart';
 
 // TODO: cover with documentation
 /// Main widget for ShowCasePage module
 @RoutePage()
-class ShowCasePageWidget extends ElementaryWidget<IShowCasePageWidgetModel> {
-  const ShowCasePageWidget({
+class TestPageWidget extends ElementaryWidget<ITestPageWidgetModel> {
+  const TestPageWidget({
     Key? key,
-    WidgetModelFactory wmFactory = defaultShowCasePageWidgetModelFactory,
+    WidgetModelFactory wmFactory = defaultTestPageWidgetModelFactory,
   }) : super(wmFactory, key: key);
 
   @override
-  Widget build(IShowCasePageWidgetModel wm) {
+  Widget build(ITestPageWidgetModel wm) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,

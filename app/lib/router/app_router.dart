@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:test_case/domain/models/game/level.dart';
+import 'package:test_case/domain/models/game/level_map.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_widget.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_wm.dart';
@@ -15,9 +17,19 @@ import 'package:test_case/pages/base/profile_page/profile_page_widget.dart';
 import 'package:test_case/pages/base/profile_page/profile_page_wm.dart';
 import 'package:test_case/pages/base/register_page/register_page_widget.dart';
 import 'package:test_case/pages/base/register_page/register_page_wm.dart';
+import 'package:test_case/pages/base/test_page/test_page_widget.dart';
+import 'package:test_case/pages/base/test_page/test_page_wm.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
+import 'package:test_case/pages/game/components/empty_character_page.dart';
+import 'package:test_case/pages/game/components/naiv_page.dart';
+import 'package:test_case/pages/game/components/secure_page.dart';
+import 'package:test_case/pages/game/components/telling_page.dart';
+import 'package:test_case/pages/game/game_widget.dart';
+import 'package:test_case/pages/game/game_wm.dart';
+import 'package:test_case/pages/game/level_pages/chapter_fin.dart';
 import 'package:test_case/pages/game/level_pages/fin_test_1.dart';
 import 'package:test_case/pages/game/level_pages/fin_test_1_1.dart';
+import 'package:test_case/pages/game/story_telling_utils.dart';
 import 'package:test_case/pages/web_view/web_view_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -31,11 +43,23 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(page: WebViewerRoute.page),
-        AutoRoute(page: AuthRoute.page,),
+        AutoRoute(
+          page: AuthRoute.page,
+        ),
         AutoRoute(page: AuthCodeRoute.page),
         AutoRoute(page: RegisterRoute.page),
         AutoRoute(
           page: ChooseCityRoute.page,
+        ),
+        AutoRoute(
+          page: FinTest1Route.page,
+        ),
+        CustomRoute(page: TellingRoute.page, opaque: false),
+        AutoRoute(
+          page: FinTest1_1Route.page,
+        ),
+        AutoRoute(
+          page: ChapterFinRoute.page,
         ),
         AutoRoute(
           initial: true,
@@ -46,6 +70,15 @@ class AppRouter extends _$AppRouter {
               children: [
                 AutoRoute(
                   page: ShowCaseRoute.page,
+                  initial: true,
+                ),
+              ],
+            ),
+            AutoRoute(
+              page: TestTab.page,
+              children: [
+                AutoRoute(
+                  page: TestRoute.page,
                   initial: true,
                 ),
               ],
@@ -66,11 +99,9 @@ class AppRouter extends _$AppRouter {
               page: GameTab.page,
               children: [
                 AutoRoute(
-                  page: FinTest1Route.page,
+                  page: GameRoute.page,
+                  initial: true,
                 ),
-                AutoRoute(
-                  page: FinTest1_1Route.page,
-                )
               ],
             ),
           ],
@@ -86,6 +117,11 @@ class ShowCaseTabPage extends AutoRouter {
 @RoutePage(name: 'UserProfileTab')
 class UserProfileTabPage extends AutoRouter {
   const UserProfileTabPage({super.key});
+}
+
+@RoutePage(name: 'TestTab')
+class TestTabPage extends AutoRouter {
+  const TestTabPage({super.key});
 }
 
 @RoutePage(name: 'GameTab')

@@ -33,7 +33,19 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: AuthPageWidget(
           key: args.key,
+          authCallback: args.authCallback,
           wmFactory: args.wmFactory,
+        ),
+      );
+    },
+    ChapterFinRoute.name: (routeData) {
+      final args = routeData.argsAs<ChapterFinRouteArgs>(
+          orElse: () => const ChapterFinRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChapterFinPageWidget(
+          key: args.key,
+          levelMap: args.levelMap,
         ),
       );
     },
@@ -61,6 +73,19 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    EmptyCharacterRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<EmptyCharacterRouteArgs>(
+          orElse: () =>
+              EmptyCharacterRouteArgs(text: queryParams.optString('text')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EmptyCharacterPageWidget(
+          key: args.key,
+          text: args.text,
+        ),
+      );
+    },
     FinTest1Route.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -71,6 +96,17 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const FinTest1_1PageWidget(),
+      );
+    },
+    GameRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<GameRouteArgs>(orElse: () => const GameRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: GamePageWidget(
+          key: args.key,
+          wmFactory: args.wmFactory,
+        ),
       );
     },
     GameTab.name: (routeData) {
@@ -87,6 +123,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: HomePageWidget(
           key: args.key,
           wmFactory: args.wmFactory,
+        ),
+      );
+    },
+    NaivRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<NaivRouteArgs>(
+          orElse: () => NaivRouteArgs(text: queryParams.optString('text')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: NaivPageWidget(
+          key: args.key,
+          text: args.text,
         ),
       );
     },
@@ -128,6 +176,22 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ShowCaseTabPage(),
+      );
+    },
+    TellingRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<TellingRouteArgs>(
+          orElse: () => TellingRouteArgs(
+                  messages: queryParams.get(
+                'messages',
+                const [],
+              )));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TellingPageWidget(
+          key: args.key,
+          messages: args.messages,
+        ),
       );
     },
     UserProfileTab.name: (routeData) {
@@ -217,6 +281,7 @@ class AuthCodeRouteArgs {
 class AuthRoute extends PageRouteInfo<AuthRouteArgs> {
   AuthRoute({
     Key? key,
+    void Function(Profile?)? authCallback,
     WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
             BuildContext)
         wmFactory = defaultAuthPageWidgetModelFactory,
@@ -225,6 +290,7 @@ class AuthRoute extends PageRouteInfo<AuthRouteArgs> {
           AuthRoute.name,
           args: AuthRouteArgs(
             key: key,
+            authCallback: authCallback,
             wmFactory: wmFactory,
           ),
           initialChildren: children,
@@ -238,17 +304,58 @@ class AuthRoute extends PageRouteInfo<AuthRouteArgs> {
 class AuthRouteArgs {
   const AuthRouteArgs({
     this.key,
+    this.authCallback,
     this.wmFactory = defaultAuthPageWidgetModelFactory,
   });
 
   final Key? key;
+
+  final void Function(Profile?)? authCallback;
 
   final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
       BuildContext) wmFactory;
 
   @override
   String toString() {
-    return 'AuthRouteArgs{key: $key, wmFactory: $wmFactory}';
+    return 'AuthRouteArgs{key: $key, authCallback: $authCallback, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [ChapterFinPageWidget]
+class ChapterFinRoute extends PageRouteInfo<ChapterFinRouteArgs> {
+  ChapterFinRoute({
+    Key? key,
+    LevelMap? levelMap,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChapterFinRoute.name,
+          args: ChapterFinRouteArgs(
+            key: key,
+            levelMap: levelMap,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ChapterFinRoute';
+
+  static const PageInfo<ChapterFinRouteArgs> page =
+      PageInfo<ChapterFinRouteArgs>(name);
+}
+
+class ChapterFinRouteArgs {
+  const ChapterFinRouteArgs({
+    this.key,
+    this.levelMap,
+  });
+
+  final Key? key;
+
+  final LevelMap? levelMap;
+
+  @override
+  String toString() {
+    return 'ChapterFinRouteArgs{key: $key, levelMap: $levelMap}';
   }
 }
 
@@ -345,6 +452,45 @@ class EditProfileRouteArgs {
 }
 
 /// generated route for
+/// [EmptyCharacterPageWidget]
+class EmptyCharacterRoute extends PageRouteInfo<EmptyCharacterRouteArgs> {
+  EmptyCharacterRoute({
+    Key? key,
+    required String? text,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EmptyCharacterRoute.name,
+          args: EmptyCharacterRouteArgs(
+            key: key,
+            text: text,
+          ),
+          rawQueryParams: {'text': text},
+          initialChildren: children,
+        );
+
+  static const String name = 'EmptyCharacterRoute';
+
+  static const PageInfo<EmptyCharacterRouteArgs> page =
+      PageInfo<EmptyCharacterRouteArgs>(name);
+}
+
+class EmptyCharacterRouteArgs {
+  const EmptyCharacterRouteArgs({
+    this.key,
+    required this.text,
+  });
+
+  final Key? key;
+
+  final String? text;
+
+  @override
+  String toString() {
+    return 'EmptyCharacterRouteArgs{key: $key, text: $text}';
+  }
+}
+
+/// generated route for
 /// [FinTest1PageWidget]
 class FinTest1Route extends PageRouteInfo<void> {
   const FinTest1Route({List<PageRouteInfo>? children})
@@ -370,6 +516,46 @@ class FinTest1_1Route extends PageRouteInfo<void> {
   static const String name = 'FinTest1_1Route';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GamePageWidget]
+class GameRoute extends PageRouteInfo<GameRouteArgs> {
+  GameRoute({
+    Key? key,
+    WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+            BuildContext)
+        wmFactory = defaultGameWidgetModelFactory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          GameRoute.name,
+          args: GameRouteArgs(
+            key: key,
+            wmFactory: wmFactory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GameRoute';
+
+  static const PageInfo<GameRouteArgs> page = PageInfo<GameRouteArgs>(name);
+}
+
+class GameRouteArgs {
+  const GameRouteArgs({
+    this.key,
+    this.wmFactory = defaultGameWidgetModelFactory,
+  });
+
+  final Key? key;
+
+  final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+      BuildContext) wmFactory;
+
+  @override
+  String toString() {
+    return 'GameRouteArgs{key: $key, wmFactory: $wmFactory}';
+  }
 }
 
 /// generated route for
@@ -423,6 +609,44 @@ class HomeRouteArgs {
   @override
   String toString() {
     return 'HomeRouteArgs{key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [NaivPageWidget]
+class NaivRoute extends PageRouteInfo<NaivRouteArgs> {
+  NaivRoute({
+    Key? key,
+    required String? text,
+    List<PageRouteInfo>? children,
+  }) : super(
+          NaivRoute.name,
+          args: NaivRouteArgs(
+            key: key,
+            text: text,
+          ),
+          rawQueryParams: {'text': text},
+          initialChildren: children,
+        );
+
+  static const String name = 'NaivRoute';
+
+  static const PageInfo<NaivRouteArgs> page = PageInfo<NaivRouteArgs>(name);
+}
+
+class NaivRouteArgs {
+  const NaivRouteArgs({
+    this.key,
+    required this.text,
+  });
+
+  final Key? key;
+
+  final String? text;
+
+  @override
+  String toString() {
+    return 'NaivRouteArgs{key: $key, text: $text}';
   }
 }
 
@@ -566,6 +790,99 @@ class ShowCaseTab extends PageRouteInfo<void> {
   static const String name = 'ShowCaseTab';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TestPageWidget]
+class TestRoute extends PageRouteInfo<TestRouteArgs> {
+  TestRoute({
+    Key? key,
+    WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+            BuildContext)
+        wmFactory = defaultTestPageWidgetModelFactory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TestRoute.name,
+          args: TestRouteArgs(
+            key: key,
+            wmFactory: wmFactory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TestRoute';
+
+  static const PageInfo<TestRouteArgs> page = PageInfo<TestRouteArgs>(name);
+}
+
+class TestRouteArgs {
+  const TestRouteArgs({
+    this.key,
+    this.wmFactory = defaultTestPageWidgetModelFactory,
+  });
+
+  final Key? key;
+
+  final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+      BuildContext) wmFactory;
+
+  @override
+  String toString() {
+    return 'TestRouteArgs{key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [TestTabPage]
+class TestTab extends PageRouteInfo<void> {
+  const TestTab({List<PageRouteInfo>? children})
+      : super(
+          TestTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TestTab';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TellingPageWidget]
+class TellingRoute extends PageRouteInfo<TellingRouteArgs> {
+  TellingRoute({
+    Key? key,
+    List<Message> messages = const [],
+    List<PageRouteInfo>? children,
+  }) : super(
+          TellingRoute.name,
+          args: TellingRouteArgs(
+            key: key,
+            messages: messages,
+          ),
+          rawQueryParams: {'messages': messages},
+          initialChildren: children,
+        );
+
+  static const String name = 'TellingRoute';
+
+  static const PageInfo<TellingRouteArgs> page =
+      PageInfo<TellingRouteArgs>(name);
+}
+
+class TellingRouteArgs {
+  const TellingRouteArgs({
+    this.key,
+    this.messages = const [],
+  });
+
+  final Key? key;
+
+  final List<Message> messages;
+
+  @override
+  String toString() {
+    return 'TellingRouteArgs{key: $key, messages: $messages}';
+  }
 }
 
 /// generated route for
