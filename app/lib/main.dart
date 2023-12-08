@@ -6,6 +6,7 @@ import 'package:test_case/internal/app.dart';
 import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/internal/app_dependency.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'firebase_options.dart';
 
@@ -25,7 +26,8 @@ Future<void> main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
     AppDependency(
       app: App(),

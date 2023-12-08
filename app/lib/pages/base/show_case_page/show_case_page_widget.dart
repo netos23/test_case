@@ -32,7 +32,7 @@ class ShowCasePageWidget extends ElementaryWidget<IShowCasePageWidgetModel> {
           ),
         ),
         title: const Text(
-          'HOTEL WRITER',
+          'Cyber security',
           style: TextStyle(
             fontStyle: FontStyle.italic,
           ),

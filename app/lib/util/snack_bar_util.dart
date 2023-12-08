@@ -9,4 +9,16 @@ extension SnackBarExtension on BuildContext {
       ),
     );
   }
+
+  void showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(this).showSnackBar(
+      SnackBar(
+        padding: const EdgeInsets.all(10),
+        content: SizedBox(
+          child: Text(message),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
 }
