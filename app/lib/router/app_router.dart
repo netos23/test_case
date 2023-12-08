@@ -44,6 +44,15 @@ class AppRouter extends _$AppRouter {
           page: ChooseCityRoute.page,
         ),
         AutoRoute(
+          page: FinTest1Route.page,
+        ),
+        AutoRoute(
+          page: FinTest1_1Route.page,
+        ),
+        AutoRoute(
+          page: ChapterFinRoute.page,
+        ),
+        AutoRoute(
           initial: true,
           page: HomeRoute.page,
           children: [
@@ -74,15 +83,6 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: GameRoute.page,
                   initial: true,
-                ),
-                AutoRoute(
-                  page: FinTest1Route.page,
-                ),
-                AutoRoute(
-                  page: FinTest1_1Route.page,
-                ),
-                AutoRoute(
-                  page: ChapterFinRoute.page,
                 ),
               ],
             ),
