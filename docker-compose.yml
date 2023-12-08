@@ -13,8 +13,8 @@ services:
 
   web:
     build:
-      context: .
-      dockerfile: cs_backend/Dockerfile
+      context: cs_backend
+      dockerfile: Dockerfile
     depends_on:
       - full_db
     ports:
