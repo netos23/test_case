@@ -37,9 +37,8 @@ class AppRouter extends _$AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           page: ShopGameRoute.page,
-          initial: true,
         ),
-       /* AutoRoute(page: WebViewerRoute.page),
+        AutoRoute(page: WebViewerRoute.page),
         AutoRoute(
           page: AuthRoute.page,
         ),
@@ -92,7 +91,7 @@ class AppRouter extends _$AppRouter {
               ],
             ),
           ],
-        ),*/
+        ),
       ];
 }
 

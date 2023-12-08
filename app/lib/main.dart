@@ -29,8 +29,12 @@ Future<void> main() async {
       return true;
     };
   }
+
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
-    const ShopGamePageWidget(),
+    AppDependency(
+      app: App(),
+    ),
   );
 }

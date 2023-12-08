@@ -38,6 +38,7 @@ class _BasketPageState extends State<BasketPage> {
   @override
   Widget build(BuildContext context) {
     return BrowserOverlay(
+      secure: false,
       body: Scaffold(
         body: CustomScrollView(
           slivers: [
