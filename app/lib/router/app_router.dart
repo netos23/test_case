@@ -29,9 +29,7 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(page: WebViewerRoute.page),
-        AutoRoute(
-          page: AuthRoute.page,
-        ),
+        AutoRoute(page: AuthRoute.page,),
         AutoRoute(page: AuthCodeRoute.page),
         AutoRoute(page: RegisterRoute.page),
         AutoRoute(
