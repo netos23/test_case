@@ -8,7 +8,8 @@ class BrowserOverlay extends StatelessWidget {
   const BrowserOverlay({
     super.key,
     required this.body,
-    this.url = 'https://yandex.tu',
+    this.url = 'https://forks_and_dishes.ru',
+    this.payUrl = 'https://forks_and_dishes.ru/pay',
     this.secure = true,
     this.onPop,
     this.onNext,
@@ -17,6 +18,7 @@ class BrowserOverlay extends StatelessWidget {
   final VoidCallback? onPop;
   final VoidCallback? onNext;
   final String url;
+  final String payUrl;
   final bool secure;
   final Widget body;
 
@@ -54,55 +56,57 @@ class BrowserHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.fromSize(
-      size: preferredSize,
-      child: ColoredBox(
-        color: const Color(0xFF353739),
-        child: Card(
-          color: const Color(0xFF5F6367),
-          elevation: 0,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(
-                20,
+    return SafeArea(
+      child: SizedBox.fromSize(
+        size: preferredSize,
+        child: ColoredBox(
+          color: const Color(0xFF353739),
+          child: Card(
+            color: const Color(0xFF5F6367),
+            elevation: 0,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  20,
+                ),
               ),
             ),
-          ),
-          margin: const EdgeInsets.symmetric(
-            horizontal: 7,
-            vertical: 5,
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    secure ? Icons.lock : Icons.lock_open,
-                    color: secure ? Colors.green : Colors.red,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4.0,
-                      ),
-                      child: Text(
-                        url,
-                        style: const TextStyle(
-                          color: Colors.white,
+            margin: const EdgeInsets.symmetric(
+              horizontal: 7,
+              vertical: 5,
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      secure ? Icons.lock : Icons.lock_open,
+                      color: secure ? Colors.green : Colors.red,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0,
+                        ),
+                        child: Text(
+                          url,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Icon(
-                    kIsWeb || Platform.isIOS
-                        ? CupertinoIcons.share
-                        : Icons.share,
-                    color: Colors.white,
-                  ),
-                ],
+                    Icon(
+                      kIsWeb || Platform.isIOS
+                          ? CupertinoIcons.share
+                          : Icons.share,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

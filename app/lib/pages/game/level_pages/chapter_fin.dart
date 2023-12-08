@@ -32,14 +32,14 @@ class _ChapterFinPageWidgetState extends State<ChapterFinPageWidget> {
       body: SingleChildScrollView(
         reverse: true,
         child: SizedBox(
-          height: 1000,
+          height: 1300,
           child: Stack(
             fit: StackFit.expand,
             children: [
               Image.asset(
                 'assets/images/forest.png',
                 fit: BoxFit.cover,
-                height: 800,
+                height: 1300,
               ),
               for (int index = 0;
                   index < (widget.levelMap?.levels?.length ?? 0);
@@ -48,7 +48,7 @@ class _ChapterFinPageWidgetState extends State<ChapterFinPageWidget> {
                   width: 100,
                   height: 100,
                   bottom: 40 + 150.0 * index,
-                  left: 40 + 30.0 * index,
+                  left: (40 + 150.0 * index) % 300,
                   child: InkWell(
                     child: Container(
                       decoration: const BoxDecoration(
