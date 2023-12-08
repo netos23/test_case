@@ -18,8 +18,8 @@ GameWidgetModel defaultGameWidgetModelFactory(BuildContext context) {
 
 // TODO: cover with documentation
 /// Default widget model for GameWidget
-class GameWidgetModel extends WidgetModel<GameWidget, GameModel>
-    implements IGameWidgetModel {
+class GameWidgetModel extends WidgetModel<GamePageWidget, GameModel>
+    implements IGameWidgetModel  {
   @override
   final GameRepository gameRepository = AppComponents().gameRepository;
 
@@ -27,13 +27,6 @@ class GameWidgetModel extends WidgetModel<GameWidget, GameModel>
 
   @override
   List<LevelMap> getLevelMaps() {
-    throw Scaffold(
-      body: SafeArea(
-        child: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {},
-          itemCount: gameRepository.levels.length,
-        ),
-      ),
-    );
+    return gameRepository.levels;
   }
 }

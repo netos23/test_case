@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/models/game/level.dart';
 
+typedef MapBuilder = Widget Function(List<Level> levels);
+
 class LevelMap {
   final String? title;
   final List<Level>? levels;
@@ -8,13 +10,13 @@ class LevelMap {
   final int? currLevel;
 
   // может понадобится для кастомных уровней
-  final Widget? levelPage;
+  final MapBuilder? mapBuilder;
 
   LevelMap({
     this.title,
     this.levels,
     this.helloMessage,
     this.currLevel,
-    this.levelPage,
+    this.mapBuilder,
   });
 }
