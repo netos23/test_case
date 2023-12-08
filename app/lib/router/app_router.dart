@@ -24,11 +24,11 @@ import 'package:test_case/pages/game/components/empty_character_page.dart';
 import 'package:test_case/pages/game/components/naiv_page.dart';
 import 'package:test_case/pages/game/components/secure_page.dart';
 import 'package:test_case/pages/game/components/telling_page.dart';
+import 'package:test_case/pages/game/domain/shop_page_configuration.dart';
 import 'package:test_case/pages/game/game_widget.dart';
 import 'package:test_case/pages/game/game_wm.dart';
 import 'package:test_case/pages/game/level_pages/chapter_fin.dart';
-import 'package:test_case/pages/game/level_pages/fin_test_1.dart';
-import 'package:test_case/pages/game/level_pages/fin_test_1_1.dart';
+import 'package:test_case/pages/game/level_pages/shop_game.dart';
 import 'package:test_case/pages/game/story_telling_utils.dart';
 import 'package:test_case/pages/web_view/web_view_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -42,6 +42,9 @@ part 'app_router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
+        AutoRoute(
+          page: ShopGameRoute.page,
+        ),
         AutoRoute(page: WebViewerRoute.page),
         AutoRoute(
           page: AuthRoute.page,
@@ -51,16 +54,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: ChooseCityRoute.page,
         ),
-        AutoRoute(
-          page: FinTest1Route.page,
-        ),
         CustomRoute(
           transitionsBuilder: TransitionsBuilders.noTransition,
           page: TellingRoute.page,
           opaque: false,
-        ),
-        AutoRoute(
-          page: FinTest1_1Route.page,
         ),
         CustomRoute(
           transitionsBuilder: TransitionsBuilders.noTransition,

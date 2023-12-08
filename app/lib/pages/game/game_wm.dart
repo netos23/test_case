@@ -9,6 +9,8 @@ import 'game_widget.dart';
 abstract interface class IGameWidgetModel implements IWidgetModel {
   List<LevelMap> getLevelMaps();
 
+  BuildContext get context;
+
   GameRepository get gameRepository;
 }
 
@@ -19,11 +21,15 @@ GameWidgetModel defaultGameWidgetModelFactory(BuildContext context) {
 // TODO: cover with documentation
 /// Default widget model for GameWidget
 class GameWidgetModel extends WidgetModel<GamePageWidget, GameModel>
-    implements IGameWidgetModel  {
+    implements IGameWidgetModel {
   @override
   final GameRepository gameRepository = AppComponents().gameRepository;
 
   GameWidgetModel(GameModel model) : super(model);
+
+  @override
+  // TODO: implement context
+  BuildContext get context => super.context;
 
   @override
   List<LevelMap> getLevelMaps() {

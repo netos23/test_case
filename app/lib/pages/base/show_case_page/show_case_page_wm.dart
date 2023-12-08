@@ -2,6 +2,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:test_case/data/service/banner_service.dart';
 import 'package:test_case/domain/models/banner.dart';
+import 'package:test_case/domain/models/source.dart';
 import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/internal/logger.dart';
 import 'package:test_case/util/snack_bar_util.dart';
@@ -15,6 +16,8 @@ abstract class IShowCasePageWidgetModel extends IWidgetModel {
   void openLink(String value);
 
   Future<void> loadBanners();
+
+  Future<(List<Source>, bool)> loadPages(int page);
 }
 
 ShowCasePageWidgetModel defaultShowCasePageWidgetModelFactory(
@@ -71,5 +74,19 @@ class ShowCasePageWidgetModel
     if (await canLaunchUrlString(value)) {
       launchUrlString(value);
     }
+  }
+
+  @override
+  Future<(List<Source>, bool)> loadPages(int page) async {
+    try {
+      final pagination = await bannerService.getSources(
+        page: page,
+      );
+
+      return (pagination.results, pagination.next != null);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return (<Source>[], false);
   }
 }
