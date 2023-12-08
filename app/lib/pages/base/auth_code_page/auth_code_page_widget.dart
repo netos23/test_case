@@ -64,9 +64,6 @@ class AuthCodePageWidget extends ElementaryWidget<IAuthCodePageWidgetModel> {
                 Pinput(
                     controller: wm.codeController,
                     length: 4,
-                    // separator: const SizedBox(
-                    //   width: 23,
-                    // ),
                     autofillHints: const [AutofillHints.oneTimeCode],
                     cursor: cursor,
                     preFilledWidget: preFilledWidget,

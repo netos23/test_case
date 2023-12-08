@@ -28,7 +28,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ["127.0.0.1", "cybertest.fbtw.ru", "92.53.127.18", "1c13-178-177-11-81.ngrok-free.app"]
+ALLOWED_HOSTS = ["127.0.0.1", "cybertest.fbtw.ru", "92.118.113.156", "1c13-178-177-11-81.ngrok-free.app"]
 
 APP_MODULES = []
 # Application definition

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:test_case/data/service/banner_service.dart';
@@ -53,7 +52,7 @@ class ShowCasePageWidgetModel
       bannersState.loading();
       final banners = await bannerService.getBanners();
       bannersState.content(banners);
-    } catch (e, s) {
+    } catch (e) {
       logger.e('Cant get banner');
       context.showSnackBar(
         'Не удалось получить информацию о баннерах',

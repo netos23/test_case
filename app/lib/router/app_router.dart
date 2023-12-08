@@ -16,6 +16,8 @@ import 'package:test_case/pages/base/profile_page/profile_page_wm.dart';
 import 'package:test_case/pages/base/register_page/register_page_widget.dart';
 import 'package:test_case/pages/base/register_page/register_page_wm.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
+import 'package:test_case/pages/game/level_pages/fin_test_1.dart';
+import 'package:test_case/pages/game/level_pages/fin_test_1_1.dart';
 import 'package:test_case/pages/web_view/web_view_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -60,6 +62,17 @@ class AppRouter extends _$AppRouter {
                 ),
               ],
             ),
+            AutoRoute(
+              page: GameTab.page,
+              children: [
+                AutoRoute(
+                  page: FinTest1Route.page,
+                ),
+                AutoRoute(
+                  page: FinTest1_1Route.page,
+                )
+              ],
+            ),
           ],
         ),
       ];
@@ -73,4 +86,9 @@ class ShowCaseTabPage extends AutoRouter {
 @RoutePage(name: 'UserProfileTab')
 class UserProfileTabPage extends AutoRouter {
   const UserProfileTabPage({super.key});
+}
+
+@RoutePage(name: 'GameTab')
+class GameTabPage extends AutoRouter {
+  const GameTabPage({super.key});
 }

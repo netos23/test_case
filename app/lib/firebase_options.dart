@@ -21,15 +21,9 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -60,5 +54,22 @@ class DefaultFirebaseOptions {
     authDomain: 'test-case-8970f.firebaseapp.com',
     storageBucket: 'test-case-8970f.appspot.com',
     measurementId: 'G-XP6YX13TYW',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBjxh26nNUCOv2GDb0wAeCtPZ09liODxgY',
+    appId: '1:181135566535:android:ec353102566ce56fc500e2',
+    messagingSenderId: '181135566535',
+    projectId: 'test-case-8970f',
+    storageBucket: 'test-case-8970f.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDUc7l_2DJiQi5dnERgpQZkgXTN_N_9MnU',
+    appId: '1:181135566535:ios:58fd137e0f447620c500e2',
+    messagingSenderId: '181135566535',
+    projectId: 'test-case-8970f',
+    storageBucket: 'test-case-8970f.appspot.com',
+    iosBundleId: 'com.example.dronDeliveryApp',
   );
 }

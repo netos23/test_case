@@ -4,6 +4,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:test_case/data/interseptor.dart';
 import 'package:test_case/data/repository/auth_repository.dart';
 import 'package:test_case/data/repository/dadata_repository.dart';
+import 'package:test_case/data/repository/game_repository.dart';
 import 'package:test_case/data/repository/token_ropository.dart';
 import 'package:test_case/data/service/auth_service.dart';
 import 'package:test_case/data/service/banner_service.dart';
@@ -28,6 +29,8 @@ class AppComponents {
   late final GeozonesService geozonesService = GeozonesService(dio);
 
   final TokenRepository tokenRepository = TokenRepository();
+
+  final GameRepository gameRepository = GameRepository();
 
   late final GeolocationDadataRepository dadataRepository =
       GeolocationDadataRepository(
