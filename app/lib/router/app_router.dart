@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/models/game/level.dart';
+import 'package:test_case/domain/models/game/level_map.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_widget.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_wm.dart';
@@ -17,6 +18,7 @@ import 'package:test_case/pages/base/profile_page/profile_page_wm.dart';
 import 'package:test_case/pages/base/register_page/register_page_widget.dart';
 import 'package:test_case/pages/base/register_page/register_page_wm.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
+import 'package:test_case/pages/game/components/naiv_page.dart';
 import 'package:test_case/pages/game/game_widget.dart';
 import 'package:test_case/pages/game/game_wm.dart';
 import 'package:test_case/pages/game/level_pages/chapter_fin.dart';
@@ -46,6 +48,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: FinTest1Route.page,
         ),
+        CustomRoute(page: NaivRoute.page, opaque: false),
         AutoRoute(
           page: FinTest1_1Route.page,
         ),

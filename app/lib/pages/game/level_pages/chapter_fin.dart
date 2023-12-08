@@ -1,17 +1,29 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_case/domain/models/game/level.dart';
+import 'package:test_case/domain/models/game/level_map.dart';
+import 'package:test_case/router/app_router.dart';
 
 @RoutePage()
-class ChapterFinPageWidget extends StatelessWidget {
+class ChapterFinPageWidget extends StatefulWidget {
   const ChapterFinPageWidget({
     super.key,
-    @queryParam this.levels = const [],
+    this.levelMap,
   });
 
-  final List<Level> levels;
+  final LevelMap? levelMap;
+
+  @override
+  State<ChapterFinPageWidget> createState() => _ChapterFinPageWidgetState();
+}
+
+class _ChapterFinPageWidgetState extends State<ChapterFinPageWidget> {
+  @override
+  void initState() {
+    super.initState();
+    context.router.navigate(
+      NaivRoute(text: widget.levelMap?.helloMessage ?? ''),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,41 +35,14 @@ class ChapterFinPageWidget extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              // Positioned.fill(
-              //   child: Container(
-              //     height: 1000,
-              //     child: ListView.separated(
-              //       itemBuilder: (context, index) {
-              //         return InkWell(
-              //           child: Container(
-              //             width: 100,
-              //             height: 100,
-              //             decoration: const BoxDecoration(
-              //               shape: BoxShape.circle,
-              //               color: Colors.black,
-              //             ),
-              //             child: Text(levels[index].numeric.toString() ?? '0'),
-              //           ),
-              //           onTap: () {
-              //             context.router.push(levels[index].levelPage);
-              //           },
-              //         );
-              //       },
-              //       separatorBuilder: (BuildContext context, int index) {
-              //         return const SizedBox(
-              //           height: 100,
-              //         );
-              //       },
-              //       itemCount: levels.length,
-              //     ),
-              //   ),
-              // ),
               Image.asset(
                 'assets/images/forest.png',
                 fit: BoxFit.cover,
                 height: 800,
               ),
-              for (int index = 0; index < levels.length; index++)
+              for (int index = 0;
+                  index < (widget.levelMap?.levels?.length ?? 0);
+                  index++)
                 Positioned(
                   width: 100,
                   height: 100,
@@ -71,7 +56,8 @@ class ChapterFinPageWidget extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          levels[index].numeric.toString() ?? '0',
+                          widget.levelMap?.levels?[index].numeric.toString() ??
+                              '0',
                           style: const TextStyle(
                             fontSize: 24,
                             color: Colors.black,
@@ -80,7 +66,10 @@ class ChapterFinPageWidget extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      context.router.push(levels[index].levelPage);
+                      final route = widget.levelMap?.levels?[index].levelPage;
+                      if (route != null) {
+                        context.router.push(route);
+                      }
                     },
                   ),
                 )

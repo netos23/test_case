@@ -39,18 +39,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ChapterFinRoute.name: (routeData) {
-      final queryParams = routeData.queryParams;
       final args = routeData.argsAs<ChapterFinRouteArgs>(
-          orElse: () => ChapterFinRouteArgs(
-                  levels: queryParams.get(
-                'levels',
-                const [],
-              )));
+          orElse: () => const ChapterFinRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: ChapterFinPageWidget(
           key: args.key,
-          levels: args.levels,
+          levelMap: args.levelMap,
         ),
       );
     },
@@ -118,6 +113,18 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    NaivRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<NaivRouteArgs>(
+          orElse: () => NaivRouteArgs(text: queryParams.optString('text')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: NaivPageWidget(
+          key: args.key,
+          text: args.text,
+        ),
+      );
+    },
     ProfileRoute.name: (routeData) {
       final args = routeData.argsAs<ProfileRouteArgs>(
           orElse: () => const ProfileRouteArgs());
@@ -138,6 +145,18 @@ abstract class _$AppRouter extends RootStackRouter {
           email: args.email,
           key: args.key,
           wmFactory: args.wmFactory,
+        ),
+      );
+    },
+    SecureRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<SecureRouteArgs>(
+          orElse: () => SecureRouteArgs(text: queryParams.optString('text')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SecurePageWidget(
+          key: args.key,
+          text: args.text,
         ),
       );
     },
@@ -290,15 +309,14 @@ class AuthRouteArgs {
 class ChapterFinRoute extends PageRouteInfo<ChapterFinRouteArgs> {
   ChapterFinRoute({
     Key? key,
-    List<Level> levels = const [],
+    LevelMap? levelMap,
     List<PageRouteInfo>? children,
   }) : super(
           ChapterFinRoute.name,
           args: ChapterFinRouteArgs(
             key: key,
-            levels: levels,
+            levelMap: levelMap,
           ),
-          rawQueryParams: {'levels': levels},
           initialChildren: children,
         );
 
@@ -311,16 +329,16 @@ class ChapterFinRoute extends PageRouteInfo<ChapterFinRouteArgs> {
 class ChapterFinRouteArgs {
   const ChapterFinRouteArgs({
     this.key,
-    this.levels = const [],
+    this.levelMap,
   });
 
   final Key? key;
 
-  final List<Level> levels;
+  final LevelMap? levelMap;
 
   @override
   String toString() {
-    return 'ChapterFinRouteArgs{key: $key, levels: $levels}';
+    return 'ChapterFinRouteArgs{key: $key, levelMap: $levelMap}';
   }
 }
 
@@ -539,6 +557,44 @@ class HomeRouteArgs {
 }
 
 /// generated route for
+/// [NaivPageWidget]
+class NaivRoute extends PageRouteInfo<NaivRouteArgs> {
+  NaivRoute({
+    Key? key,
+    required String? text,
+    List<PageRouteInfo>? children,
+  }) : super(
+          NaivRoute.name,
+          args: NaivRouteArgs(
+            key: key,
+            text: text,
+          ),
+          rawQueryParams: {'text': text},
+          initialChildren: children,
+        );
+
+  static const String name = 'NaivRoute';
+
+  static const PageInfo<NaivRouteArgs> page = PageInfo<NaivRouteArgs>(name);
+}
+
+class NaivRouteArgs {
+  const NaivRouteArgs({
+    this.key,
+    required this.text,
+  });
+
+  final Key? key;
+
+  final String? text;
+
+  @override
+  String toString() {
+    return 'NaivRouteArgs{key: $key, text: $text}';
+  }
+}
+
+/// generated route for
 /// [ProfilePageWidget]
 class ProfileRoute extends PageRouteInfo<ProfileRouteArgs> {
   ProfileRoute({
@@ -622,6 +678,44 @@ class RegisterRouteArgs {
   @override
   String toString() {
     return 'RegisterRouteArgs{email: $email, key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [SecurePageWidget]
+class SecureRoute extends PageRouteInfo<SecureRouteArgs> {
+  SecureRoute({
+    Key? key,
+    required String? text,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SecureRoute.name,
+          args: SecureRouteArgs(
+            key: key,
+            text: text,
+          ),
+          rawQueryParams: {'text': text},
+          initialChildren: children,
+        );
+
+  static const String name = 'SecureRoute';
+
+  static const PageInfo<SecureRouteArgs> page = PageInfo<SecureRouteArgs>(name);
+}
+
+class SecureRouteArgs {
+  const SecureRouteArgs({
+    this.key,
+    required this.text,
+  });
+
+  final Key? key;
+
+  final String? text;
+
+  @override
+  String toString() {
+    return 'SecureRouteArgs{key: $key, text: $text}';
   }
 }
 

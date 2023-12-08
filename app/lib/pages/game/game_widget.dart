@@ -16,19 +16,19 @@ class GamePageWidget extends ElementaryWidget<IGameWidgetModel> {
 
   @override
   Widget build(IGameWidgetModel wm) {
-    final levels = wm.getLevelMaps();
+    final chapters = wm.getLevelMaps();
     return Scaffold(
       body: SafeArea(
         child: ListView.builder(
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(levels[index].title ?? ''),
+              title: Text(chapters[index].title ?? ''),
               onTap: () {
-                context.router.push(ChapterFinRoute(levels: levels[index].levels ?? []));
+                context.router.push(ChapterFinRoute(levelMap: chapters[0]));
               },
             );
           },
-          itemCount: levels.length,
+          itemCount: chapters.length,
         ),
       ),
     );
