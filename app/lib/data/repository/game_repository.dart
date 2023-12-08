@@ -7,7 +7,7 @@ import '../../domain/models/game/level_map.dart';
 class GameRepository {
   List<LevelMap> levels = [
     LevelMap(
-      title: 'Финансовая граммотность',
+      title: 'Финансовая грамотность',
       levels: [
         Level(
           numeric: 1,
