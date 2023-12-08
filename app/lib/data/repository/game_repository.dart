@@ -194,7 +194,8 @@ class GameRepository {
           byeMessage: [
             Message(message: '...', character: 'naiv'),
             Message(
-                message: 'Не советую переходить по странным рекламам и ссылкам, это может привести к потери данных.',
+                message:
+                    'Не советую переходить по странным рекламам и ссылкам, это может привести к потери данных.',
                 character: 'secure'),
           ],
           wrongMessage: [
@@ -205,10 +206,8 @@ class GameRepository {
           ],
           variant: [
             RedButtonVariant(
-                message: 'Странный сайт со странной рекламой.',
-                isTrue: true),
+                message: 'Странный сайт со странной рекламой.', isTrue: true),
             RedButtonVariant(message: 'Еда некрасивая'),
-
             RedButtonVariant(message: 'Еда просроченая'),
             RedButtonVariant(message: 'Я не хочу покупать еду!!'),
           ],
@@ -230,7 +229,8 @@ class GameRepository {
           byeMessage: [
             Message(message: 'да ну...', character: 'naiv'),
             Message(
-                message: 'Не стоит скачивать приложения с сомнительных источников',
+                message:
+                    'Не стоит скачивать приложения с сомнительных источников',
                 character: 'secure'),
           ],
           wrongMessage: [
@@ -241,11 +241,11 @@ class GameRepository {
           ],
           variant: [
             RedButtonVariant(message: 'Еда некрасивая'),
-
             RedButtonVariant(message: 'Еда просроченая'),
             RedButtonVariant(message: 'Я не хочу покупать еду!!'),
             RedButtonVariant(
-                message: 'Не стоит скачивать приложения с сомнительных источников',
+                message:
+                    'Не стоит скачивать приложения с сомнительных источников',
                 isTrue: true),
           ],
           levelPageBuilder: (level) => ShopGameRoute(
@@ -265,7 +265,8 @@ class GameRepository {
           ],
           byeMessage: [
             Message(
-                message: 'Оплата на сторонних источниках - практически всегда ошибка',
+                message:
+                    'Оплата на сторонних источниках - практически всегда ошибка',
                 character: 'secure'),
           ],
           wrongMessage: [
@@ -276,7 +277,6 @@ class GameRepository {
           ],
           variant: [
             RedButtonVariant(message: 'Еда некрасивая'),
-
             RedButtonVariant(message: 'Еда просроченая'),
             RedButtonVariant(message: 'Я не хочу покупать еду!!'),
             RedButtonVariant(
@@ -302,7 +302,8 @@ class GameRepository {
           byeMessage: [
             Message(message: 'Признаться, это было пугающе', character: 'naiv'),
             Message(
-                message: 'Обычно, такие окна расчитаны на неожиданность и расстеряность пользователей.',
+                message:
+                    'Обычно, такие окна расчитаны на неожиданность и расстеряность пользователей.',
                 character: 'secure'),
             Message(
                 message:
@@ -353,6 +354,11 @@ class GameRepository {
         ),
       ],
       currLevel: 0,
-    )
+    ),
+    LevelMap(currLevel: 0, title: 'Общение с незнакомцами'),
+    LevelMap(
+      currLevel: 0,
+      title: 'Пока закрыто!',
+    ),
   ];
 }
