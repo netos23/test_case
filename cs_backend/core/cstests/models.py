@@ -26,7 +26,7 @@ class QuestionModel(models.Model):
 class VariantModel(models.Model):
     title = models.CharField(max_length=255)
     picture = models.URLField(null=True, blank=True)
-    is_right = models.BooleanField(default=False)
+    is_right = models.BooleanField(null=True, blank=True)
     right_answer = models.CharField(max_length=255, null=True, blank=True)
     question = models.ForeignKey(QuestionModel, on_delete=models.CASCADE, related_name='variants')
 
