@@ -173,9 +173,19 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ShopGameRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<ShopGameRouteArgs>(
+          orElse: () => ShopGameRouteArgs(
+                level: queryParams.get('level'),
+                config: queryParams.get('config'),
+              ));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ShopGamePageWidget(),
+        child: ShopGamePageWidget(
+          key: args.key,
+          level: args.level,
+          config: args.config,
+        ),
       );
     },
     ShowCaseRoute.name: (routeData) {
@@ -822,16 +832,49 @@ class RegisterRouteArgs {
 
 /// generated route for
 /// [ShopGamePageWidget]
-class ShopGameRoute extends PageRouteInfo<void> {
-  const ShopGameRoute({List<PageRouteInfo>? children})
-      : super(
+class ShopGameRoute extends PageRouteInfo<ShopGameRouteArgs> {
+  ShopGameRoute({
+    Key? key,
+    Level? level,
+    ShopPageConfiguration? config,
+    List<PageRouteInfo>? children,
+  }) : super(
           ShopGameRoute.name,
+          args: ShopGameRouteArgs(
+            key: key,
+            level: level,
+            config: config,
+          ),
+          rawQueryParams: {
+            'level': level,
+            'config': config,
+          },
           initialChildren: children,
         );
 
   static const String name = 'ShopGameRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<ShopGameRouteArgs> page =
+      PageInfo<ShopGameRouteArgs>(name);
+}
+
+class ShopGameRouteArgs {
+  const ShopGameRouteArgs({
+    this.key,
+    this.level,
+    this.config,
+  });
+
+  final Key? key;
+
+  final Level? level;
+
+  final ShopPageConfiguration? config;
+
+  @override
+  String toString() {
+    return 'ShopGameRouteArgs{key: $key, level: $level, config: $config}';
+  }
 }
 
 /// generated route for

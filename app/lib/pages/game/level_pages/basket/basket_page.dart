@@ -1,7 +1,14 @@
+import 'dart:async';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:test_case/pages/games/shop/domain/item.dart';
-import 'package:test_case/pages/games/shop/page/payment/payment_page.dart';
-import 'package:test_case/pages/games/widgets/browser_overlay.dart';
+import 'package:test_case/domain/models/game/level.dart';
+import 'package:test_case/pages/game/components/browser_overlay.dart';
+import 'package:test_case/pages/game/components/red_alert_button.dart';
+import 'package:test_case/pages/game/domain/item.dart';
+import 'package:test_case/pages/game/domain/shop_page_configuration.dart';
+import 'package:test_case/pages/game/level_pages/payment/payment_page.dart';
+import 'package:test_case/router/app_router.dart';
 
 const List<Item> _items = [
   Item(
@@ -28,18 +35,87 @@ const List<Item> _items = [
 ];
 
 class BasketPage extends StatefulWidget {
-  const BasketPage({super.key});
+  const BasketPage({
+    super.key,
+    this.level,
+    this.config,
+  });
+
+  final Level? level;
+  final ShopPageConfiguration? config;
 
   @override
   State<BasketPage> createState() => _BasketPageState();
 }
 
 class _BasketPageState extends State<BasketPage> {
+  Stream counter = Stream.periodic(
+    const Duration(seconds: 1),
+    (computationCount) {
+
+    },
+  );
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer(
+      const Duration(seconds: 1),
+      () {
+        counter--;
+        if (counter == 0) {}
+      },
+    );
+    if (widget.config?.youAppWillBeDestroyed == true) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 300,
+            width: 400,
+            child: Column(
+              children: [
+                Text('ВАШ ТЕЛЕФОН ВЗОРВЕТСЯ ЧЕРЕЗ $counter'),
+                const Text(
+                    'ЧТОБЫ ОСТАНОВИТЬ ВЗРЫВ ПЕРЕВЕДИТЕ СКАЧАЙТЕ АНТИВИРУС ПО ССЫЛКЕ'),
+                InkWell(
+                  child: const Text(
+                    'https://4ntI-b0mbA.t04no.neVry.com',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  onTap: () {
+                    lose(context, widget.level);
+                  },
+                )
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> lose(BuildContext context, Level? level) async {
+    context.router.popUntilRouteWithName(
+      ChapterFinRoute.name,
+    );
+    context.router.push(
+      TellingRoute(
+        messages: level?.wrongMessage ?? [],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BrowserOverlay(
-      secure: false,
+      url: widget.config?.url ?? 'https://forks_and_dishes.ru/pay',
+      secure: widget.config?.HTTPsecure ?? true,
       body: Scaffold(
+        floatingActionButton: RedAlertButton(
+          level: widget.level,
+        ),
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -78,6 +154,8 @@ class _BasketPageState extends State<BasketPage> {
                 },
               ),
             ),
+            if (widget.config?.fakeAds == true)
+              Image.asset('assets/images/casion.png'),
             const SliverToBoxAdapter(
               child: SizedBox(
                 height: 50,
@@ -85,7 +163,7 @@ class _BasketPageState extends State<BasketPage> {
             ),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 150,
+                height: 235,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
@@ -112,6 +190,12 @@ class _BasketPageState extends State<BasketPage> {
                           ),
                         ],
                       ),
+                      if (widget.config?.fakeButton == true)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: SizedBox(
+                              child: Image.asset('assets/images/oplata.png')),
+                        ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           vertical: 16.0,
@@ -128,8 +212,10 @@ class _BasketPageState extends State<BasketPage> {
                           onPressed: () {
                             Navigator.of(context).push(
                               PageRouteBuilder(
-                                pageBuilder: (context, _, __) =>
-                                    const PaymentPage(),
+                                pageBuilder: (context, _, __) => PaymentPage(
+                                  level: widget.level,
+                                  config: widget.config,
+                                ),
                               ),
                             );
                           },

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'firebase_options.dart';
-import 'pages/games/shop/shop_game.dart';
+import 'pages/game/level_pages/shop_game.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

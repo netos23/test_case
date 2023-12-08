@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:test_case/pages/game/components/red_button_variant.dart';
 import 'package:test_case/pages/game/story_telling_utils.dart';
 
+import '../../../pages/game/domain/shop_page_configuration.dart';
+
 typedef LevelPageBuilder = PageRouteInfo Function(Level? level);
 
 class Level {
@@ -20,7 +22,10 @@ class Level {
 
   final LevelPageBuilder levelPageBuilder;
 
+  final ShopPageConfiguration? config;
+
   Level({
+    this.config,
     this.variant,
     this.wrongMessage,
     this.numeric,
