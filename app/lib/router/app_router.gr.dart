@@ -61,6 +61,24 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    FinTest1Route.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FinTest1PageWidget(),
+      );
+    },
+    FinTest1_1Route.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FinTest1_1PageWidget(),
+      );
+    },
+    GameTab.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GameTabPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       final args =
           routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
@@ -324,6 +342,48 @@ class EditProfileRouteArgs {
   String toString() {
     return 'EditProfileRouteArgs{profile: $profile, key: $key, wmFactory: $wmFactory}';
   }
+}
+
+/// generated route for
+/// [FinTest1PageWidget]
+class FinTest1Route extends PageRouteInfo<void> {
+  const FinTest1Route({List<PageRouteInfo>? children})
+      : super(
+          FinTest1Route.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FinTest1Route';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FinTest1_1PageWidget]
+class FinTest1_1Route extends PageRouteInfo<void> {
+  const FinTest1_1Route({List<PageRouteInfo>? children})
+      : super(
+          FinTest1_1Route.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FinTest1_1Route';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GameTabPage]
+class GameTab extends PageRouteInfo<void> {
+  const GameTab({List<PageRouteInfo>? children})
+      : super(
+          GameTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GameTab';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
