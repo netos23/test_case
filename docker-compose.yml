@@ -54,8 +54,8 @@ services:
           cpus: "0.25"
           memory: "128M"
   ingress:
-    image: 'cybertest-ingress:1.0'
     build: ./ingress/
+    image: 'cybertest-ingress:1.0'
     ports:
       - '80:80'
       - '443:443'
