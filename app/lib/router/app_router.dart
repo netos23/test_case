@@ -71,7 +71,7 @@ class AppRouter extends _$AppRouter {
           page: ChapterFinRoute.page,
         ),
         AutoRoute(
-          // initial: true,
+          initial: true,
           page: HomeRoute.page,
           children: [
             AutoRoute(
