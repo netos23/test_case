@@ -14,7 +14,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: core/Dockerfile
+      dockerfile: cs_backend/Dockerfile
       target: api
     depends_on:
       - full_db
