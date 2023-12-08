@@ -187,20 +187,14 @@ class GameRepository {
           numeric: 5,
           helloMessage: [
             Message(
-              message:
-                  'Нуууу нееееет. Вот это ТОЧНО БЕЗОПАСНЫЙ. Пойдем за мной.',
+              message: 'Ладно, давайте попробуем следующий',
               character: 'naiv',
             ),
           ],
           byeMessage: [
             Message(message: '...', character: 'naiv'),
             Message(
-                message:
-                    'Даже на популярных сайтах и форума встречается такая уловка. Обычно она маскируется под рекламу и очень коварна.',
-                character: 'secure'),
-            Message(
-                message:
-                    'А Наивчику стоит очередной раз пройти курс информационный безопасности. Ничему не учится...',
+                message: 'Не советую переходить по странным рекламам и ссылкам, это может привести к потери данных.',
                 character: 'secure'),
           ],
           wrongMessage: [
@@ -210,10 +204,11 @@ class GameRepository {
                 character: 'secure'),
           ],
           variant: [
-            RedButtonVariant(message: 'Еда некрасивая'),
             RedButtonVariant(
-                message: 'Вряд ли сайт с двойной кнопкой может быть безопасен.',
+                message: 'Странный сайт со странной рекламой.',
                 isTrue: true),
+            RedButtonVariant(message: 'Еда некрасивая'),
+
             RedButtonVariant(message: 'Еда просроченая'),
             RedButtonVariant(message: 'Я не хочу покупать еду!!'),
           ],
@@ -228,20 +223,14 @@ class GameRepository {
           numeric: 6,
           helloMessage: [
             Message(
-              message:
-                  'Нуууу нееееет. Вот это ТОЧНО БЕЗОПАСНЫЙ. Пойдем за мной.',
+              message: 'Я ТОЧНО НАЙДУ НОРМАЛЬНЫЙ МАГАЗИН.',
               character: 'naiv',
             ),
           ],
           byeMessage: [
-            Message(message: '...', character: 'naiv'),
+            Message(message: 'да ну...', character: 'naiv'),
             Message(
-                message:
-                    'Даже на популярных сайтах и форума встречается такая уловка. Обычно она маскируется под рекламу и очень коварна.',
-                character: 'secure'),
-            Message(
-                message:
-                    'А Наивчику стоит очередной раз пройти курс информационный безопасности. Ничему не учится...',
+                message: 'Не стоит скачивать приложения с сомнительных источников',
                 character: 'secure'),
           ],
           wrongMessage: [
@@ -252,11 +241,12 @@ class GameRepository {
           ],
           variant: [
             RedButtonVariant(message: 'Еда некрасивая'),
-            RedButtonVariant(
-                message: 'Вряд ли сайт с двойной кнопкой может быть безопасен.',
-                isTrue: true),
+
             RedButtonVariant(message: 'Еда просроченая'),
             RedButtonVariant(message: 'Я не хочу покупать еду!!'),
+            RedButtonVariant(
+                message: 'Не стоит скачивать приложения с сомнительных источников',
+                isTrue: true),
           ],
           levelPageBuilder: (level) => ShopGameRoute(
             level: level,
@@ -269,20 +259,13 @@ class GameRepository {
           numeric: 7,
           helloMessage: [
             Message(
-              message:
-                  'Нуууу нееееет. Вот это ТОЧНО БЕЗОПАСНЫЙ. Пойдем за мной.',
+              message: 'Я устал',
               character: 'naiv',
             ),
           ],
           byeMessage: [
-            Message(message: '...', character: 'naiv'),
             Message(
-                message:
-                    'Даже на популярных сайтах и форума встречается такая уловка. Обычно она маскируется под рекламу и очень коварна.',
-                character: 'secure'),
-            Message(
-                message:
-                    'А Наивчику стоит очередной раз пройти курс информационный безопасности. Ничему не учится...',
+                message: 'Оплата на сторонних источниках - практически всегда ошибка',
                 character: 'secure'),
           ],
           wrongMessage: [
@@ -293,11 +276,12 @@ class GameRepository {
           ],
           variant: [
             RedButtonVariant(message: 'Еда некрасивая'),
-            RedButtonVariant(
-                message: 'Вряд ли сайт с двойной кнопкой может быть безопасен.',
-                isTrue: true),
+
             RedButtonVariant(message: 'Еда просроченая'),
             RedButtonVariant(message: 'Я не хочу покупать еду!!'),
+            RedButtonVariant(
+                message: 'Для оплаты лучше всегда оставаться в приложении.',
+                isTrue: true),
           ],
           levelPageBuilder: (level) => ShopGameRoute(
             level: level,
@@ -316,14 +300,13 @@ class GameRepository {
             ),
           ],
           byeMessage: [
-            Message(message: '...', character: 'naiv'),
+            Message(message: 'Признаться, это было пугающе', character: 'naiv'),
             Message(
-                message:
-                    'Даже на популярных сайтах и форума встречается такая уловка. Обычно она маскируется под рекламу и очень коварна.',
+                message: 'Обычно, такие окна расчитаны на неожиданность и расстеряность пользователей.',
                 character: 'secure'),
             Message(
                 message:
-                    'А Наивчику стоит очередной раз пройти курс информационный безопасности. Ничему не учится...',
+                    'Не стоит поддаваться паники, надо просто закрыть окно и покинуть сайт.',
                 character: 'secure'),
           ],
           wrongMessage: [
@@ -334,11 +317,11 @@ class GameRepository {
           ],
           variant: [
             RedButtonVariant(message: 'Еда некрасивая'),
-            RedButtonVariant(
-                message: 'Вряд ли сайт с двойной кнопкой может быть безопасен.',
-                isTrue: true),
             RedButtonVariant(message: 'Еда просроченая'),
             RedButtonVariant(message: 'Я не хочу покупать еду!!'),
+            RedButtonVariant(
+                message: 'Подобное вряд ли встречается на безопасных сайтах.',
+                isTrue: true),
           ],
           levelPageBuilder: (level) => ShopGameRoute(
             level: level,

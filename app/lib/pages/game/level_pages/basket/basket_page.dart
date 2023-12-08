@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -49,50 +50,59 @@ class BasketPage extends StatefulWidget {
 }
 
 class _BasketPageState extends State<BasketPage> {
-  Stream counter = Stream.periodic(
+  Stream<int> counter = Stream.periodic(
     const Duration(seconds: 1),
     (computationCount) {
-
+      return computationCount + 1;
     },
   );
-  Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    timer = Timer(
-      const Duration(seconds: 1),
-      () {
-        counter--;
-        if (counter == 0) {}
-      },
-    );
+
     if (widget.config?.youAppWillBeDestroyed == true) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return SizedBox(
-            height: 300,
-            width: 400,
-            child: Column(
-              children: [
-                Text('ВАШ ТЕЛЕФОН ВЗОРВЕТСЯ ЧЕРЕЗ $counter'),
-                const Text(
-                    'ЧТОБЫ ОСТАНОВИТЬ ВЗРЫВ ПЕРЕВЕДИТЕ СКАЧАЙТЕ АНТИВИРУС ПО ССЫЛКЕ'),
-                InkWell(
-                  child: const Text(
-                    'https://4ntI-b0mbA.t04no.neVry.com',
-                    style: TextStyle(color: Colors.blue),
+      Future(() => showDialog(
+            context: context,
+            builder: (context) {
+              return Dialog(
+
+                child: SizedBox(
+                  height: 100,
+                  width: 400,
+                  child: Center(
+                    child: StreamBuilder<int>(
+                      stream: counter,
+                      builder:
+                          (BuildContext context, AsyncSnapshot<int> snapshot) {
+                        final data = snapshot.data;
+                        if (data == null) {
+                          return Container();
+                        }
+                        return Column(
+                          children: [
+                            Text(
+                                'ВАШ ТЕЛЕФОН ВЗОРВЕТСЯ ЧЕРЕЗ ${max(60 - data, 0)}'),
+                            const Text(
+                                'ЧТОБЫ ОСТАНОВИТЬ ВЗРЫВ ПЕРЕВЕДИТЕ СКАЧАЙТЕ АНТИВИРУС ПО ССЫЛКЕ'),
+                            InkWell(
+                              child: const Text(
+                                'https://4ntI-b0mbA.t04no.neVry.com',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                              onTap: () {
+                                lose(context, widget.level);
+                              },
+                            )
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                  onTap: () {
-                    lose(context, widget.level);
-                  },
-                )
-              ],
-            ),
-          );
-        },
-      );
+                ),
+              );
+            },
+          ));
     }
   }
 

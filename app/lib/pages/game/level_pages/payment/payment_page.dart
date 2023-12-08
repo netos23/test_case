@@ -180,31 +180,35 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
               onPressed: () {
                 if (widget.config?.outsitePayment == true) {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return SizedBox(
-                        height: 300,
-                        width: 400,
-                        child: Column(
-                          children: [
-                            const Text('Только для Вас!'),
-                            const Text(
-                                'Вы можете заплатить на 20% меньше при переводе по СБП! Только до 10 декабря!'),
-                            const Text(
-                              'Для оплаты переведите 2500 рублей на номер +7 (800) 555-35-35',
+                  Future(() => showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                              child: SizedBox(
+                            height: 154,
+                            width: 400,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  const Text('Только для Вас!'),
+                                  const Text(
+                                      'Вы можете заплатить на 20% меньше при переводе по СБП! Только до 10 декабря!'),
+                                  const Text(
+                                    'Для оплаты переведите 2500 рублей на номер +7 (800) 555-35-35',
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      lose(context, widget.level);
+                                    },
+                                    child: const Text('Уже перевожу!'),
+                                  ),
+                                ],
+                              ),
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                lose(context, widget.level);
-                              },
-                              child: const Text('Уже перевожу!'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
+                          ));
+                        },
+                      ));
                 } else {
                   lose(context, widget.level);
                 }
