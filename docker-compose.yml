@@ -1,0 +1,70 @@
+version: "3.9"
+services:
+
+  certbot:
+    image: 'certbot/certbot'
+    depends_on:
+      ingress:
+        condition: service_started
+    volumes:
+      - letsencrypt-data:/etc/letsencrypt
+      - nginx-static-data:/var/www/html
+    command: certonly --webroot --webroot-path /var/www/html --email nikmoroz2002@yandex.ru --agree-tos --no-eff-email  -d cybertest.fbtw.ru
+
+  web:
+    build:
+      context: .
+      dockerfile: core/Dockerfile
+      target: api
+    depends_on:
+      - full_db
+    ports:
+      - "8000:8000"
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      LANGUAGE_CODE: ${LANGUAGE_CODE}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      DATABASE_ADDRESS: ${DATABASE_ADDRESS}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_PORT: ${DATABASE_PORT}
+  full_db:
+    container_name: full_db
+    image: postgres:13.12
+    ports:
+      - "5432:5432"
+    environment:
+      LANGUAGE_CODE: ${LANGUAGE_CODE}
+      DATABASE_ADDRESS: ${DATABASE_ADDRESS}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_PORT: ${DATABASE_PORT}
+    volumes:
+      - '/home/user/target/postgres-data:/var/lib/postgresql/data'
+    deploy:
+      resources:
+        limits:
+          memory: "1500M"
+        reservations:
+          cpus: "0.25"
+          memory: "128M"
+  ingress:
+    image: 'cybertest-ingress:1.0'
+    build: ./ingress/
+    ports:
+      - '80:80'
+      - '443:443'
+    container_name: cybertest-ingress
+    volumes:
+      - letsencrypt-data:/etc/letsencrypt
+      - nginx-static-data:/var/www/html
+
+volumes:
+  letsencrypt-data:
+  elasticsearch:
+  nginx-static-data:
