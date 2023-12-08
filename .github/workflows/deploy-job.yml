@@ -1,0 +1,57 @@
+name: Backend deploy
+on:
+  push:
+    branches: [ "master", "dev", "main" ]
+jobs:
+#  prepare-environment:
+#    runs-on: self-hosted
+#    env:
+#      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+#      DEBUG: ${{ secrets.DEBUG }}
+#      LANGUAGE_CODE: ${{ secrets.LANGUAGE_CODE }}
+#      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+#      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+#      ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD }}
+#      DATABASE_ADDRESS: ${{ secrets.DATABASE_ADDRESS }}
+#      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+#      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+#      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+#      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+#      OTM_API_KEY: ${{ secrets.OTM_API_KEY }}
+#    steps:
+#      - name: checkout repo
+#        uses: actions/checkout@v3
+#      - name: Stop and remove containers, networks
+#        run: docker compose down
+#      - name: Remove unused data
+#        run: docker system prune -a -f
+  deploy:
+    runs-on: self-hosted
+#    needs: prepare-environment
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DEBUG: ${{ secrets.DEBUG }}
+      LANGUAGE_CODE: ${{ secrets.LANGUAGE_CODE }}
+      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+      ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD }}
+      DATABASE_ADDRESS: ${{ secrets.DATABASE_ADDRESS }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+      OTM_API_KEY: ${{ secrets.OTM_API_KEY }}
+      GIGACHAT_SECRET: ${{ secrets.GIGACHAT_SECRET }}
+      GIGACHAT_SCOPE: ${{ secrets.GIGACHAT_SCOPE }}
+      ELASTIC_URL: ${{ secrets.ELASTIC_URL }}
+      APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
+      OPENAI_ORGANIZATION: ${{ secrets.OPENAI_ORGANIZATION }}
+      OPENAI_SECRET: ${{ secrets.OPENAI_SECRET }}
+      PROXY_URL: ${{ secrets.PROXY_URL }}
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: docker compose
+        run: docker compose up -d --build
+      - name: update configs
+        run: docker compose kill -s SIGHUP ingress
