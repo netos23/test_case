@@ -29,7 +29,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["127.0.0.1", "it-profession.fbtw.ru", "92.53.127.18"]
+ALLOWED_HOSTS = ["127.0.0.1", "cybertest.fbtw.ru", "92.53.127.18"]
 
 APP_MODULES = []
 # Application definition
