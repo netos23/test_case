@@ -172,6 +172,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ShopGameRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ShopGamePageWidget(),
+      );
+    },
     ShowCaseRoute.name: (routeData) {
       final args = routeData.argsAs<ShowCaseRouteArgs>(
           orElse: () => const ShowCaseRouteArgs());
@@ -812,6 +818,20 @@ class RegisterRouteArgs {
   String toString() {
     return 'RegisterRouteArgs{email: $email, key: $key, wmFactory: $wmFactory}';
   }
+}
+
+/// generated route for
+/// [ShopGamePageWidget]
+class ShopGameRoute extends PageRouteInfo<void> {
+  const ShopGameRoute({List<PageRouteInfo>? children})
+      : super(
+          ShopGameRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ShopGameRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

@@ -1,6 +1,6 @@
 {
-    "name": "hotel_writer",
-    "short_name": "hotel_writer",
+    "name": "app",
+    "short_name": "app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
