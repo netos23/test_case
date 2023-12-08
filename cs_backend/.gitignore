@@ -1,0 +1,14 @@
+.idea/*
+venv/*
+identifier.sqlite
+__pycache__/
+sqldatabase
+upload_files
+*.log
+*.log.*
+*/tmp.jpg
+*.djcache
+*db.sqlite3
+tmp
+logs
+*.env

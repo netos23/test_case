@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Email notification</title>
+    <style>
+        article, aside, details, figcaption, figure, footer, header,
+        hgroup, menu, nav, section {
+            display: block;
+        }
+
+        .btn {
+            background-color: #71150C;
+            color: #fff;
+            border-radius: 10px;
+            padding: 5px 32px;
+            font-size: 14px;
+            border: none;
+            text-decoration: none;
+        }
+
+
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+{% load i18n %}
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="600"
+       style="font-family: Noto Sans; font-size: 16px">
+    <tr>
+        <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+            <table bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%"
+            >
+                <tr>
+                    <td>
+                        <p>{% trans "Hello" %},</p>
+                        <p>{% trans "Your authorization code" %} <strong>{{code}}</strong>.</p>
+                        <p>{% trans "Don't tell anyone your code" %}.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <hr color="#E5E5E5">
+                    </td>
+                </tr>
+                <tr>
+                    <td>{% trans "Best regards, Voronezh Team" %}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" style="padding: 20px 0 20px 0;">
+            <img src="{{ logotype.value }}"
+                 width="108" style="display: block;"/>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
