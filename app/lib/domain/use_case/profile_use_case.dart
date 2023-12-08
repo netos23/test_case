@@ -1,8 +1,8 @@
-import 'package:hotel_writer/data/repository/auth_repository.dart';
-import 'package:hotel_writer/data/repository/token_ropository.dart';
-import 'package:hotel_writer/domain/models/profile.dart';
-import 'package:hotel_writer/util/lifecycle_component.dart';
-import 'package:hotel_writer/util/value_stream_wrapper.dart';
+import 'package:test_case/data/repository/auth_repository.dart';
+import 'package:test_case/data/repository/token_ropository.dart';
+import 'package:test_case/domain/models/profile.dart';
+import 'package:test_case/util/lifecycle_component.dart';
+import 'package:test_case/util/value_stream_wrapper.dart';
 
 class ProfileUseCase implements LifecycleComponent {
   final TokenRepository repository;

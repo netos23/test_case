@@ -1,15 +1,15 @@
 import 'package:dadata_suggestions/dadata_suggestions.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:hotel_writer/data/interseptor.dart';
-import 'package:hotel_writer/data/repository/auth_repository.dart';
-import 'package:hotel_writer/data/repository/dadata_repository.dart';
-import 'package:hotel_writer/data/repository/token_ropository.dart';
-import 'package:hotel_writer/data/service/auth_service.dart';
-import 'package:hotel_writer/data/service/banner_service.dart';
-import 'package:hotel_writer/data/service/geozones_service.dart';
-import 'package:hotel_writer/domain/use_case/profile_use_case.dart';
-import 'package:hotel_writer/router/app_router.dart';
+import 'package:test_case/data/interseptor.dart';
+import 'package:test_case/data/repository/auth_repository.dart';
+import 'package:test_case/data/repository/dadata_repository.dart';
+import 'package:test_case/data/repository/token_ropository.dart';
+import 'package:test_case/data/service/auth_service.dart';
+import 'package:test_case/data/service/banner_service.dart';
+import 'package:test_case/data/service/geozones_service.dart';
+import 'package:test_case/domain/use_case/profile_use_case.dart';
+import 'package:test_case/router/app_router.dart';
 
 const timeout = Duration(seconds: 30);
 

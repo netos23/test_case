@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:hotel_writer/domain/models/profile.dart';
+import 'package:test_case/domain/models/profile.dart';
 import 'edit_profile_page_wm.dart';
 
 // TODO: cover with documentation

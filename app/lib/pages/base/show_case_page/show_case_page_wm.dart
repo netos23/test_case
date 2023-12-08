@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:hotel_writer/data/service/banner_service.dart';
-import 'package:hotel_writer/domain/models/banner.dart';
-import 'package:hotel_writer/internal/app_components.dart';
-import 'package:hotel_writer/internal/logger.dart';
-import 'package:hotel_writer/util/snack_bar_util.dart';
+import 'package:test_case/data/service/banner_service.dart';
+import 'package:test_case/domain/models/banner.dart';
+import 'package:test_case/internal/app_components.dart';
+import 'package:test_case/internal/logger.dart';
+import 'package:test_case/util/snack_bar_util.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'show_case_page_model.dart';
 import 'show_case_page_widget.dart';

@@ -3,8 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:hotel_writer/domain/models/banner.dart';
-import 'package:hotel_writer/pages/components/loading_indicator.dart';
+import 'package:test_case/domain/models/banner.dart';
+import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'show_case_page_wm.dart';

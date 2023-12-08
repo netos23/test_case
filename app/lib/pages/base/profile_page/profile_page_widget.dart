@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:hotel_writer/domain/models/profile.dart';
-import 'package:hotel_writer/pages/components/theme_switch.dart';
-import 'package:hotel_writer/router/app_router.dart';
+import 'package:test_case/domain/models/profile.dart';
+import 'package:test_case/pages/components/theme_switch.dart';
+import 'package:test_case/router/app_router.dart';
 
 import 'profile_page_wm.dart';
 

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
-import 'package:hotel_writer/domain/entity/geozones/geozone.dart';
+import 'package:test_case/domain/entity/geozones/geozone.dart';
 
 part 'geozones_service.g.dart';
 

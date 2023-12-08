@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:hotel_writer/router/app_router.dart';
+import 'package:test_case/router/app_router.dart';
 
 import 'color_schemes.g.dart';
 

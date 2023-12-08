@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hotel_writer/domain/models/test/answer.dart';
+import 'package:test_case/domain/models/test/answer.dart';
 
 part 'question.freezed.dart';
 

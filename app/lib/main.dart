@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:hotel_writer/internal/app.dart';
-import 'package:hotel_writer/internal/app_components.dart';
-import 'package:hotel_writer/internal/app_dependency.dart';
+import 'package:test_case/internal/app.dart';
+import 'package:test_case/internal/app_components.dart';
+import 'package:test_case/internal/app_dependency.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';

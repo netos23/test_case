@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hotel_writer/router/app_router.dart';
+import 'package:test_case/router/app_router.dart';
 
 import 'home_page_wm.dart';
 
