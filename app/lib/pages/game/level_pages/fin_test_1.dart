@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test_case/pages/game/components/red_alert_button.dart';
 import 'package:test_case/router/app_router.dart';
 
 @RoutePage()
@@ -22,7 +23,7 @@ class _FinTest1PageWidgetState extends State<FinTest1PageWidget> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           children: [
             Text('Красивые цветы для всех-всех-всех'),
             Text('Купите цветы и порадуйте тех, кого вы так любите!'),
@@ -84,6 +85,7 @@ class _FinTest1PageWidgetState extends State<FinTest1PageWidget> {
           ],
         ),
       ),
+      floatingActionButton: const RedAlertButton(),
     );
   }
 }
