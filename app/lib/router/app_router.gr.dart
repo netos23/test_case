@@ -177,6 +177,23 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ShowCaseTabPage(),
       );
     },
+    TestRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<TestRouteArgs>(orElse: () => const TestRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TestPageWidget(
+          key: args.key,
+          wmFactory: args.wmFactory,
+        ),
+      );
+    },
+    TestTab.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TestTabPage(),
+      );
+    },
     UserProfileTab.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -770,6 +787,60 @@ class ShowCaseTab extends PageRouteInfo<void> {
         );
 
   static const String name = 'ShowCaseTab';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TestPageWidget]
+class TestRoute extends PageRouteInfo<TestRouteArgs> {
+  TestRoute({
+    Key? key,
+    WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+            BuildContext)
+        wmFactory = defaultTestPageWidgetModelFactory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TestRoute.name,
+          args: TestRouteArgs(
+            key: key,
+            wmFactory: wmFactory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TestRoute';
+
+  static const PageInfo<TestRouteArgs> page = PageInfo<TestRouteArgs>(name);
+}
+
+class TestRouteArgs {
+  const TestRouteArgs({
+    this.key,
+    this.wmFactory = defaultTestPageWidgetModelFactory,
+  });
+
+  final Key? key;
+
+  final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+      BuildContext) wmFactory;
+
+  @override
+  String toString() {
+    return 'TestRouteArgs{key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [TestTabPage]
+class TestTab extends PageRouteInfo<void> {
+  const TestTab({List<PageRouteInfo>? children})
+      : super(
+          TestTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TestTab';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

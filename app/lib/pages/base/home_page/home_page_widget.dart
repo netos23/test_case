@@ -31,8 +31,9 @@ class _MobilePage extends StatelessWidget {
     return AutoTabsScaffold(
       routes: const [
         ShowCaseTab(),
-        UserProfileTab(),
+        TestTab(),
         GameTab(),
+        UserProfileTab(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         return NavigationBar(
@@ -77,6 +78,8 @@ class _WebPage extends StatelessWidget {
       builder: (context, child) {
         const tabs = [
           ShowCaseTab(),
+          TestTab(),
+          GameTab(),
           UserProfileTab(),
         ];
 
@@ -117,10 +120,12 @@ class _WebPage extends StatelessWidget {
                           NavigationRailDestination(
                             label: Text('Новости'),
                             icon: Icon(Icons.border_all_outlined),
-                          ), NavigationRailDestination(
+                          ),
+                          NavigationRailDestination(
                             label: Text('Тесты'),
                             icon: Icon(Icons.library_add_check),
-                          ), NavigationRailDestination(
+                          ),
+                          NavigationRailDestination(
                             label: Text('Игры'),
                             icon: Icon(Icons.whatshot_outlined),
                           ),
