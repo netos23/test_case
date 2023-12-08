@@ -24,7 +24,11 @@ class GamePageWidget extends ElementaryWidget<IGameWidgetModel> {
             return ListTile(
               title: Text(chapters[index].title ?? ''),
               onTap: () {
-                context.router.push(ChapterFinRoute(levelMap: chapters[0]));
+                context.router.push(
+                  ChapterFinRoute(
+                    levelMap: chapters[0],
+                  ),
+                );
               },
             );
           },

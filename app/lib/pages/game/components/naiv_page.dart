@@ -17,18 +17,19 @@ class NaivPageWidget extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Positioned(
-          top: 200,
-          width: 200,
+          top: 175,
+          width: 250,
           height: 150,
           left: 25,
           child: Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(text ?? ''),
-                ),
-              )),
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(text ?? ''),
+              ),
+            ),
+          ),
         ),
         Positioned(
           bottom: 0,

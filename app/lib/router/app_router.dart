@@ -54,11 +54,16 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: FinTest1Route.page,
         ),
-        CustomRoute(page: TellingRoute.page, opaque: false),
+        CustomRoute(
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          page: TellingRoute.page,
+          opaque: false,
+        ),
         AutoRoute(
           page: FinTest1_1Route.page,
         ),
-        AutoRoute(
+        CustomRoute(
+          transitionsBuilder: TransitionsBuilders.noTransition,
           page: ChapterFinRoute.page,
         ),
         AutoRoute(

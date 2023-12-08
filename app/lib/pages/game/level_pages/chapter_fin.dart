@@ -21,17 +21,9 @@ class _ChapterFinPageWidgetState extends State<ChapterFinPageWidget> {
   @override
   void initState() {
     super.initState();
-    context.router.navigate(TellingRoute(messages: [
-      Message(message: widget.levelMap?.helloMessage ?? '', character: 'naiv'),
-      Message(
-          message: widget.levelMap?.helloMessage ?? '', character: 'secure'),
-      Message(message: widget.levelMap?.helloMessage ?? '', ),
-    ],),);
-    // StoryTellingUtils.tellStory(context, [
-    //   Message(message: widget.levelMap?.helloMessage ?? '', character: 'naiv'),
-    //   Message(message: widget.levelMap?.helloMessage ?? '', character: 'secure'),
-    //   Message(message: widget.levelMap?.helloMessage ?? '', character: ''),
-    // ]);
+    context.router.navigate(
+      TellingRoute(messages: widget.levelMap?.helloMessage ?? []),
+    );
   }
 
   @override
@@ -56,7 +48,7 @@ class _ChapterFinPageWidgetState extends State<ChapterFinPageWidget> {
                   width: 100,
                   height: 100,
                   bottom: 40 + 150.0 * index,
-                  left: 40 + 20.0 * index,
+                  left: 40 + 30.0 * index,
                   child: InkWell(
                     child: Container(
                       decoration: const BoxDecoration(
@@ -74,10 +66,22 @@ class _ChapterFinPageWidgetState extends State<ChapterFinPageWidget> {
                         ),
                       ),
                     ),
-                    onTap: () {
-                      final route = widget.levelMap?.levels?[index].levelPage;
+                    onTap: () async {
+                      final route =
+                          widget.levelMap?.levels?[index].levelPageBuilder;
+                      await context.router.push(
+                        TellingRoute(
+                          messages:
+                              widget.levelMap?.levels?[index].helloMessage ??
+                                  [],
+                        ),
+                      );
                       if (route != null) {
-                        context.router.push(route);
+                        if (context.mounted) {
+                          final routing =
+                              route(widget.levelMap?.levels?[index]);
+                          context.router.push(routing);
+                        }
                       }
                     },
                   ),
