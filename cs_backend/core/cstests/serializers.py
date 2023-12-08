@@ -22,7 +22,7 @@ class ISTestDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CSTestModel
-        exclude = ('user')
+        exclude = ('user',)
 
 
 class CSTestSerializer(serializers.ModelSerializer):
