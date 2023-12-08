@@ -15,7 +15,6 @@ services:
     build:
       context: .
       dockerfile: cs_backend/Dockerfile
-      target: api
     depends_on:
       - full_db
     ports:
