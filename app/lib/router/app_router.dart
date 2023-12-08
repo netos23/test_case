@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:test_case/domain/models/game/level.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_widget.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_wm.dart';
@@ -16,6 +17,9 @@ import 'package:test_case/pages/base/profile_page/profile_page_wm.dart';
 import 'package:test_case/pages/base/register_page/register_page_widget.dart';
 import 'package:test_case/pages/base/register_page/register_page_wm.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
+import 'package:test_case/pages/game/game_widget.dart';
+import 'package:test_case/pages/game/game_wm.dart';
+import 'package:test_case/pages/game/level_pages/chapter_fin.dart';
 import 'package:test_case/pages/game/level_pages/fin_test_1.dart';
 import 'package:test_case/pages/game/level_pages/fin_test_1_1.dart';
 import 'package:test_case/pages/web_view/web_view_page.dart';
@@ -31,7 +35,9 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(page: WebViewerRoute.page),
-        AutoRoute(page: AuthRoute.page,),
+        AutoRoute(
+          page: AuthRoute.page,
+        ),
         AutoRoute(page: AuthCodeRoute.page),
         AutoRoute(page: RegisterRoute.page),
         AutoRoute(
@@ -66,11 +72,18 @@ class AppRouter extends _$AppRouter {
               page: GameTab.page,
               children: [
                 AutoRoute(
+                  page: GameRoute.page,
+                  initial: true,
+                ),
+                AutoRoute(
                   page: FinTest1Route.page,
                 ),
                 AutoRoute(
                   page: FinTest1_1Route.page,
-                )
+                ),
+                AutoRoute(
+                  page: ChapterFinRoute.page,
+                ),
               ],
             ),
           ],

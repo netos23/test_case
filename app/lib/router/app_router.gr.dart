@@ -33,7 +33,24 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: AuthPageWidget(
           key: args.key,
+          authCallback: args.authCallback,
           wmFactory: args.wmFactory,
+        ),
+      );
+    },
+    ChapterFinRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<ChapterFinRouteArgs>(
+          orElse: () => ChapterFinRouteArgs(
+                  levels: queryParams.get(
+                'levels',
+                const [],
+              )));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChapterFinPageWidget(
+          key: args.key,
+          levels: args.levels,
         ),
       );
     },
@@ -71,6 +88,17 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const FinTest1_1PageWidget(),
+      );
+    },
+    GameRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<GameRouteArgs>(orElse: () => const GameRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: GamePageWidget(
+          key: args.key,
+          wmFactory: args.wmFactory,
+        ),
       );
     },
     GameTab.name: (routeData) {
@@ -217,6 +245,7 @@ class AuthCodeRouteArgs {
 class AuthRoute extends PageRouteInfo<AuthRouteArgs> {
   AuthRoute({
     Key? key,
+    void Function(Profile?)? authCallback,
     WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
             BuildContext)
         wmFactory = defaultAuthPageWidgetModelFactory,
@@ -225,6 +254,7 @@ class AuthRoute extends PageRouteInfo<AuthRouteArgs> {
           AuthRoute.name,
           args: AuthRouteArgs(
             key: key,
+            authCallback: authCallback,
             wmFactory: wmFactory,
           ),
           initialChildren: children,
@@ -238,17 +268,59 @@ class AuthRoute extends PageRouteInfo<AuthRouteArgs> {
 class AuthRouteArgs {
   const AuthRouteArgs({
     this.key,
+    this.authCallback,
     this.wmFactory = defaultAuthPageWidgetModelFactory,
   });
 
   final Key? key;
+
+  final void Function(Profile?)? authCallback;
 
   final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
       BuildContext) wmFactory;
 
   @override
   String toString() {
-    return 'AuthRouteArgs{key: $key, wmFactory: $wmFactory}';
+    return 'AuthRouteArgs{key: $key, authCallback: $authCallback, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [ChapterFinPageWidget]
+class ChapterFinRoute extends PageRouteInfo<ChapterFinRouteArgs> {
+  ChapterFinRoute({
+    Key? key,
+    List<Level> levels = const [],
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChapterFinRoute.name,
+          args: ChapterFinRouteArgs(
+            key: key,
+            levels: levels,
+          ),
+          rawQueryParams: {'levels': levels},
+          initialChildren: children,
+        );
+
+  static const String name = 'ChapterFinRoute';
+
+  static const PageInfo<ChapterFinRouteArgs> page =
+      PageInfo<ChapterFinRouteArgs>(name);
+}
+
+class ChapterFinRouteArgs {
+  const ChapterFinRouteArgs({
+    this.key,
+    this.levels = const [],
+  });
+
+  final Key? key;
+
+  final List<Level> levels;
+
+  @override
+  String toString() {
+    return 'ChapterFinRouteArgs{key: $key, levels: $levels}';
   }
 }
 
@@ -370,6 +442,46 @@ class FinTest1_1Route extends PageRouteInfo<void> {
   static const String name = 'FinTest1_1Route';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GamePageWidget]
+class GameRoute extends PageRouteInfo<GameRouteArgs> {
+  GameRoute({
+    Key? key,
+    WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+            BuildContext)
+        wmFactory = defaultGameWidgetModelFactory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          GameRoute.name,
+          args: GameRouteArgs(
+            key: key,
+            wmFactory: wmFactory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GameRoute';
+
+  static const PageInfo<GameRouteArgs> page = PageInfo<GameRouteArgs>(name);
+}
+
+class GameRouteArgs {
+  const GameRouteArgs({
+    this.key,
+    this.wmFactory = defaultGameWidgetModelFactory,
+  });
+
+  final Key? key;
+
+  final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+      BuildContext) wmFactory;
+
+  @override
+  String toString() {
+    return 'GameRouteArgs{key: $key, wmFactory: $wmFactory}';
+  }
 }
 
 /// generated route for

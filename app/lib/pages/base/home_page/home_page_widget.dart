@@ -32,6 +32,7 @@ class _MobilePage extends StatelessWidget {
       routes: const [
         ShowCaseTab(),
         UserProfileTab(),
+        GameTab(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         return NavigationBar(
