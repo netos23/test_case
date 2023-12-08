@@ -1,12 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test_case/domain/models/game/level.dart';
 import 'package:test_case/pages/game/components/red_alert_button.dart';
 import 'package:test_case/router/app_router.dart';
 
 @RoutePage()
 class FinTest1PageWidget extends StatefulWidget {
-  const FinTest1PageWidget({super.key});
+  const FinTest1PageWidget({
+    super.key,
+    @queryParam this.level,
+  });
+
+  final Level? level;
 
   @override
   State<FinTest1PageWidget> createState() => _FinTest1PageWidgetState();
@@ -25,11 +31,11 @@ class _FinTest1PageWidgetState extends State<FinTest1PageWidget> {
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           children: [
-            Text('Красивые цветы для всех-всех-всех'),
-            Text('Купите цветы и порадуйте тех, кого вы так любите!'),
+            const Text('Красивые цветы для всех-всех-всех'),
+            const Text('Купите цветы и порадуйте тех, кого вы так любите!'),
             CheckboxListTile(
               value: checkboxValue1,
-              title: Text('Красивые цветы'),
+              title: const Text('Красивые цветы'),
               onChanged: (value) {
                 setState(
                   () {
@@ -45,7 +51,7 @@ class _FinTest1PageWidgetState extends State<FinTest1PageWidget> {
             ),
             CheckboxListTile(
               value: checkboxValue2,
-              title: Text('Супер красивые цветы'),
+              title: const Text('Супер красивые цветы'),
               onChanged: (value) {
                 setState(
                   () {
@@ -61,7 +67,7 @@ class _FinTest1PageWidgetState extends State<FinTest1PageWidget> {
             ),
             CheckboxListTile(
               value: checkboxValue3,
-              title: Text('Архи красивые цветы'),
+              title: const Text('Архи красивые цветы'),
               onChanged: (value) {
                 setState(
                   () {
@@ -75,17 +81,23 @@ class _FinTest1PageWidgetState extends State<FinTest1PageWidget> {
                 );
               },
             ),
-            Center(child: Text('К оплате ${price.toString()}')),
+            Center(
+              child: Text('К оплате ${price.toString()}'),
+            ),
             ElevatedButton(
               onPressed: () {
-                context.router.navigate(FinTest1_1Route());
+                context.router.navigate(
+                  FinTest1_1Route(level: widget.level),
+                );
               },
-              child: Text('К Оплате'),
+              child: const Text('К Оплате'),
             ),
           ],
         ),
       ),
-      floatingActionButton: const RedAlertButton(),
+      // floatingActionButton: RedAlertButton(
+      //   level: widget.level,
+      // ),
     );
   }
 }
