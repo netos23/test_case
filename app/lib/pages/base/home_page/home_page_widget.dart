@@ -42,12 +42,20 @@ class _MobilePage extends StatelessWidget {
           animationDuration: const Duration(milliseconds: 300),
           destinations: const [
             NavigationDestination(
-              label: 'Акции',
-              icon: Icon(Icons.photo_outlined),
+              label: 'Новости',
+              icon: Icon(Icons.border_all_outlined),
             ),
             NavigationDestination(
-              label: 'Поиск',
-              icon: Icon(Icons.map),
+              label: 'Тесты',
+              icon: Icon(Icons.library_add_check),
+            ),
+            NavigationDestination(
+              label: 'Игры',
+              icon: Icon(Icons.whatshot_outlined),
+            ),
+            NavigationDestination(
+              label: 'Материалы',
+              icon: Icon(Icons.library_books),
             ),
             NavigationDestination(
               label: 'Профиль',
@@ -107,12 +115,18 @@ class _WebPage extends StatelessWidget {
                         labelType: NavigationRailLabelType.all,
                         destinations: const [
                           NavigationRailDestination(
-                            label: Text('Акции'),
-                            icon: Icon(Icons.photo_outlined),
+                            label: Text('Новости'),
+                            icon: Icon(Icons.border_all_outlined),
+                          ), NavigationRailDestination(
+                            label: Text('Тесты'),
+                            icon: Icon(Icons.library_add_check),
+                          ), NavigationRailDestination(
+                            label: Text('Игры'),
+                            icon: Icon(Icons.whatshot_outlined),
                           ),
                           NavigationRailDestination(
-                            label: Text('Поиск'),
-                            icon: Icon(Icons.map),
+                            label: Text('Материалы'),
+                            icon: Icon(Icons.library_books),
                           ),
                           NavigationRailDestination(
                             label: Text('Профиль'),

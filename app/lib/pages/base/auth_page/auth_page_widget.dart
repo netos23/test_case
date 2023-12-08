@@ -23,11 +23,13 @@ class AuthPageWidget extends ElementaryWidget<IAuthPageWidgetModel> {
   @override
   Widget build(IAuthPageWidgetModel wm) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          _AuthForm(wm: wm),
-        ],
+      body: SafeArea(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            _AuthForm(wm: wm),
+          ],
+        ),
       ),
     );
   }
@@ -202,10 +204,10 @@ class _PhoneWidget extends StatelessWidget {
             return Flex(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
-              direction: maxWidth > 300 ? Axis.horizontal : Axis.vertical,
+              direction: maxWidth > 400 ? Axis.horizontal : Axis.vertical,
               children: [
                 Flexible(
-                  flex: maxWidth > 300 ? 2 : 1,
+                  flex: maxWidth > 400 ? 2 : 1,
                   child: SizedBox(
                     height: 48,
                     child: TextField(
