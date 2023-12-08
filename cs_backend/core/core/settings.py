@@ -28,8 +28,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-ALLOWED_HOSTS = ["127.0.0.1", "it-profession.fbtw.ru", "92.53.127.18"]
+ALLOWED_HOSTS = ["127.0.0.1", "cybertest.fbtw.ru", "92.53.127.18"]
 
 APP_MODULES = []
 # Application definition
@@ -213,12 +212,12 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "utils.handlers.exceptions_handler",
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        #'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
         "rest_framework_simplejwt.authentication.JWTAuthentication"
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated"
-        #'rest_framework.permissions.AllowAny'
+        # 'rest_framework.permissions.AllowAny'
     ],
 
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],

@@ -1,8 +1,7 @@
 from rest_framework import generics
 
 from cstests.models import CSTestModel
-from cstests.serializers import CSTestSerializer
-from orders.serializers import OrderSerializer
+from cstests.serializers import CSTestSerializer, ISTestDetailSerializer
 
 
 class GetAllISTestAPIView(generics.ListAPIView):
@@ -11,7 +10,7 @@ class GetAllISTestAPIView(generics.ListAPIView):
 
 
 class ISTestDetailView(generics.RetrieveAPIView):
-    serializer_class = OrderSerializer
+    serializer_class = ISTestDetailSerializer
     queryset = CSTestModel.objects.all()
 
     def get_object(self):
