@@ -56,22 +56,6 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                                       title: 'Мои данные',
                                       icon: Icons.person),
                                   const Divider(),
-                                  MenuItem(
-                                      onTap: wm.onMyOrder,
-                                      title: 'Мои заказы',
-                                      icon: Icons.shopping_cart),
-                                  const Divider(),
-                                  MenuItem(
-                                      onTap: wm.onMyZone,
-                                      title: 'Мои зоны',
-                                      icon: Icons.map),
-                                  const Divider(),
-                                  MenuItem(
-                                    onTap: wm.onAabout,
-                                    title: 'O нас',
-                                    icon: Icons.settings_outlined,
-                                  ),
-                                  const Divider(),
                                   Flexible(
                                     child: Image.asset(
                                       'assets/images/logo_large.png',
@@ -95,7 +79,7 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    'Что бы администрировать\n на полную катушку,\n зарегистрируйтесь или\n войдите в аккаунт :) ',
+                                    'Что бы не потерять свои достижения зарегистрируйтесь или\n войдите в аккаунт',
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       color: Theme.of(context)
                                           .colorScheme

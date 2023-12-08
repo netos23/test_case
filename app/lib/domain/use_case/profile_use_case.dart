@@ -41,9 +41,10 @@ class ProfileUseCase implements LifecycleComponent {
     profile.add(null);
   }
 
-  Future<void> loadProfile() async {
+  Future<Profile> loadProfile() async {
     final result = await authRepository.getUser();
     profile.add(result);
+    return result;
   }
 
   Future<void> patchProfile(Profile newProfile) async {

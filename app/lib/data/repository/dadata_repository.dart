@@ -29,7 +29,7 @@ class GeolocationDadataRepository {
         ),
       );
       return address?.suggestions?.map(_mapSuggestFromCityDto).toList() ?? [];
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       throw Exception(e.response?.data['message']);
     } catch (e) {
       throw Exception(e.toString());
@@ -51,7 +51,7 @@ class GeolocationDadataRepository {
         );
       }
       return _mapIpResponseFromCityDto(result);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       throw Exception(e.response?.data['message']);
     } catch (e) {
       throw Exception(e.toString());
