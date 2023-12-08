@@ -9,6 +9,7 @@ import 'package:test_case/domain/models/banner.dart';
 import 'package:test_case/domain/models/source.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:test_case/util/pagination_builder.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'show_case_page_wm.dart';
 
@@ -127,7 +128,8 @@ class ShowCasePageWidget extends ElementaryWidget<IShowCasePageWidgetModel> {
                         controller: controller,
                         itemCount: sources?.length ?? 100,
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
+                          horizontal: 8,
+                          vertical: 16,
                         ),
                         itemBuilder: (context, index) {
                           Source? source;
@@ -359,51 +361,58 @@ class SourceWidget extends StatelessWidget {
             ),
           ),
           clipBehavior: Clip.hardEdge,
-          child: Column(
-            children: [
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: colorScheme.surface,
-                  foregroundImage: AssetImage(
-                    'assets/images/${uri?.host}.png',
-                  ),
-                ),
-                title: Text(title ?? source?.title ?? ''),
-                subtitle: Text(subtitle),
-              ),
-              const Divider(
-                height: 0,
-                indent: 70,
-                endIndent: 16,
-              ),
-              if (description != null)
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(description),
-                ),
-              if (picture != null) CachedNetworkImage(imageUrl: picture),
-              if (picture != null)
-                const SizedBox(
-                  height: 8,
-                ),
-              if (forAge != null)
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                    ),
-                    child: Text(
-                      forAge,
-                      textAlign: TextAlign.end,
+          child: InkWell(
+            onTap: () {
+              if (uri != null) {
+                launchUrl(uri, mode: LaunchMode.externalApplication);
+              }
+            },
+            child: Column(
+              children: [
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: colorScheme.surface,
+                    foregroundImage: AssetImage(
+                      'assets/images/${uri?.host}.png',
                     ),
                   ),
+                  title: Text(title ?? source?.title ?? ''),
+                  subtitle: Text(subtitle),
                 ),
-              if (forAge != null)
-                const SizedBox(
-                  height: 8,
+                const Divider(
+                  height: 0,
+                  indent: 70,
+                  endIndent: 16,
                 ),
-            ],
+                if (description != null)
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(description),
+                  ),
+                if (picture != null) CachedNetworkImage(imageUrl: picture),
+                if (picture != null)
+                  const SizedBox(
+                    height: 8,
+                  ),
+                if (forAge != null)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: Text(
+                        forAge,
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ),
+                if (forAge != null)
+                  const SizedBox(
+                    height: 8,
+                  ),
+              ],
+            ),
           ),
         );
       },
