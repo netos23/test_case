@@ -73,6 +73,19 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    EmptyCharacterRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<EmptyCharacterRouteArgs>(
+          orElse: () =>
+              EmptyCharacterRouteArgs(text: queryParams.optString('text')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EmptyCharacterPageWidget(
+          key: args.key,
+          text: args.text,
+        ),
+      );
+    },
     FinTest1Route.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -148,18 +161,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    SecureRoute.name: (routeData) {
-      final queryParams = routeData.queryParams;
-      final args = routeData.argsAs<SecureRouteArgs>(
-          orElse: () => SecureRouteArgs(text: queryParams.optString('text')));
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SecurePageWidget(
-          key: args.key,
-          text: args.text,
-        ),
-      );
-    },
     ShowCaseRoute.name: (routeData) {
       final args = routeData.argsAs<ShowCaseRouteArgs>(
           orElse: () => const ShowCaseRouteArgs());
@@ -175,6 +176,22 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ShowCaseTabPage(),
+      );
+    },
+    TellingRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<TellingRouteArgs>(
+          orElse: () => TellingRouteArgs(
+                  messages: queryParams.get(
+                'messages',
+                const [],
+              )));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TellingPageWidget(
+          key: args.key,
+          messages: args.messages,
+        ),
       );
     },
     UserProfileTab.name: (routeData) {
@@ -435,6 +452,45 @@ class EditProfileRouteArgs {
 }
 
 /// generated route for
+/// [EmptyCharacterPageWidget]
+class EmptyCharacterRoute extends PageRouteInfo<EmptyCharacterRouteArgs> {
+  EmptyCharacterRoute({
+    Key? key,
+    required String? text,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EmptyCharacterRoute.name,
+          args: EmptyCharacterRouteArgs(
+            key: key,
+            text: text,
+          ),
+          rawQueryParams: {'text': text},
+          initialChildren: children,
+        );
+
+  static const String name = 'EmptyCharacterRoute';
+
+  static const PageInfo<EmptyCharacterRouteArgs> page =
+      PageInfo<EmptyCharacterRouteArgs>(name);
+}
+
+class EmptyCharacterRouteArgs {
+  const EmptyCharacterRouteArgs({
+    this.key,
+    required this.text,
+  });
+
+  final Key? key;
+
+  final String? text;
+
+  @override
+  String toString() {
+    return 'EmptyCharacterRouteArgs{key: $key, text: $text}';
+  }
+}
+
+/// generated route for
 /// [FinTest1PageWidget]
 class FinTest1Route extends PageRouteInfo<void> {
   const FinTest1Route({List<PageRouteInfo>? children})
@@ -682,44 +738,6 @@ class RegisterRouteArgs {
 }
 
 /// generated route for
-/// [SecurePageWidget]
-class SecureRoute extends PageRouteInfo<SecureRouteArgs> {
-  SecureRoute({
-    Key? key,
-    required String? text,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SecureRoute.name,
-          args: SecureRouteArgs(
-            key: key,
-            text: text,
-          ),
-          rawQueryParams: {'text': text},
-          initialChildren: children,
-        );
-
-  static const String name = 'SecureRoute';
-
-  static const PageInfo<SecureRouteArgs> page = PageInfo<SecureRouteArgs>(name);
-}
-
-class SecureRouteArgs {
-  const SecureRouteArgs({
-    this.key,
-    required this.text,
-  });
-
-  final Key? key;
-
-  final String? text;
-
-  @override
-  String toString() {
-    return 'SecureRouteArgs{key: $key, text: $text}';
-  }
-}
-
-/// generated route for
 /// [ShowCasePageWidget]
 class ShowCaseRoute extends PageRouteInfo<ShowCaseRouteArgs> {
   ShowCaseRoute({
@@ -772,6 +790,45 @@ class ShowCaseTab extends PageRouteInfo<void> {
   static const String name = 'ShowCaseTab';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TellingPageWidget]
+class TellingRoute extends PageRouteInfo<TellingRouteArgs> {
+  TellingRoute({
+    Key? key,
+    List<Message> messages = const [],
+    List<PageRouteInfo>? children,
+  }) : super(
+          TellingRoute.name,
+          args: TellingRouteArgs(
+            key: key,
+            messages: messages,
+          ),
+          rawQueryParams: {'messages': messages},
+          initialChildren: children,
+        );
+
+  static const String name = 'TellingRoute';
+
+  static const PageInfo<TellingRouteArgs> page =
+      PageInfo<TellingRouteArgs>(name);
+}
+
+class TellingRouteArgs {
+  const TellingRouteArgs({
+    this.key,
+    this.messages = const [],
+  });
+
+  final Key? key;
+
+  final List<Message> messages;
+
+  @override
+  String toString() {
+    return 'TellingRouteArgs{key: $key, messages: $messages}';
+  }
 }
 
 /// generated route for

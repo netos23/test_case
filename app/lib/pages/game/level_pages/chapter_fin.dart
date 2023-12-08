@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/models/game/level_map.dart';
+import 'package:test_case/pages/game/story_telling_utils.dart';
 import 'package:test_case/router/app_router.dart';
 
 @RoutePage()
@@ -20,9 +21,17 @@ class _ChapterFinPageWidgetState extends State<ChapterFinPageWidget> {
   @override
   void initState() {
     super.initState();
-    context.router.navigate(
-      NaivRoute(text: widget.levelMap?.helloMessage ?? ''),
-    );
+    context.router.navigate(TellingRoute(messages: [
+      Message(message: widget.levelMap?.helloMessage ?? '', character: 'naiv'),
+      Message(
+          message: widget.levelMap?.helloMessage ?? '', character: 'secure'),
+      Message(message: widget.levelMap?.helloMessage ?? '', ),
+    ],),);
+    // StoryTellingUtils.tellStory(context, [
+    //   Message(message: widget.levelMap?.helloMessage ?? '', character: 'naiv'),
+    //   Message(message: widget.levelMap?.helloMessage ?? '', character: 'secure'),
+    //   Message(message: widget.levelMap?.helloMessage ?? '', character: ''),
+    // ]);
   }
 
   @override

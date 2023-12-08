@@ -18,12 +18,16 @@ import 'package:test_case/pages/base/profile_page/profile_page_wm.dart';
 import 'package:test_case/pages/base/register_page/register_page_widget.dart';
 import 'package:test_case/pages/base/register_page/register_page_wm.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
+import 'package:test_case/pages/game/components/empty_character_page.dart';
 import 'package:test_case/pages/game/components/naiv_page.dart';
+import 'package:test_case/pages/game/components/secure_page.dart';
+import 'package:test_case/pages/game/components/telling_page.dart';
 import 'package:test_case/pages/game/game_widget.dart';
 import 'package:test_case/pages/game/game_wm.dart';
 import 'package:test_case/pages/game/level_pages/chapter_fin.dart';
 import 'package:test_case/pages/game/level_pages/fin_test_1.dart';
 import 'package:test_case/pages/game/level_pages/fin_test_1_1.dart';
+import 'package:test_case/pages/game/story_telling_utils.dart';
 import 'package:test_case/pages/web_view/web_view_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -48,7 +52,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: FinTest1Route.page,
         ),
-        CustomRoute(page: NaivRoute.page, opaque: false),
+        CustomRoute(page: TellingRoute.page, opaque: false),
         AutoRoute(
           page: FinTest1_1Route.page,
         ),
