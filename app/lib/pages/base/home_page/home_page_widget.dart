@@ -28,6 +28,7 @@ class _MobilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AutoTabsScaffold(
       routes: const [
         ShowCaseTab(),
@@ -42,24 +43,28 @@ class _MobilePage extends StatelessWidget {
           onDestinationSelected: tabsRouter.setActiveIndex,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           animationDuration: const Duration(milliseconds: 300),
-          destinations: const [
-            NavigationDestination(
+          destinations:  [
+            const NavigationDestination(
               label: 'Новости',
               icon: Icon(Icons.border_all_outlined),
             ),
-            NavigationDestination(
+            const NavigationDestination(
               label: 'Тесты',
               icon: Icon(Icons.library_add_check),
             ),
             NavigationDestination(
               label: 'Игры',
               icon: Icon(Icons.whatshot_outlined),
+              selectedIcon: Icon(
+                Icons.whatshot_outlined,
+                color: theme.colorScheme.tertiary,
+              ),
             ),
-            NavigationDestination(
+            const NavigationDestination(
               label: 'Курсы',
               icon: Icon(Icons.cast_for_education),
             ),
-            NavigationDestination(
+            const NavigationDestination(
               label: 'Профиль',
               icon: Icon(Icons.person_outline),
             ),

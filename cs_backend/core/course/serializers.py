@@ -13,11 +13,12 @@ class CourseSerializer(serializers.ModelSerializer):
 class CourseShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ("id", "name", "picture", "description")
+        fields = ("id", "name", "picture", "description", "price")
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
     payed = serializers.BooleanField(default=False)
     class Meta:
         model = Course
+        depth = 1
         exclude = ("generated_tests", "certificate_template")

@@ -21,6 +21,7 @@ class CoursePageWidget extends ElementaryWidget<ICoursePageWidgetModel> {
   Widget build(ICoursePageWidgetModel wm) {
     return Scaffold(
       body: SafeArea(
+
         child: PagePaginationBuilder<CoursePreview>(
           initialPage: 1,
           paginationCallback: wm.loadPages,

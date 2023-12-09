@@ -1,6 +1,16 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test_case/domain/models/game/level.dart';
+import 'package:test_case/internal/app_components.dart';
+import 'package:test_case/pages/game/chat/domain/entity/chat_action.dart';
+import 'package:test_case/pages/game/chat/domain/entity/chat_message.dart';
+import 'package:test_case/pages/game/chat/domain/entity/chat_message_link.dart';
+import 'package:test_case/pages/game/chat/domain/entity/chat_user.dart';
+import 'package:test_case/pages/game/chat/domain/entity/response_variant.dart';
+import 'package:test_case/pages/game/chat/pages/chat_page/chat_interceptor.dart';
 import 'package:test_case/pages/game/components/red_button_variant.dart';
+import 'package:test_case/pages/game/domain/chat_page_configuration.dart';
 import 'package:test_case/pages/game/domain/shop_page_configuration.dart';
 import 'package:test_case/pages/game/story_telling_utils.dart';
 import 'package:test_case/router/app_router.dart';
@@ -8,12 +18,12 @@ import 'package:test_case/router/app_router.dart';
 import '../../domain/models/game/level_map.dart';
 
 class GameRepository {
-
   BehaviorSubject<Set<int>> passedGame = BehaviorSubject.seeded({});
 
   List<LevelMap> levels = [
     LevelMap(
       title: 'Путешествие в магазин!',
+      image: 'assets/images/forest.png',
       levels: [
         Level(
           id: 1,
@@ -367,10 +377,287 @@ class GameRepository {
       ],
       currLevel: 0,
     ),
-    LevelMap(currLevel: 0, title: 'Общение с незнакомцами'),
+    LevelMap(
+        currLevel: 0,
+        title: 'Пообщаемся?',
+        image: 'assets/images/city.png',
+        helloMessage: [
+          Message(
+              message:
+                  'Смотри что мне подарили! Я слышал, люди называют это телефоном.',
+              character: 'naiv'),
+          Message(
+              message:
+                  'Я уже скачал НикитоГрамм. В нем так много интересных людей, с которыми можно пообщаться!',
+              character: 'naiv'),
+          Message(
+              message: 'А это уже опасно. Можешь последить за ним?',
+              character: 'secure'),
+        ],
+        levels: [
+          tgLevel,
+          tgLevel.copyWith(id: 10, numeric: 2),
+          tgLevel.copyWith(id: 11, numeric: 3),
+          tgLevel.copyWith(id: 12, numeric: 4),
+          tgLevel.copyWith(id: 13, numeric: 5),
+          tgLevel.copyWith(id: 14, numeric: 6),
+          tgLevel.copyWith(id: 15, numeric: 7),
+          tgLevel.copyWith(id: 16, numeric: 8),
+        ]),
     LevelMap(
       currLevel: 0,
       title: 'Пока закрыто!',
     ),
   ];
+}
+
+final tgLevel = Level(
+  numeric: 1,
+  id: 9,
+  helloMessage: [
+    Message(
+      message: 'ХНЫК-ХНЫК-ХНЫК',
+      character: 'naiv',
+    ),
+  ],
+  loseVariant: {3, 6, 4},
+  winVariant: {5},
+  wrongMessage: [
+    Message(
+      message:
+          'Как хорошо, что в вашем городе есть такой шериф, как я, который может вернуть время вспять.',
+      character: 'secure',
+    ),
+  ],
+  byeMessage: [
+    Message(
+      message:
+          'хнык. Спасибо, что помог мне. хнык. Этот НикитоГрамм не такую уж и добрый',
+      character: 'naiv',
+    ),
+    Message(
+      message:
+          'Не стоит доверять незнакомым людям в интернете, которые предлагают легкую работу и большие деньги.',
+      character: 'secure',
+    ),
+    Message(
+      message: 'это может привести к большим проблема',
+      character: 'secure',
+    ),
+  ],
+  levelPageBuilder: (level) => ChatAppRoute(
+    level: level,
+    config: ChatPageConfiguration(
+      chatInterceptor: Level1Interceptor(),
+      actions: [
+        ChatAction.message(
+          message: ChatMessage(
+            user: user,
+            message: 'Привет как деда?',
+            dateTime: DateTime.fromMillisecondsSinceEpoch(
+              millisecondsSinceEpoch2,
+            ),
+          ),
+          duration: Duration.zero,
+        ),
+        ChatAction.message(
+          message: ChatMessage(
+            user: user,
+            message: 'Я максим из википелии. Как насчет поработать?',
+            dateTime: DateTime.fromMillisecondsSinceEpoch(
+              millisecondsSinceEpoch2 + 2000,
+            ),
+          ),
+          duration: const Duration(seconds: 1),
+        ),
+        ChatAction.message(
+          message: ChatMessage(
+            user: myUser,
+            message: 'Привет',
+            dateTime: DateTime.fromMillisecondsSinceEpoch(
+              millisecondsSinceEpoch2 + 3000,
+            ),
+          ),
+          duration: const Duration(seconds: 1),
+        ),
+        ChatAction.responce(
+          message: ChatMessage(
+            user: myUser,
+            message: '',
+            dateTime: DateTime.fromMillisecondsSinceEpoch(
+              millisecondsSinceEpoch2 + 2000,
+            ),
+          ),
+          variants: [
+            ResponseVariant(
+              id: 1,
+              message: 'А почему ты интерисуешься?',
+              actions: [
+                ChatAction.message(
+                  message: ChatMessage(
+                    user: user,
+                    message: 'Ищу людей на работу',
+                    dateTime: DateTime.fromMillisecondsSinceEpoch(
+                      millisecondsSinceEpoch2 + 1000,
+                    ),
+                  ),
+                  duration: Duration.zero,
+                ),
+                ChatAction.responce(
+                    message: ChatMessage(
+                      user: myUser,
+                      message: '',
+                      dateTime: DateTime.fromMillisecondsSinceEpoch(
+                        millisecondsSinceEpoch2 + 1000,
+                      ),
+                    ),
+                    variants: [
+                      ResponseVariant(
+                          id: 4, message: 'Ладно, я хочу', actions: []),
+                      ResponseVariant(
+                          id: 5, message: 'До свидания', actions: []),
+                    ])
+              ],
+            ),
+            ResponseVariant(
+              id: 2,
+              message: 'Мне кажется, что вы мошшенник?',
+              actions: [
+                ChatAction.message(
+                  message: ChatMessage(
+                    user: user,
+                    message: 'Нет',
+                    dateTime: DateTime.fromMillisecondsSinceEpoch(
+                      millisecondsSinceEpoch2,
+                    ),
+                  ),
+                  duration: Duration.zero,
+                ),
+                ChatAction.message(
+                  message: ChatMessage(
+                    user: user,
+                    message: 'Просто ищу работников. зп от 200к - согласен?',
+                    dateTime: DateTime.fromMillisecondsSinceEpoch(
+                      millisecondsSinceEpoch2 + 1000,
+                    ),
+                  ),
+                  duration: const Duration(seconds: 1),
+                ),
+                ChatAction.responce(
+                    message: ChatMessage(
+                      user: myUser,
+                      message: '',
+                      dateTime: DateTime.fromMillisecondsSinceEpoch(
+                        millisecondsSinceEpoch2 + 2000,
+                      ),
+                    ),
+                    variants: [
+                      ResponseVariant(
+                          id: 6, message: 'Я согласен!', actions: []),
+                      ResponseVariant(
+                          id: 5, message: 'До свидания', actions: []),
+                    ])
+              ],
+            ),
+            ResponseVariant(
+              id: 3,
+              message: 'Да',
+              actions: [
+                ChatAction.message(
+                  message: ChatMessage(
+                    user: user,
+                    message: 'Привет как дела?',
+                    dateTime: DateTime.fromMillisecondsSinceEpoch(
+                      millisecondsSinceEpoch2,
+                    ),
+                  ),
+                  duration: Duration.zero,
+                ),
+                ChatAction.message(
+                  message: ChatMessage(
+                    user: user,
+                    message: 'Я максим из википелии. Как насчет поработать?',
+                    dateTime: DateTime.fromMillisecondsSinceEpoch(
+                      millisecondsSinceEpoch2 + 1000,
+                    ),
+                  ),
+                  duration: const Duration(seconds: 1),
+                ),
+              ],
+            ),
+          ],
+        )
+      ],
+      chatUser: user,
+      myUser: myUser,
+    ),
+  ),
+);
+
+const user = ChatUser(
+  name: 'Pavel',
+  surname: 'Durov',
+  avatar:
+      'https://rgnp.ru/wp-content/uploads/4/0/c/40cdefa8a89fac40f9e6e6afd5ed25fc.jpeg',
+);
+
+const myUser = ChatUser(
+  name: 'Nikita',
+  surname: 'Morozov',
+  avatar:
+      'https://rgnp.ru/wp-content/uploads/4/0/c/40cdefa8a89fac40f9e6e6afd5ed25fc.jpeg',
+);
+var millisecondsSinceEpoch2 = DateTime.now().millisecondsSinceEpoch;
+
+final class Level1Interceptor implements ChatInterceptor {
+  @override
+  Future<bool> onLink(ChatAction action, String url) async {
+    return true;
+  }
+
+  @override
+  Future<bool> onMessage(ChatAction action) async {
+    return false;
+  }
+
+  @override
+  Future<bool> onVariant(BuildContext context, ChatAction action,
+      ResponseVariant variant, Level? level) async {
+    if (level?.winVariant?.contains(variant.id) == true) {
+      win(context, level);
+      return true;
+    }
+    if (level?.loseVariant?.contains(variant.id) == true) {
+      lose(context, level);
+      return true;
+    }
+    return false;
+  }
+}
+
+Future<void> win(BuildContext context, Level? level) async {
+  context.router.popUntilRouteWithName(
+    ChapterFinRoute.name,
+  );
+  context.router.push(
+    TellingRoute(
+      messages: level?.byeMessage ?? [],
+    ),
+  );
+
+  AppComponents().gameRepository.passedGame.value = {
+    ...AppComponents().gameRepository.passedGame.value,
+    level?.id ?? 0
+  };
+}
+
+Future<void> lose(BuildContext context, Level? level) async {
+  context.router.popUntilRouteWithName(
+    ChapterFinRoute.name,
+  );
+  context.router.push(
+    TellingRoute(
+      messages: level?.wrongMessage ?? [],
+    ),
+  );
 }

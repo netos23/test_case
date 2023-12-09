@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:test_case/domain/models/game/level.dart';
 import 'package:test_case/pages/game/chat/domain/entity/chat_action.dart';
 import 'package:test_case/pages/game/chat/domain/entity/chat_user.dart';
 import 'package:test_case/pages/game/chat/pages/chat_page/chat_interceptor.dart';
@@ -16,6 +17,7 @@ import 'chat_page_wm.dart';
 class ChatPageWidget extends ElementaryWidget<IChatPageWidgetModel> {
   const ChatPageWidget({
     Key? key,
+    this.level,
     required this.chatUser,
     required this.myUser,
     required this.actions,
@@ -24,17 +26,18 @@ class ChatPageWidget extends ElementaryWidget<IChatPageWidgetModel> {
   }) : super(wmFactory, key: key);
 
   final ChatInterceptor? chatInterceptor;
-  final ChatUser chatUser;
-  final ChatUser myUser;
+  final ChatUser? chatUser;
+  final ChatUser? myUser;
+  final Level? level;
   final List<ChatAction> actions;
 
   @override
   Widget build(IChatPageWidgetModel wm) {
     final theme = wm.theme;
     final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
 
     return BrowserOverlay(
+      url: 'https://N1k1t0gr4mm.com/n3_v0r',
       body: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
@@ -52,7 +55,7 @@ class ChatPageWidget extends ElementaryWidget<IChatPageWidgetModel> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '${chatUser.name} ${chatUser.surname}',
+                          '${chatUser?.name} ${chatUser?.surname}',
                         ),
                         const Text(
                           'Online',
@@ -66,7 +69,7 @@ class ChatPageWidget extends ElementaryWidget<IChatPageWidgetModel> {
                       padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
                         backgroundImage: CachedNetworkImageProvider(
-                          chatUser.avatar,
+                          chatUser?.avatar ?? '',
                         ),
                       ),
                     ),
@@ -129,7 +132,7 @@ class ChatPageWidget extends ElementaryWidget<IChatPageWidgetModel> {
                                         action.message.dateTime.formatTime(),
                                     link: action.message.links,
                                     onLink: (link, _) {
-                                      wm.onLink(action,link);
+                                      wm.onLink(action, link);
                                     },
                                   ),
                                 ),
