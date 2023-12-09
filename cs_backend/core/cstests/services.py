@@ -1,3 +1,4 @@
+from cstests.email_utils import send_certificate_to_user
 from cstests.models import CSTestModel, TestResults, UserAnswers, QuestionModel, VariantModel
 
 
@@ -51,8 +52,10 @@ class CService:
             else:
                 app_score = 100
         last_result = TestResults.objects.filter(user_id=user.id, test_id=test.id, last_attempt=True).first()
+        previous_success = False
         if last_result:
             user.total_score -= last_result.app_score
+            previous_success = last_result.passed
             last_result.last_attempt = False
             last_result.save()
         if passed:
@@ -66,7 +69,11 @@ class CService:
                 UserAnswers(test_result=test_result, question=user_answer[0], answer=user_answer[1],
                             is_correct=user_answer[2]))
         UserAnswers.objects.bulk_create(created_user_answer)
-
+        try:
+            if not previous_success:
+                send_certificate_to_user(user, test)
+        except:
+            pass
         return {"questions": test.questions, "passed": passed, "correct_amount": correct_amount,
                 "top_percent": 0, "score": score, "total_amount": len(questions)}
 

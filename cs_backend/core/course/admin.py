@@ -29,8 +29,7 @@ class CourseAdmin(admin.ModelAdmin):
     @staticmethod
     def start_parse_view(request, course_id: int):
         course = Course.objects.get(id=course_id)
-        # start_consumer(city.center_lat, city.center_lon,
-        #                [category[0] for category in PlaceCategory.CATEGORY_CHOICES])
+
         return HttpResponse(status=201)
 
     @staticmethod
