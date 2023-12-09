@@ -20,9 +20,9 @@ import 'detail_test_page_widget.dart';
 
 abstract class IDetailTestPageWidgetModel extends IWidgetModel
     implements ThemeProvider {
-  BehaviorSubject<int?> get radioChooseController;
+  BehaviorSubject<Map<int, int?>> get radioChooseController;
 
-  BehaviorSubject<List<int>> get choosesController;
+  BehaviorSubject<Map<int, List<int>>> get choosesController;
 
   BehaviorSubject<Map<int, TextEditingController>> get textsController;
 
@@ -42,9 +42,9 @@ abstract class IDetailTestPageWidgetModel extends IWidgetModel
 
   Future<void> loadTest();
 
-  void selectRadio(Variant variant);
+  void selectRadio(int id, Variant variant);
 
-  void selectVariant(Variant variant);
+  void selectVariant(int id, Variant variant);
 
   void toNextPage();
 
@@ -100,43 +100,66 @@ class TestPageWidgetModel
               (element) => element.type == 'text' && element.id != null) ??
           []);
 
-      Map<int, TextEditingController> results = {};
+      Map<int, TextEditingController> textsResults = {};
       for (var question in textQuestions) {
-        results.addEntries(question.variants
+        textsResults.addEntries(question.variants
             ?.map((e) => MapEntry(e.id!, TextEditingController()))
             .toList() ?? []);
       }
 
-      textsController.add(results);
+      textsController.add(textsResults);
+
+      final singleQuestions = (testState.value?.data?.questions.where(
+              (element) =>
+          element.type == 'single_checked' && element.id != null) ??
+          []);
+
+      Map<int, int?> singleResults = {};
+      singleResults.addEntries(
+          singleQuestions.map((e) => MapEntry(e.id!, null)).toList());
+      radioChooseController.add(singleResults);
+
+
+      final multipleQuestions = (testState.value?.data?.questions.where(
+              (element) =>
+          element.type == 'multiple_checked' && element.id != null) ??
+          []);
+      Map<int, List<int>>multipleResults = {};
+      multipleResults.addEntries(
+          multipleQuestions.map((e) => MapEntry(e.id!, <int>[])).toList());
+      radioChooseController.add(singleResults);
     });
     loadTest();
   }
 
   @override
-  void selectRadio(Variant variant) {
-    final id = variant.id;
-    if (id == null) {
+  void selectRadio(int id, Variant variant) {
+    final variantId = variant.id;
+    if (variantId == null) {
       return;
     }
-    final current = radioChooseController.valueOrNull;
-    if (current == id) {
-      radioChooseController.add(null);
+    final current = radioChooseController.valueOrNull ?? {};
+    if (current[id] == variantId) {
+      current[id] = null;
     } else {
-      radioChooseController.add(id);
+      current[id] = variantId;
     }
+    radioChooseController.add(current);
   }
 
   @override
-  void selectVariant(Variant variant) {
-    final id = variant.id;
-    if (id == null) {
+  void selectVariant(int id, Variant variant) {
+    final variantId = variant.id;
+    if (variantId == null) {
       return;
     }
-    List<int> current = choosesController.valueOrNull ?? [];
-    if (current.contains(id)) {
-      current = current.where((element) => element != id).toList();
+    Map<int, List<int>> current = choosesController.valueOrNull ?? {};
+    if (current[id]?.contains(variantId) ?? false) {
+      final withoutCurrentId =
+      (current[id]?.where((element) => element != id) ?? []).toList();
+      current[id] = withoutCurrentId;
     } else {
-      current.add(id);
+      current[id]?.add(variantId);
     }
     choosesController.add(current);
   }
@@ -190,11 +213,15 @@ class TestPageWidgetModel
 
   @override
   Future<void> toResult() async {
+    final test = testState.value?.data;
     final response = await testService.checkResult(
       testResult: TestResult(
-        testId: 1,
-        questions: [
-        ],
+        testId: test?.id ?? -1, questions: [],
+
+        // questions: test.questions.map((e) =>
+        //     Question(question: e.question,
+        //       variants: ),
+        // ).toList(),
       ),
     );
     if (context.mounted) {
