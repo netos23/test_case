@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:test_case/domain/entity/test/question.dart';
 import 'package:test_case/domain/entity/test/test.dart';
+import 'package:test_case/domain/entity/test/test_detail.dart';
 import 'package:test_case/domain/entity/test/variant.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:test_case/router/app_router.dart';
@@ -74,18 +75,18 @@ class DetailTestPageWidget
                   ),
                 ];
               },
-              body: Stack(
-                children: [
-                  EntityStateNotifierBuilder(
-                    listenableEntityState: wm.testState,
-                    loadingBuilder: (context, data) {
-                      return const Center(
-                        child: LoadingIndicator(),
-                      );
-                    },
-                    builder: (context, testData) {
-                      final questions = testData?.questions ?? [];
-                      return PageView(
+              body: EntityStateNotifierBuilder(
+                listenableEntityState: wm.testState,
+                loadingBuilder: (context, data) {
+                  return const Center(
+                    child: LoadingIndicator(),
+                  );
+                },
+                builder: (BuildContext context, TestDetail? data) {
+                  final questions = data?.questions ?? [];
+                  return Stack(
+                    children: [
+                      PageView(
                         controller: wm.pageController,
                         scrollDirection: Axis.horizontal,
                         physics: const NeverScrollableScrollPhysics(),
@@ -96,54 +97,66 @@ class DetailTestPageWidget
                                   model: wm,
                                 ))
                             .toList(),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    right: 8,
-                    child: SizedBox(
-                      height: 40,
-                      child: StreamBuilder<int>(
-                          stream: wm.pageIndexController,
-                          builder: (context, snapshot) {
-                            return AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 400),
-                              child: (snapshot.hasData &&
-                                      snapshot.data! ==
-                                          (wm.testState.value?.data?.questions
-                                                  .length ??
-                                              0))
-                                  ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        if (wm.pageController.initialPage !=
-                                            snapshot.data)
-                                          FloatingActionButton(
-                                            key: UniqueKey(),
-                                            onPressed: wm.toPrevPage,
-                                            child: const Icon(
-                                                Icons.navigate_before_outlined),
+                      ),
+                      Positioned(
+                        bottom: 16,
+                        right: 8,
+                        child: SizedBox(
+                          height: 40,
+                          child: StreamBuilder<int>(
+                              stream: wm.pageIndexController,
+                              builder: (context, snapshot) {
+                                return AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 400),
+                                  child: (snapshot.hasData &&
+                                          snapshot.data! + 1 !=
+                                              (wm.testState.value?.data
+                                                  ?.questions.length))
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            if (wm.pageController.initialPage !=
+                                                snapshot.data)
+                                              FloatingActionButton(
+                                                key: UniqueKey(),
+                                                onPressed: wm.toPrevPage,
+                                                child: const Icon(Icons
+                                                    .navigate_before_outlined),
+                                              ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            FloatingActionButton(
+                                              onPressed: wm.toNextPage,
+                                              child: const Icon(
+                                                  Icons.navigate_next_outlined),
+                                            ),
+                                          ],
+                                        )
+                                      : SizedBox(
+                                          width: 80,
+                                          child: FloatingActionButton(
+                                            onPressed: () {
+                                              wm.toResult();
+                                            },
+                                            child: const Text('Отправить'),
                                           ),
-                                        const SizedBox(
-                                          width: 8,
                                         ),
-                                        FloatingActionButton(
-                                          onPressed: wm.toNextPage,
-                                          child: const Icon(
-                                              Icons.navigate_next_outlined),
-                                        ),
-                                      ],
-                                    )
-                                  : FloatingActionButton(
-                                      onPressed: wm.toPrevPage,
-                                      child: const Text('Отправить'),
-                                    ),
-                            );
-                          }),
-                    ),
-                  )
-                ],
+                                );
+                              }),
+                        ),
+                      )
+                    ],
+                  );
+                },
+                // EntityStateNotifierBuilder(
+                //   listenableEntityState: wm.testState,
+                //   loadingBuilder: (context, data) {
+                //     return const Center(
+                //       child: LoadingIndicator(),
+                //     );
+                //   },
               ),
             ),
           ),

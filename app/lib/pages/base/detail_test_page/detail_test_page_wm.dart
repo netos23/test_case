@@ -103,8 +103,9 @@ class TestPageWidgetModel
       Map<int, TextEditingController> results = {};
       for (var question in textQuestions) {
         results.addEntries(question.variants
-            ?.map((e) => MapEntry(e.id!, TextEditingController()))
-            .toList() ?? []);
+                ?.map((e) => MapEntry(e.id!, TextEditingController()))
+                .toList() ??
+            []);
       }
 
       textsController.add(results);
@@ -190,11 +191,11 @@ class TestPageWidgetModel
 
   @override
   Future<void> toResult() async {
+    final test = await testService.getTestDetail(id: widget.testId);
     final response = await testService.checkResult(
       testResult: TestResult(
         testId: 1,
-        questions: [
-        ],
+        questions: test.questions,
       ),
     );
     if (context.mounted) {
