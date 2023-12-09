@@ -20,4 +20,5 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     payed = serializers.BooleanField(default=False)
     class Meta:
         model = Course
+        depth = 1
         exclude = ("generated_tests", "certificate_template")
