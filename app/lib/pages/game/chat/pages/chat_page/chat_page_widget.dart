@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:test_case/pages/game/chat/domain/entity/chat_action.dart';
 import 'package:test_case/pages/game/chat/domain/entity/chat_user.dart';
 import 'package:test_case/pages/game/chat/pages/chat_page/chat_interceptor.dart';
-import 'package:test_case/pages/games/widgets/browser_overlay.dart';
+import 'package:test_case/pages/game/components/browser_overlay.dart';
 
 import 'chat_message.dart';
 import 'chat_page_wm.dart';
