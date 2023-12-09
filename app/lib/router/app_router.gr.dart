@@ -74,7 +74,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     CourseDetailRoute.name: (routeData) {
-      final args = routeData.argsAs<CourseDetailRouteArgs>();
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<CourseDetailRouteArgs>(
+          orElse: () => CourseDetailRouteArgs(
+                  courseId: queryParams.getInt(
+                'courseId',
+                0,
+              )));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: CourseDetailPageWidget(
@@ -554,7 +560,7 @@ class ChooseCityRouteArgs {
 class CourseDetailRoute extends PageRouteInfo<CourseDetailRouteArgs> {
   CourseDetailRoute({
     Key? key,
-    required int courseId,
+    int courseId = 0,
     WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
             BuildContext)
         wmFactory = defaultCourseDetailPageWidgetModelFactory,
@@ -566,6 +572,7 @@ class CourseDetailRoute extends PageRouteInfo<CourseDetailRouteArgs> {
             courseId: courseId,
             wmFactory: wmFactory,
           ),
+          rawQueryParams: {'courseId': courseId},
           initialChildren: children,
         );
 
@@ -578,7 +585,7 @@ class CourseDetailRoute extends PageRouteInfo<CourseDetailRouteArgs> {
 class CourseDetailRouteArgs {
   const CourseDetailRouteArgs({
     this.key,
-    required this.courseId,
+    this.courseId = 0,
     this.wmFactory = defaultCourseDetailPageWidgetModelFactory,
   });
 

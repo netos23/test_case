@@ -16,7 +16,7 @@ class CourseDetailPageWidget
     extends ElementaryWidget<ICourseDetailPageWidgetModel> {
   const CourseDetailPageWidget({
     Key? key,
-    required this.courseId,
+    @queryParam this.courseId = 0,
     WidgetModelFactory wmFactory = defaultCourseDetailPageWidgetModelFactory,
   }) : super(wmFactory, key: key);
 
