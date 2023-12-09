@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     "orders",
     "payments",
     "cstests",
-    "course"
+    "course",
+    "cs_statistics"
 ]
 
 MIDDLEWARE = [
