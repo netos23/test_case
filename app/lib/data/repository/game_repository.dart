@@ -722,7 +722,7 @@ final tgLevel = Level(
       character: 'secure',
     ),
     Message(
-      message: 'это может привести к большим проблема',
+      message: 'это может привести к большим проблемам.',
       character: 'secure',
     ),
   ],
@@ -734,7 +734,7 @@ final tgLevel = Level(
         ChatAction.message(
           message: ChatMessage(
             user: user,
-            message: 'Привет как деда?',
+            message: 'Привет как дела?',
             dateTime: DateTime.fromMillisecondsSinceEpoch(
               millisecondsSinceEpoch2,
             ),
@@ -772,7 +772,7 @@ final tgLevel = Level(
           variants: [
             ResponseVariant(
               id: 1,
-              message: 'А почему ты интерисуешься?',
+              message: 'А почему ты интересуешься?',
               actions: [
                 ChatAction.message(
                   message: ChatMessage(
@@ -802,7 +802,7 @@ final tgLevel = Level(
             ),
             ResponseVariant(
               id: 2,
-              message: 'Мне кажется, что вы мошшенник?',
+              message: 'Мне кажется, что вы мошенник?',
               actions: [
                 ChatAction.message(
                   message: ChatMessage(

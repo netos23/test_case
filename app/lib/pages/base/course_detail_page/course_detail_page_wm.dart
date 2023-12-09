@@ -123,11 +123,7 @@ class CourseDetailPageWidgetModel
   @override
   void openTest(int courseId) {
     router.navigate(
-      TestTab(
-        children: [
-          DetailTestRoute(testId: courseId),
-        ]
-      )
+      DetailTestRoute(testId: courseId),
     );
   }
 }
