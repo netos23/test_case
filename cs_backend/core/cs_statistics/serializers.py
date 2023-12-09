@@ -25,3 +25,9 @@ class UserStatsSerializer(serializers.Serializer):
     medium_test_count = serializers.IntegerField()
     hard_test_count = serializers.IntegerField()
     success_results = TestResultResponseSerializer(many=True)
+
+
+class TopUserResponseSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    level = serializers.CharField()
+    total_score = serializers.IntegerField()
