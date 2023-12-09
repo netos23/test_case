@@ -13,7 +13,7 @@ class CourseSerializer(serializers.ModelSerializer):
 class CourseShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ("id", "name", "picture", "description")
+        fields = ("id", "name", "picture", "description", "price")
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
