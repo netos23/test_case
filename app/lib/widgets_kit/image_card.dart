@@ -56,7 +56,7 @@ class ImageCard extends StatelessWidget {
                 ),
                 Positioned(
                   child: Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.topLeft,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(

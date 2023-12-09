@@ -11,14 +11,8 @@ class Variant with _$Variant {
     includeIfNull: false,
   )
   factory Variant({
-    @JsonKey(name: 'question')
-    required int questionId,
     required String title,
     String? picture,
-    @JsonKey(name: 'is_right')
-    bool? isRight,
-    @JsonKey(name: 'right_answer')
-    String? rightAnswer,
     int? id,
 
   }) = _Variant;

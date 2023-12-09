@@ -82,11 +82,13 @@ class AppRouter extends _$AppRouter {
             AutoRoute(
               page: TestTab.page,
               children: [
-                AutoRoute(page: TestRoute.page, initial: true, children: [
-                  AutoRoute(
-                    page: DetailTestRoute.page,
-                  ),
-                ]),
+                AutoRoute(
+                  page: TestRoute.page,
+                  initial: true,
+                ),
+                AutoRoute(
+                  page: DetailTestRoute.page,
+                ),
               ],
             ),
             AutoRoute(
