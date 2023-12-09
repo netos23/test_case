@@ -50,12 +50,18 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                           ? SizedBox(
                               width: 600,
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  MenuItem(
-                                      onTap: wm.onEditProfileTap,
-                                      title: 'Мои данные',
-                                      icon: Icons.person),
-                                  const Divider(),
+                                  Column(
+                                    children: [
+                                      MenuItem(
+                                          onTap: wm.onEditProfileTap,
+                                          title: 'Мои данные',
+                                          icon: Icons.person),
+                                      const Divider(),
+                                    ],
+                                  ),
+                                  const SizedBox.shrink(),
                                   Flexible(
                                     child: Image.asset(
                                       'assets/images/logo_large.png',

@@ -7,6 +7,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:test_case/domain/entity/test/test.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:test_case/router/app_router.dart';
+import 'package:test_case/widgets_kit/image_card.dart';
 
 import 'detail_test_page_wm.dart';
 
@@ -27,6 +28,7 @@ class DetailTestPageWidget extends ElementaryWidget<IDetailTestPageWidgetModel> 
     final theme = wm.theme;
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
+    final canPop = wm.router.canPop();
 
     return Scaffold(
       body: Center(
@@ -36,31 +38,26 @@ class DetailTestPageWidget extends ElementaryWidget<IDetailTestPageWidgetModel> 
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  primary: true,
-                  title: TextField(
-                    textAlign: TextAlign.start,
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onBackground,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(16),
-                        ),
-                        borderSide: BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: colorScheme.surfaceVariant,
-                      labelText: 'Название теста',
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: colorScheme.primary,
-                      ),
-                    ),
+                  automaticallyImplyLeading: false,
+                  pinned: true,
+                  expandedHeight: 300,
+                  collapsedHeight: 125,
+                  flexibleSpace: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: EntityStateNotifierBuilder(
+                      listenableEntityState: wm.testState,
+                      builder: (BuildContext context, test) {
+                        return (test?.picture != null) ? ImageCard.network(
+                          leading: canPop ? const Card(child: BackButton()) : null,
+                          image: test!.picture ?? '',
+                          title: test.name,
+                        ) : ImageCard.network(
+                          leading: canPop ? const Card(child: BackButton()) : null,
+                          image: 'assets/images/default_test.jpeg',
+                          title: 'Тест',
+                        );
+                      },
+                    )
                   ),
                 ),
                 SliverToBoxAdapter(

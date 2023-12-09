@@ -39,8 +39,6 @@ class ShowCasePageWidget extends ElementaryWidget<IShowCasePageWidgetModel> {
         // ),
         title: const Text(
           'Cyber security',
-          style: TextStyle(
-            fontStyle: FontStyle.italic,),
           ),
           bottom: const TabBar(
             tabs: [
