@@ -5,7 +5,9 @@ from .models import Users, UserLevel
 
 @admin.register(Users)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'phone', "name")
+    list_display = ('email', 'phone', "email")
 
 
-admin.site.register(UserLevel)
+@admin.register(UserLevel)
+class UserLevelAdmin(admin.ModelAdmin):
+    list_display = ('level', 'score_from', "score_to")
