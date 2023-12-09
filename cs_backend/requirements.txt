@@ -88,3 +88,4 @@ zope.interface==6.1
 elasticsearch==7.8.1
 pymorphy3==1.2.1
 gigachat
+fillpdf
