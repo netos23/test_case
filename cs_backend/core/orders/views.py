@@ -2,8 +2,8 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt import authentication
 
-from orders.models import OrderModel, TarifModel, PluginModel
-from orders.serializers import OrderSerializer, TarifSerializer, RequestOrderSerializer, PluginSerializer
+from orders.models import OrderModel
+from orders.serializers import OrderSerializer, RequestOrderSerializer
 
 
 # Create your views here.
@@ -36,16 +36,6 @@ class ListOrderView(generics.ListAPIView):
         """
         user = self.request.user
         return OrderModel.objects.filter(user=user)
-
-
-class GetAllTarifsAPIView(generics.ListAPIView):
-    serializer_class = TarifSerializer
-    queryset = TarifModel.objects.all()
-
-
-class GetAllPluginsAPIView(generics.ListAPIView):
-    serializer_class = PluginSerializer
-    queryset = PluginModel.objects.all()
 
 
 class OrderDetailView(generics.RetrieveAPIView):
