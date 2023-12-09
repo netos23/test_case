@@ -23,7 +23,8 @@ class GameRepository {
   List<LevelMap> levels = [
     LevelMap(
       title: 'Путешествие в магазин!',
-      image: 'assets/images/forest.png',
+      background: 'assets/images/forest.png',
+      image: 'assets/images/shop.png',
       levels: [
         Level(
           id: 1,
@@ -380,7 +381,8 @@ class GameRepository {
     LevelMap(
         currLevel: 0,
         title: 'Пообщаемся?',
-        image: 'assets/images/city.png',
+        background: 'assets/images/city.png',
+        image: 'assets/images/chat.png',
         helloMessage: [
           Message(
               message:
@@ -404,6 +406,284 @@ class GameRepository {
           tgLevel.copyWith(id: 15, numeric: 7),
           tgLevel.copyWith(id: 16, numeric: 8),
         ]),
+    LevelMap(
+      currLevel: 0,
+      title: 'Телефонный мошенник!',
+      image: 'assets/images/call.png',
+      background: 'assets/images/village.png',
+      helloMessage: [
+        Message(
+            message:
+                'У меня в последнее время у меня столько друзей! Мне каждый день звонят по несколько раз!',
+            character: 'naiv'),
+        Message(
+            message:
+                'Правда они все от меня что-то хотят! Но для друга мне не жалко свои деньги!',
+            character: 'naiv'),
+        Message(
+            message:
+                'Да, сложный случай. Можешь последить за ним? Если что сразу докладывай!',
+            character: 'secure'),
+      ],
+      levels: [
+        Level(
+          id: 17,
+          numeric: 1,
+          levelPageBuilder: (level) {
+            return PhoneGameRoute(level: level);
+          },
+          helloMessage: [
+            Message(
+                message: 'О мне звонит мой новый друг!!!', character: 'naiv'),
+          ],
+          byeMessage: [
+            Message(message: 'А я думал он мне друг...', character: 'naiv'),
+            Message(
+                message: 'Я так и думал... Надо пристольней за ним смотреть',
+                character: 'secure'),
+          ],
+          wrongMessage: [
+            Message(
+                message:
+                    'Неееееееееееееееет. Сейчас одну секунду, я все верну обратно.',
+                character: 'secure'),
+          ],
+          variant: [
+            RedButtonVariant(message: 'Сейчас скажу!'),
+            RedButtonVariant(message: '2017 434***'),
+            RedButtonVariant(message: 'Да-да, сейчас уже ищу паспорт!'),
+            RedButtonVariant(
+              message: '*Сбросить звонок*',
+              isTrue: true,
+            ),
+          ],
+        ),
+        Level(
+          id: 18,
+          numeric: 2,
+          levelPageBuilder: (level) {
+            return PhoneGameRoute(level: level);
+          },
+          helloMessage: [
+            Message(
+                message: 'О мне звонит мой новый друг!!!', character: 'naiv'),
+          ],
+          byeMessage: [
+            Message(message: 'А я думал он мне друг...', character: 'naiv'),
+            Message(
+                message: 'Я так и думал... Надо пристольней за ним смотреть',
+                character: 'secure'),
+          ],
+          wrongMessage: [
+            Message(
+                message:
+                    'Неееееееееееееееет. Сейчас одну секунду, я все верну обратно.',
+                character: 'secure'),
+          ],
+          variant: [
+            RedButtonVariant(message: 'Сейчас скажу!'),
+            RedButtonVariant(message: '2017 434***'),
+            RedButtonVariant(message: 'Да-да, сейчас уже ищу паспорт!'),
+            RedButtonVariant(
+              message: '*Сбросить звонок*',
+              isTrue: true,
+            ),
+          ],
+        ),
+        Level(
+          id: 19,
+          numeric: 3,
+          levelPageBuilder: (level) {
+            return PhoneGameRoute(level: level);
+          },
+          helloMessage: [
+            Message(
+                message: 'О мне звонит мой новый друг!!!', character: 'naiv'),
+          ],
+          byeMessage: [
+            Message(message: 'А я думал он мне друг...', character: 'naiv'),
+            Message(
+                message: 'Я так и думал... Надо пристольней за ним смотреть',
+                character: 'secure'),
+          ],
+          wrongMessage: [
+            Message(
+                message:
+                    'Неееееееееееееееет. Сейчас одну секунду, я все верну обратно.',
+                character: 'secure'),
+          ],
+          variant: [
+            RedButtonVariant(message: 'Сейчас скажу!'),
+            RedButtonVariant(message: '2017 434***'),
+            RedButtonVariant(message: 'Да-да, сейчас уже ищу паспорт!'),
+            RedButtonVariant(
+              message: '*Сбросить звонок*',
+              isTrue: true,
+            ),
+          ],
+        ),
+        Level(
+          id: 20,
+          numeric: 4,
+          levelPageBuilder: (level) {
+            return PhoneGameRoute(level: level);
+          },
+          helloMessage: [
+            Message(
+                message: 'О мне звонит мой новый друг!!!', character: 'naiv'),
+          ],
+          byeMessage: [
+            Message(message: 'А я думал он мне друг...', character: 'naiv'),
+            Message(
+                message: 'Я так и думал... Надо пристольней за ним смотреть',
+                character: 'secure'),
+          ],
+          wrongMessage: [
+            Message(
+                message:
+                    'Неееееееееееееееет. Сейчас одну секунду, я все верну обратно.',
+                character: 'secure'),
+          ],
+          variant: [
+            RedButtonVariant(message: 'Сейчас скажу!'),
+            RedButtonVariant(message: '2017 434***'),
+            RedButtonVariant(message: 'Да-да, сейчас уже ищу паспорт!'),
+            RedButtonVariant(
+              message: '*Сбросить звонок*',
+              isTrue: true,
+            ),
+          ],
+        ),
+        Level(
+          id: 21,
+          numeric: 5,
+          levelPageBuilder: (level) {
+            return PhoneGameRoute(level: level);
+          },
+          helloMessage: [
+            Message(
+                message: 'О мне звонит мой новый друг!!!', character: 'naiv'),
+          ],
+          byeMessage: [
+            Message(message: 'А я думал он мне друг...', character: 'naiv'),
+            Message(
+                message: 'Я так и думал... Надо пристольней за ним смотреть',
+                character: 'secure'),
+          ],
+          wrongMessage: [
+            Message(
+                message:
+                    'Неееееееееееееееет. Сейчас одну секунду, я все верну обратно.',
+                character: 'secure'),
+          ],
+          variant: [
+            RedButtonVariant(message: 'Сейчас скажу!'),
+            RedButtonVariant(message: '2017 434***'),
+            RedButtonVariant(message: 'Да-да, сейчас уже ищу паспорт!'),
+            RedButtonVariant(
+              message: '*Сбросить звонок*',
+              isTrue: true,
+            ),
+          ],
+        ),
+        Level(
+          id: 22,
+          numeric: 6,
+          levelPageBuilder: (level) {
+            return PhoneGameRoute(level: level);
+          },
+          helloMessage: [
+            Message(
+                message: 'О мне звонит мой новый друг!!!', character: 'naiv'),
+          ],
+          byeMessage: [
+            Message(message: 'А я думал он мне друг...', character: 'naiv'),
+            Message(
+                message: 'Я так и думал... Надо пристольней за ним смотреть',
+                character: 'secure'),
+          ],
+          wrongMessage: [
+            Message(
+                message:
+                    'Неееееееееееееееет. Сейчас одну секунду, я все верну обратно.',
+                character: 'secure'),
+          ],
+          variant: [
+            RedButtonVariant(message: 'Сейчас скажу!'),
+            RedButtonVariant(message: '2017 434***'),
+            RedButtonVariant(message: 'Да-да, сейчас уже ищу паспорт!'),
+            RedButtonVariant(
+              message: '*Сбросить звонок*',
+              isTrue: true,
+            ),
+          ],
+        ),
+        Level(
+          id: 23,
+          numeric: 7,
+          levelPageBuilder: (level) {
+            return PhoneGameRoute(level: level);
+          },
+          helloMessage: [
+            Message(
+                message: 'О мне звонит мой новый друг!!!', character: 'naiv'),
+          ],
+          byeMessage: [
+            Message(message: 'А я думал он мне друг...', character: 'naiv'),
+            Message(
+                message: 'Я так и думал... Надо пристольней за ним смотреть',
+                character: 'secure'),
+          ],
+          wrongMessage: [
+            Message(
+                message:
+                    'Неееееееееееееееет. Сейчас одну секунду, я все верну обратно.',
+                character: 'secure'),
+          ],
+          variant: [
+            RedButtonVariant(message: 'Сейчас скажу!'),
+            RedButtonVariant(message: '2017 434***'),
+            RedButtonVariant(message: 'Да-да, сейчас уже ищу паспорт!'),
+            RedButtonVariant(
+              message: '*Сбросить звонок*',
+              isTrue: true,
+            ),
+          ],
+        ),
+        Level(
+          id: 24,
+          numeric: 8,
+          levelPageBuilder: (level) {
+            return PhoneGameRoute(level: level);
+          },
+          helloMessage: [
+            Message(
+                message: 'О мне звонит мой новый друг!!!', character: 'naiv'),
+          ],
+          byeMessage: [
+            Message(message: 'А я думал он мне друг...', character: 'naiv'),
+            Message(
+                message: 'Я так и думал... Надо пристольней за ним смотреть',
+                character: 'secure'),
+          ],
+          wrongMessage: [
+            Message(
+                message:
+                    'Неееееееееееееееет. Сейчас одну секунду, я все верну обратно.',
+                character: 'secure'),
+          ],
+          variant: [
+            RedButtonVariant(message: 'Сейчас скажу!'),
+            RedButtonVariant(message: '2017 434***'),
+            RedButtonVariant(message: 'Да-да, сейчас уже ищу паспорт!'),
+            RedButtonVariant(
+              message: '*Сбросить звонок*',
+              isTrue: true,
+            ),
+          ],
+        ),
+      ],
+    ),
     LevelMap(
       currLevel: 0,
       title: 'Пока закрыто!',

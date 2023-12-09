@@ -1,13 +1,15 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart' hide TestRoute;
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/entity/test/question.dart';
+import 'package:test_case/domain/entity/test/recommends.dart';
 import 'package:test_case/domain/entity/test/test_result_response.dart';
+import 'package:test_case/internal/app_components.dart';
+import 'package:test_case/pages/base/show_case_page/show_case_page_widget.dart';
 
 import '../../../router/app_router.dart';
 
 @RoutePage()
-class TestResultPageWidget extends StatelessWidget {
+class TestResultPageWidget extends StatefulWidget {
   const TestResultPageWidget({
     super.key,
     required this.testResultResponse,
@@ -16,13 +18,26 @@ class TestResultPageWidget extends StatelessWidget {
   final TestResultResponse testResultResponse;
 
   @override
+  State<TestResultPageWidget> createState() => _TestResultPageWidgetState();
+}
+
+class _TestResultPageWidgetState extends State<TestResultPageWidget> {
+  Future<Recommends>? recommends;
+
+  @override
+  void initState() {
+    super.initState();
+    recommends = AppComponents().testService.getRecommends();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ElevatedButton(
         onPressed: () {
           context.router.navigate(TestRoute());
         },
-        child: Icon(Icons.house),
+        child: const Icon(Icons.house),
       ),
       body: SafeArea(
         child: ListView(
@@ -42,10 +57,10 @@ class TestResultPageWidget extends StatelessWidget {
                 height: 250,
                 width: 250,
                 child: CircularProgressIndicator(
-                  value: testResultResponse.correctAmount! /
-                      testResultResponse.questions.length,
+                  value: widget.testResultResponse.correctAmount! /
+                      widget.testResultResponse.questions.length,
                   strokeWidth: 30,
-                  color: testResultResponse.passed == true
+                  color: widget.testResultResponse.passed == true
                       ? Colors.green
                       : Colors.red,
                 ),
@@ -54,7 +69,7 @@ class TestResultPageWidget extends StatelessWidget {
             const SizedBox(
               height: 32,
             ),
-            if (testResultResponse.passed == true)
+            if (widget.testResultResponse.passed == true)
               const Center(
                   child: Text(
                 'Вы успешно прошли тест!',
@@ -67,11 +82,11 @@ class TestResultPageWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 24),
                 ),
               ),
-            if (testResultResponse.passed == true &&
-                testResultResponse.topPercent != null)
+            if (widget.testResultResponse.passed == true &&
+                widget.testResultResponse.topPercent != null)
               Center(
                 child: Text(
-                  'И попали в ${testResultResponse.topPercent}%',
+                  'И попали в ${widget.testResultResponse.topPercent}%',
                   style: const TextStyle(fontSize: 24),
                 ),
               ),
@@ -82,10 +97,44 @@ class TestResultPageWidget extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: testResultResponse.questions.length,
+              itemCount: widget.testResultResponse.questions.length,
               itemBuilder: (context, index) {
                 return QuestionWidget(
-                  question: testResultResponse.questions[index],
+                  question: widget.testResultResponse.questions[index],
+                );
+              },
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            FutureBuilder(
+              future: recommends,
+              builder: (context, snapshot) {
+                final data = snapshot.data;
+                if (data == null) {
+                  return Container();
+                }
+                return Column(
+                  children: [
+                    const Text(
+                      'Статьи, которые помогут вам стать профессионалом в кибербезопасности!',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    ...?data.sources?.map((e) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: SourceWidget(
+                          source: e,
+                        ),
+                      );
+                    }),
+                  ],
                 );
               },
             ),
@@ -95,6 +144,7 @@ class TestResultPageWidget extends StatelessWidget {
     );
   }
 }
+
 
 class QuestionWidget extends StatelessWidget {
   const QuestionWidget({
@@ -106,19 +156,22 @@ class QuestionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
+    final correct = question.isCorrect ?? false;
     return Card(
+      clipBehavior: Clip.hardEdge,
+      color: correct ? colorScheme.surface : colorScheme.errorContainer,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16))),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Icon(
-                question.isCorrect == true ? Icons.check : Icons.close,
-                color: question.isCorrect == true ? Colors.green : Colors.red,
-              )
-            ],
-          ),
           ExpansionTile(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+            ),
             title: Text(
               question.question,
               maxLines: 2,
@@ -168,34 +221,48 @@ class QuestionWidget extends StatelessWidget {
                                   ),
                                 );
                               } else {
-                                return Row(
-                                  children: [
-                                    if (question.type == 'multiple_checked')
-                                      Checkbox(
-                                          value: e.checked, onChanged: null),
-                                    if (question.type == 'single_checked')
-                                      Radio<bool>(
-                                          value: e.checked ?? false,
-                                          groupValue: true,
-                                          onChanged: null),
-                                    Text(e.title ?? ''),
-                                    const Spacer(),
-                                    if (e.checked == true)
-                                      Icon(
-                                        e.isRight == true
-                                            ? Icons.check
-                                            : Icons.close,
-                                        color: e.isRight == true
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                  ],
-                                );
+                                return switch (question.type) {
+                                  'multiple_checked' => CheckboxListTile(
+                                      value: e.checked,
+                                      onChanged: null,
+                                      title: Text(e.title ?? ''),
+                                      secondary: e.checked == true
+                                          ? (Icon(
+                                              e.isRight == true
+                                                  ? Icons.check
+                                                  : Icons.close,
+                                              color: e.isRight == true
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ))
+                                          : null,
+                                    ),
+                                  'single_checked' => RadioListTile(
+                                      value: e.checked ?? false,
+                                      groupValue: true,
+                                      title: Text(e.title ?? ''),
+                                      onChanged: null,
+                                      secondary: e.checked == true
+                                          ? (Icon(
+                                              e.isRight == true
+                                                  ? Icons.check
+                                                  : Icons.close,
+                                              color: e.isRight == true
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ))
+                                          : null,
+                                    ),
+                                  _ => const SizedBox.shrink()
+                                };
                               }
                             }) ??
                             [],
                         Text(
                           question.explainAnswer ?? '',
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onErrorContainer,
+                          ),
                         ),
                       ],
                     ),

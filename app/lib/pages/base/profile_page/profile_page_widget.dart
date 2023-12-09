@@ -47,24 +47,8 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                   child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 800),
                       child: isLogin
-                          ? SizedBox(
-                              width: 600,
-                              child: ListView(
-                                children: [
-                                  MenuItem(
-                                    onTap: wm.onEditProfileTap,
-                                    title: 'Мои данные',
-                                    icon: Icons.person,
-                                  ),
-                                  const Divider(),
-                                  MenuItem(
-                                    onTap: wm.openTop,
-                                    title: 'Топ пользователей',
-                                    icon: Icons.score,
-                                  ),
-                                  const Divider(),
-                                ],
-                              ),
+                          ? _Statistic(
+                              wm: wm,
                             )
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,6 +126,49 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
           ),
         );
       },
+    );
+  }
+}
+
+class _Statistic extends StatelessWidget {
+  _Statistic({
+    super.key,
+    required this.wm,
+  });
+
+  final IProfilePageWidgetModel wm;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final color = theme.colorScheme;
+    final text = theme.textTheme;
+
+    return SizedBox(
+      width: 600,
+      child: ListView(
+        children: [
+          MenuItem(
+            onTap: wm.onEditProfileTap,
+            title: 'Мои данные',
+            icon: Icons.person,
+          ),
+          const Divider(),
+          MenuItem(
+            onTap: wm.openTop,
+            title: 'Топ пользователей',
+            icon: Icons.score,
+          ),
+          const Divider(),
+          const SizedBox(
+            height: 16,
+          ),
+         /* StreamBuilder(
+            stream: stream,
+            builder: builder,
+          ),*/
+        ],
+      ),
     );
   }
 }

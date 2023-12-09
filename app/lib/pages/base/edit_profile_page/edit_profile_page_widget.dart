@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'edit_profile_page_wm.dart';
 
@@ -32,146 +33,170 @@ class EditProfilePageWidget
           width: 600,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView(
-              children: [
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        TextField(
-                          controller: wm.firstNameController,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onBackground,
-                            overflow: TextOverflow.ellipsis,
+            child: StreamBuilder<Profile?>(
+                stream: wm.profileController,
+                builder: (context, snapshot) {
+                  return ListView(
+                    children: [
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: wm.firstNameController,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onBackground,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Имя',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              TextField(
+                                controller: wm.secondNameController,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onBackground,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Фамилия',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              TextField(
+                                controller: wm.emailController,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onBackground,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              TextField(
+                                controller: wm.phoneNumber,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onBackground,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Номер телефона',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              TextField(
+                                controller: wm.bitrhdayController,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onBackground,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                onTap: () async {
+                                  var date = DateTime.now();
+                                  DateTime? initDate;
+                                  if (profile?.birthDate?.isNotEmpty == true) {
+                                    initDate = DateFormat().parse(profile!.birthDate!);
+                                  }
+                                  final result = await showDatePicker(
+                                      context: context,
+                                      initialDate: initDate,
+                                      firstDate: DateTime(date.year - 100,
+                                          date.month, date.day),
+                                      lastDate: DateTime(
+                                          date.year - 6, date.month, date.day));
+                                  if (result != null) {
+                                    wm.bitrhdayController.text = DateFormat('dd.mm.yy').format(result);
+                                  }
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Дата рождения',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              StreamBuilder<String?>(
+                                  stream: wm.genderController.stream,
+                                  initialData: '',
+                                  builder: (context, genderSnapshot) {
+                                    return Row(
+                                      children: [
+                                        Flexible(
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: _GenderCheckbox.male(
+                                              value:
+                                                  genderSnapshot.data == 'male',
+                                              onChanged: () {
+                                                wm.genderController.add('male');
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: _GenderCheckbox.female(
+                                              value: genderSnapshot.data ==
+                                                  'female',
+                                              onChanged: () {
+                                                wm.genderController
+                                                    .add('female');
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              OutlinedButton(
+                                style: theme.filledButtonTheme.style?.copyWith(
+                                    fixedSize: const MaterialStatePropertyAll(
+                                        Size.fromHeight(50))),
+                                onPressed: wm.onEditProfile,
+                                child: const Center(child: Text('Сохранить')),
+                              ),
+                            ],
                           ),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Имя',
+                        ),
+                      ),
+                      //const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: SizedBox(
+                          height: 50,
+                          child: FilledButton(
+                            style: theme.filledButtonTheme.style?.copyWith(
+                                fixedSize: const MaterialStatePropertyAll(
+                                    Size.fromHeight(50))),
+                            onPressed: wm.profileUseCase.logout,
+                            child: const Center(child: Text('Разлогиниться')),
                           ),
                         ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        TextField(
-                          controller: wm.secondNameController,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onBackground,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Фамилия',
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        TextField(
-                          controller: wm.emailController,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onBackground,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Email',
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        TextField(
-                          controller: wm.phoneNumber,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onBackground,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Номер телефона',
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        TextField(
-                          controller: wm.bitrhdayController,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onBackground,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Дата рождения',
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        StreamBuilder<String?>(
-                            stream: wm.genderController.stream,
-                            initialData: '',
-                            builder: (context, genderSnapshot) {
-                              return Row(
-                                children: [
-                                  Flexible(
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: _GenderCheckbox.male(
-                                        value: genderSnapshot.data == 'male',
-                                        onChanged: () {
-                                          wm.genderController.add('male');
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: _GenderCheckbox.female(
-                                        value: genderSnapshot.data == 'female',
-                                        onChanged: () {
-                                          wm.genderController.add('female');
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        OutlinedButton(
-                          style: theme.filledButtonTheme.style?.copyWith(
-                              fixedSize: const MaterialStatePropertyAll(
-                                  Size.fromHeight(50))),
-                          onPressed: wm.onEditProfile,
-                          child: const Center(child: Text('Сохранить')),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                //const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: SizedBox(
-                    height: 50,
-                    child: FilledButton(
-                      style: theme.filledButtonTheme.style?.copyWith(
-                          fixedSize: const MaterialStatePropertyAll(
-                              Size.fromHeight(50))),
-                      onPressed: wm.profileUseCase.logout,
-                      child: const Center(child: Text('Разлогиниться')),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                      ),
+                    ],
+                  );
+                }),
           ),
         ),
       ),

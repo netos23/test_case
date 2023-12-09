@@ -5,9 +5,6 @@ import 'package:rxdart/subjects.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
 import 'package:test_case/internal/app_components.dart';
-import 'package:test_case/router/app_router.dart';
-import 'package:test_case/util/snack_bar_util.dart';
-import 'package:test_case/util/value_stream_wrapper.dart';
 import 'package:test_case/util/wm_extensions.dart';
 
 import 'edit_profile_page_model.dart';
@@ -71,7 +68,6 @@ class EditProfilePageWidgetModel
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-
     if (profileController.valueOrNull != null) {
       profileController.add(profileUseCase.profile.value);
     }
@@ -80,16 +76,21 @@ class EditProfilePageWidgetModel
       profileController.add(event);
     });
 
+    profileController.listen((event) {
+      emailController.text = event?.email ?? '';
+      firstNameController.text = event?.firstName ?? '';
+      secondNameController.text = event?.secondName ?? '';
+      phoneNumber.text = event?.phone ?? '';
+      bitrhdayController.text = event?.birthDate ?? '';
+      genderController.add(event?.gender);
+    });
+
     if (profileUseCase.profile.valueOrNull == null) {
       profileUseCase.loadProfile();
     }
-
-    emailController.text = widget.profile?.email ?? '';
-    firstNameController.text = widget.profile?.firstName ?? '';
-    secondNameController.text = widget.profile?.secondName ?? '';
-    phoneNumber.text = widget.profile?.phone ?? '';
-    bitrhdayController.text = widget.profile?.birthDate ?? '';
-    genderController.add(widget.profile?.gender);
+    if (widget.profile != null){
+      profileController.add(widget.profile);
+    }
   }
 
   @override

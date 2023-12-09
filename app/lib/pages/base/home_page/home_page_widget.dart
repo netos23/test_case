@@ -54,7 +54,7 @@ class _MobilePage extends StatelessWidget {
             ),
             NavigationDestination(
               label: 'Игры',
-              icon: Icon(Icons.whatshot_outlined),
+              icon: const Icon(Icons.whatshot_outlined),
               selectedIcon: Icon(
                 Icons.whatshot_outlined,
                 color: theme.colorScheme.tertiary,
@@ -86,6 +86,7 @@ class _WebPage extends StatelessWidget {
           ShowCaseTab(),
           TestTab(),
           GameTab(),
+          CourseTab(),
           UserProfileTab(),
         ];
 
@@ -101,8 +102,8 @@ class _WebPage extends StatelessWidget {
         }
         return LayoutBuilder(
           builder: (context, constrains) {
+            final theme = Theme.of(context);
             BoxConstraints bounds;
-
             final width = constrains.maxWidth;
             if (width <= 700) {
               bounds = constrains;
@@ -122,20 +123,28 @@ class _WebPage extends StatelessWidget {
                     children: [
                       NavigationRail(
                         labelType: NavigationRailLabelType.all,
-                        destinations: const [
-                          NavigationRailDestination(
+                        destinations: [
+                          const NavigationRailDestination(
                             label: Text('Новости'),
                             icon: Icon(Icons.border_all_outlined),
                           ),
-                          NavigationRailDestination(
+                          const NavigationRailDestination(
                             label: Text('Тесты'),
                             icon: Icon(Icons.library_add_check),
                           ),
                           NavigationRailDestination(
-                            label: Text('Игры'),
-                            icon: Icon(Icons.whatshot_outlined),
+                            label: const Text('Игры'),
+                            icon: const Icon(Icons.whatshot_outlined),
+                            selectedIcon: Icon(
+                              Icons.whatshot_outlined,
+                              color: theme.colorScheme.tertiary,
+                            ),
                           ),
-                          NavigationRailDestination(
+                          const NavigationRailDestination(
+                            label: Text('Курсы'),
+                            icon: Icon(Icons.cast_for_education),
+                          ),
+                          const NavigationRailDestination(
                             label: Text('Профиль'),
                             icon: Icon(Icons.person_outline),
                           ),
