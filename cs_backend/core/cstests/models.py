@@ -16,9 +16,9 @@ class QuestionModel(models.Model):
     created_at = models.DateTimeField(default=now)
     type = models.CharField(max_length=256, choices=TYPES, default='single_checked')
     question = models.CharField(max_length=255)
-    explain_answer = models.CharField(max_length=1024)
+    explain_answer = models.CharField(max_length=1024, default="")
     picture = models.URLField(null=True, blank=True)
-    sort_number = models.IntegerField()
+    sort_number = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['sort_number', 'id']
