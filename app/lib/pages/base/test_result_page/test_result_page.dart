@@ -145,44 +145,6 @@ class _TestResultPageWidgetState extends State<TestResultPageWidget> {
   }
 }
 
-class RecommendsWidget extends StatefulWidget {
-  const RecommendsWidget({super.key});
-
-  @override
-  State<RecommendsWidget> createState() => _RecommendsWidgetState();
-}
-
-class _RecommendsWidgetState extends State<RecommendsWidget> {
-  Future<Recommends>? recommends;
-
-  @override
-  void initState() {
-    super.initState();
-    recommends = AppComponents().testService.getRecommends();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: recommends,
-      builder: (context, snapshot) {
-        final data = snapshot.data;
-        if (data == null) {
-          return Container();
-        }
-        return Column(
-          children: [
-            ...?data.sources?.map((e) {
-              return SourceWidget(
-                source: e,
-              );
-            })
-          ],
-        );
-      },
-    );
-  }
-}
 
 class QuestionWidget extends StatelessWidget {
   const QuestionWidget({

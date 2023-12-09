@@ -9,6 +9,7 @@ class LevelMap {
   final List<Level>? levels;
   final List<Message>? helloMessage;
   final String? image;
+  final String? background;
 
   // показать текущий уровень (для отрисовки уже пройденных)
   // да костыль
@@ -17,6 +18,7 @@ class LevelMap {
   LevelMap({
     this.image,
     this.title,
+    this.background,
     this.levels,
     this.helloMessage,
     this.currLevel,
@@ -28,6 +30,7 @@ class LevelMap {
     List<Level>? levels,
     List<Message>? helloMessage,
     int? currLevel,
+    String? background,
   ) {
     return LevelMap(
       image: image ?? this.image,
@@ -35,6 +38,7 @@ class LevelMap {
       title: title ?? this.title,
       helloMessage: helloMessage ?? this.helloMessage,
       currLevel: currLevel ?? this.currLevel,
+      background: background ?? this.background,
     );
   }
 }

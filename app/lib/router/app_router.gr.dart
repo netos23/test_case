@@ -177,6 +177,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    PhoneGameRoute.name: (routeData) {
+      final args = routeData.argsAs<PhoneGameRouteArgs>(
+          orElse: () => const PhoneGameRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PhoneGamePageWidget(
+          key: args.key,
+          level: args.level,
+        ),
+      );
+    },
     ProfileRoute.name: (routeData) {
       final args = routeData.argsAs<ProfileRouteArgs>(
           orElse: () => const ProfileRouteArgs());
@@ -898,6 +909,44 @@ class NaivRouteArgs {
   @override
   String toString() {
     return 'NaivRouteArgs{key: $key, text: $text}';
+  }
+}
+
+/// generated route for
+/// [PhoneGamePageWidget]
+class PhoneGameRoute extends PageRouteInfo<PhoneGameRouteArgs> {
+  PhoneGameRoute({
+    Key? key,
+    Level? level,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PhoneGameRoute.name,
+          args: PhoneGameRouteArgs(
+            key: key,
+            level: level,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PhoneGameRoute';
+
+  static const PageInfo<PhoneGameRouteArgs> page =
+      PageInfo<PhoneGameRouteArgs>(name);
+}
+
+class PhoneGameRouteArgs {
+  const PhoneGameRouteArgs({
+    this.key,
+    this.level,
+  });
+
+  final Key? key;
+
+  final Level? level;
+
+  @override
+  String toString() {
+    return 'PhoneGameRouteArgs{key: $key, level: $level}';
   }
 }
 

@@ -40,6 +40,7 @@ import 'package:test_case/pages/game/domain/shop_page_configuration.dart';
 import 'package:test_case/pages/game/game_widget.dart';
 import 'package:test_case/pages/game/game_wm.dart';
 import 'package:test_case/pages/game/level_pages/chapter_fin.dart';
+import 'package:test_case/pages/game/level_pages/phone_game.dart';
 import 'package:test_case/pages/game/level_pages/shop_game.dart';
 import 'package:test_case/pages/game/story_telling_utils.dart';
 import 'package:test_case/pages/web_view/web_view_page.dart';
@@ -64,6 +65,9 @@ class AppRouter extends _$AppRouter {
           page: ChatAppRoute.page,
         ),
         AutoRoute(
+          page: PhoneGameRoute.page,
+        ),
+        AutoRoute(
           page: TopUsersRoute.page,
         ),
         AutoRoute(page: WebViewerRoute.page),
@@ -85,6 +89,9 @@ class AppRouter extends _$AppRouter {
           page: ChapterFinRoute.page,
         ),
         AutoRoute(
+          page: DetailTestRoute.page,
+        ),
+        AutoRoute(
           initial: true,
           page: HomeRoute.page,
           children: [
@@ -103,9 +110,6 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: TestRoute.page,
                   initial: true,
-                ),
-                AutoRoute(
-                  page: DetailTestRoute.page,
                 ),
               ],
             ),
