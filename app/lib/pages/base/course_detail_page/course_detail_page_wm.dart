@@ -122,7 +122,7 @@ class CourseDetailPageWidgetModel
 
   @override
   void openTest(int courseId) {
-    router.push(
+    router.navigate(
       TestTab(
         children: [
           DetailTestRoute(testId: courseId),

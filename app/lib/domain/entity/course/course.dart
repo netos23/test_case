@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:test_case/domain/entity/test/test.dart';
 import 'package:test_case/domain/models/source.dart';
 
 part 'course.freezed.dart';
@@ -15,7 +16,7 @@ class Course with _$Course {
     required String description,
     @JsonKey(name: 'educational_text') String? educationText,
     int? price,
-    int? test,
+    Test? test,
     @Default(<Source>[])
     List<Source> sources,
   }) = _Course;

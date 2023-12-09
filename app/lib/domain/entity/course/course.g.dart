@@ -14,7 +14,9 @@ _$CourseImpl _$$CourseImplFromJson(Map<String, dynamic> json) => _$CourseImpl(
       description: json['description'] as String,
       educationText: json['educational_text'] as String?,
       price: json['price'] as int?,
-      test: json['test'] as int?,
+      test: json['test'] == null
+          ? null
+          : Test.fromJson(json['test'] as Map<String, dynamic>),
       sources: (json['sources'] as List<dynamic>?)
               ?.map((e) => Source.fromJson(e as Map<String, dynamic>))
               .toList() ??

@@ -357,11 +357,11 @@ class CourseDetailPageWidget
                         onPressed: () {
                           var test = course.test;
                           if (test != null) {
-                            wm.openTest(test);
+                            wm.openTest(test.id);
                           }
                         },
-                        child: Center(
-                          child: const Text('Пройти тест'),
+                        child: const Center(
+                          child: Text('Пройти тест'),
                         ),
                       ),
                     )

@@ -28,7 +28,7 @@ mixin _$Course {
   @JsonKey(name: 'educational_text')
   String? get educationText => throw _privateConstructorUsedError;
   int? get price => throw _privateConstructorUsedError;
-  int? get test => throw _privateConstructorUsedError;
+  Test? get test => throw _privateConstructorUsedError;
   List<Source> get sources => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,8 +49,10 @@ abstract class $CourseCopyWith<$Res> {
       String description,
       @JsonKey(name: 'educational_text') String? educationText,
       int? price,
-      int? test,
+      Test? test,
       List<Source> sources});
+
+  $TestCopyWith<$Res>? get test;
 }
 
 /// @nodoc
@@ -108,12 +110,24 @@ class _$CourseCopyWithImpl<$Res, $Val extends Course>
       test: freezed == test
           ? _value.test
           : test // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Test?,
       sources: null == sources
           ? _value.sources
           : sources // ignore: cast_nullable_to_non_nullable
               as List<Source>,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TestCopyWith<$Res>? get test {
+    if (_value.test == null) {
+      return null;
+    }
+
+    return $TestCopyWith<$Res>(_value.test!, (value) {
+      return _then(_value.copyWith(test: value) as $Val);
+    });
   }
 }
 
@@ -132,8 +146,11 @@ abstract class _$$CourseImplCopyWith<$Res> implements $CourseCopyWith<$Res> {
       String description,
       @JsonKey(name: 'educational_text') String? educationText,
       int? price,
-      int? test,
+      Test? test,
       List<Source> sources});
+
+  @override
+  $TestCopyWith<$Res>? get test;
 }
 
 /// @nodoc
@@ -189,7 +206,7 @@ class __$$CourseImplCopyWithImpl<$Res>
       test: freezed == test
           ? _value.test
           : test // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Test?,
       sources: null == sources
           ? _value._sources
           : sources // ignore: cast_nullable_to_non_nullable
@@ -232,7 +249,7 @@ class _$CourseImpl implements _Course {
   @override
   final int? price;
   @override
-  final int? test;
+  final Test? test;
   final List<Source> _sources;
   @override
   @JsonKey()
@@ -302,7 +319,7 @@ abstract class _Course implements Course {
       required final String description,
       @JsonKey(name: 'educational_text') final String? educationText,
       final int? price,
-      final int? test,
+      final Test? test,
       final List<Source> sources}) = _$CourseImpl;
 
   factory _Course.fromJson(Map<String, dynamic> json) = _$CourseImpl.fromJson;
@@ -323,7 +340,7 @@ abstract class _Course implements Course {
   @override
   int? get price;
   @override
-  int? get test;
+  Test? get test;
   @override
   List<Source> get sources;
   @override
