@@ -30,6 +30,8 @@ abstract class IDetailTestPageWidgetModel extends IWidgetModel
 
   ProfileUseCase get profileUseCase;
 
+  PageController get pageController;
+
   void openLink(String value);
 
   Future<void> loadTest();
@@ -37,6 +39,10 @@ abstract class IDetailTestPageWidgetModel extends IWidgetModel
   void selectRadio(Variant variant);
 
   void selectVariant(Variant variant);
+
+  void toNextPage();
+
+  void toPrevPage();
 }
 
 TestPageWidgetModel defaultDetailTestPageWidgetModelFactory(
@@ -58,6 +64,8 @@ class TestPageWidgetModel
     required this.testService,
   }) : super(model);
 
+  int pageNumber = 0;
+
   final TestService testService;
   @override
   final testState = EntityStateNotifier();
@@ -73,6 +81,8 @@ class TestPageWidgetModel
   final choosesController = BehaviorSubject();
   @override
   final profileUseCase = AppComponents().profileUseCase;
+
+  final pageController = PageController();
 
   @override
   void initWidgetModel() {
@@ -121,6 +131,16 @@ class TestPageWidgetModel
       current.add(id);
     }
     choosesController.add(current);
+  }
+
+  toNextPage() {
+    pageController.nextPage(
+        duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+  }
+
+  toPrevPage() {
+    pageController.previousPage(
+        duration: const Duration(milliseconds: 400), curve: Curves.easeOut);
   }
 
   @override

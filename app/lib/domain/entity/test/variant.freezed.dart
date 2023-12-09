@@ -23,6 +23,10 @@ mixin _$Variant {
   String get title => throw _privateConstructorUsedError;
   String? get picture => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
+  bool? get isRight => throw _privateConstructorUsedError;
+  String? get rightAnswer => throw _privateConstructorUsedError;
+  bool? get userCheck => throw _privateConstructorUsedError;
+  String? get userAnswer => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +38,14 @@ abstract class $VariantCopyWith<$Res> {
   factory $VariantCopyWith(Variant value, $Res Function(Variant) then) =
       _$VariantCopyWithImpl<$Res, Variant>;
   @useResult
-  $Res call({String title, String? picture, int? id});
+  $Res call(
+      {String title,
+      String? picture,
+      int? id,
+      bool? isRight,
+      String? rightAnswer,
+      bool? userCheck,
+      String? userAnswer});
 }
 
 /// @nodoc
@@ -53,6 +64,10 @@ class _$VariantCopyWithImpl<$Res, $Val extends Variant>
     Object? title = null,
     Object? picture = freezed,
     Object? id = freezed,
+    Object? isRight = freezed,
+    Object? rightAnswer = freezed,
+    Object? userCheck = freezed,
+    Object? userAnswer = freezed,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -67,6 +82,22 @@ class _$VariantCopyWithImpl<$Res, $Val extends Variant>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      isRight: freezed == isRight
+          ? _value.isRight
+          : isRight // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      rightAnswer: freezed == rightAnswer
+          ? _value.rightAnswer
+          : rightAnswer // ignore: cast_nullable_to_non_nullable
+              as String?,
+      userCheck: freezed == userCheck
+          ? _value.userCheck
+          : userCheck // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      userAnswer: freezed == userAnswer
+          ? _value.userAnswer
+          : userAnswer // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -78,7 +109,14 @@ abstract class _$$VariantImplCopyWith<$Res> implements $VariantCopyWith<$Res> {
       __$$VariantImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title, String? picture, int? id});
+  $Res call(
+      {String title,
+      String? picture,
+      int? id,
+      bool? isRight,
+      String? rightAnswer,
+      bool? userCheck,
+      String? userAnswer});
 }
 
 /// @nodoc
@@ -95,6 +133,10 @@ class __$$VariantImplCopyWithImpl<$Res>
     Object? title = null,
     Object? picture = freezed,
     Object? id = freezed,
+    Object? isRight = freezed,
+    Object? rightAnswer = freezed,
+    Object? userCheck = freezed,
+    Object? userAnswer = freezed,
   }) {
     return _then(_$VariantImpl(
       title: null == title
@@ -109,6 +151,22 @@ class __$$VariantImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      isRight: freezed == isRight
+          ? _value.isRight
+          : isRight // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      rightAnswer: freezed == rightAnswer
+          ? _value.rightAnswer
+          : rightAnswer // ignore: cast_nullable_to_non_nullable
+              as String?,
+      userCheck: freezed == userCheck
+          ? _value.userCheck
+          : userCheck // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      userAnswer: freezed == userAnswer
+          ? _value.userAnswer
+          : userAnswer // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -117,7 +175,14 @@ class __$$VariantImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _$VariantImpl implements _Variant {
-  _$VariantImpl({required this.title, this.picture, this.id});
+  _$VariantImpl(
+      {required this.title,
+      this.picture,
+      this.id,
+      this.isRight,
+      this.rightAnswer,
+      this.userCheck,
+      this.userAnswer});
 
   factory _$VariantImpl.fromJson(Map<String, dynamic> json) =>
       _$$VariantImplFromJson(json);
@@ -128,10 +193,18 @@ class _$VariantImpl implements _Variant {
   final String? picture;
   @override
   final int? id;
+  @override
+  final bool? isRight;
+  @override
+  final String? rightAnswer;
+  @override
+  final bool? userCheck;
+  @override
+  final String? userAnswer;
 
   @override
   String toString() {
-    return 'Variant(title: $title, picture: $picture, id: $id)';
+    return 'Variant(title: $title, picture: $picture, id: $id, isRight: $isRight, rightAnswer: $rightAnswer, userCheck: $userCheck, userAnswer: $userAnswer)';
   }
 
   @override
@@ -141,12 +214,20 @@ class _$VariantImpl implements _Variant {
             other is _$VariantImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.picture, picture) || other.picture == picture) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.isRight, isRight) || other.isRight == isRight) &&
+            (identical(other.rightAnswer, rightAnswer) ||
+                other.rightAnswer == rightAnswer) &&
+            (identical(other.userCheck, userCheck) ||
+                other.userCheck == userCheck) &&
+            (identical(other.userAnswer, userAnswer) ||
+                other.userAnswer == userAnswer));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, title, picture, id);
+  int get hashCode => Object.hash(runtimeType, title, picture, id, isRight,
+      rightAnswer, userCheck, userAnswer);
 
   @JsonKey(ignore: true)
   @override
@@ -166,7 +247,11 @@ abstract class _Variant implements Variant {
   factory _Variant(
       {required final String title,
       final String? picture,
-      final int? id}) = _$VariantImpl;
+      final int? id,
+      final bool? isRight,
+      final String? rightAnswer,
+      final bool? userCheck,
+      final String? userAnswer}) = _$VariantImpl;
 
   factory _Variant.fromJson(Map<String, dynamic> json) = _$VariantImpl.fromJson;
 
@@ -176,6 +261,14 @@ abstract class _Variant implements Variant {
   String? get picture;
   @override
   int? get id;
+  @override
+  bool? get isRight;
+  @override
+  String? get rightAnswer;
+  @override
+  bool? get userCheck;
+  @override
+  String? get userAnswer;
   @override
   @JsonKey(ignore: true)
   _$$VariantImplCopyWith<_$VariantImpl> get copyWith =>

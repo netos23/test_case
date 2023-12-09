@@ -6,6 +6,7 @@ import 'package:retrofit/http.dart';
 import 'package:test_case/domain/entity/test/test.dart';
 import 'package:test_case/domain/entity/test/test_detail.dart';
 import 'package:test_case/domain/entity/test/test_result.dart';
+import 'package:test_case/domain/entity/test/test_result_response.dart';
 
 part 'test_service.g.dart';
 
@@ -22,5 +23,7 @@ abstract class TestService {
   Future<List<Test>> getTests();
 
   @POST('/istests/check_result/')
-  Future<List<TestResult>> checkResult();
+  Future<TestResultResponse> checkResult({
+    @Body() required TestResult testResult,
+  });
 }

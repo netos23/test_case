@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
@@ -103,13 +102,7 @@ class GamePageWidget extends ElementaryWidget<IGameWidgetModel> {
                     ],
                   ),
                 ),
-                onTap: () {
-                  wm.context.router.push(
-                    ChapterFinRoute(
-                      levelMap: chapters[2],
-                    ),
-                  );
-                },
+                onTap: () {},
               ),
             ],
           ),

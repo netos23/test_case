@@ -34,41 +34,49 @@ class DetailTestPageWidget
     final canPop = wm.router.canPop();
 
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 600,
-          height: 700,
-          child: SafeArea(
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  pinned: true,
-                  expandedHeight: 200,
-                  collapsedHeight: 125,
-                  flexibleSpace: EntityStateNotifierBuilder(
-                    listenableEntityState: wm.testState,
-                    builder: (BuildContext context, test) {
-                      return (test?.picture?.isNotEmpty == true)
-                          ? ImageCard.network(
-                              leading: canPop
-                                  ? const Card(child: BackButton())
-                                  : null,
-                              image: test?.picture ?? '',
-                              title: test?.name ?? 'Тест',
-                            )
-                          : ImageCard(
-                              leading: canPop
-                                  ? const Card(child: BackButton())
-                                  : null,
-                              image: 'assets/images/default_test.jpeg',
-                              title: test?.name ?? 'Тест',
-                            );
-                    },
+      body: SafeArea(
+        child: Center(
+          child: SizedBox(
+            width: 600,
+            height: 700,
+            child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    pinned: true,
+                    expandedHeight: 200,
+                    collapsedHeight: 125,
+                    flexibleSpace: SizedBox(
+                      height: 200,
+                      child: EntityStateNotifierBuilder(
+                        listenableEntityState: wm.testState,
+                        builder: (BuildContext context, test) {
+                          return (test?.picture?.isNotEmpty == true)
+                              ? ImageCard.network(
+                                  leading: canPop
+                                      ? const Card(child: BackButton())
+                                      : null,
+                                  image: test?.picture ?? '',
+                                  title: test?.name ?? 'Тест',
+                                )
+                              : ImageCard(
+                                  leading: canPop
+                                      ? const Card(child: BackButton())
+                                      : null,
+                                  image: 'assets/images/default_test.jpeg',
+                                  title: test?.name ?? 'Тест',
+                                );
+                        },
+                      ),
+                    ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: EntityStateNotifierBuilder(
+                ];
+              },
+              body: Stack(
+                children: [
+                  EntityStateNotifierBuilder(
                     listenableEntityState: wm.testState,
                     loadingBuilder: (context, data) {
                       return const Center(
@@ -77,27 +85,45 @@ class DetailTestPageWidget
                     },
                     builder: (context, testData) {
                       final questions = testData?.questions ?? [];
-                      return SizedBox(
-                        height: MediaQuery.sizeOf(context).height,
-                        child: ListView.separated(
-                            itemBuilder: (_, index) {
-                              final question = questions[index];
-                              return QuestionWidget(
-                                question: question,
-                                theme: theme,
-                                model: wm,
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const Divider();
-                            },
-                            itemCount: questions.length),
+                      return PageView(
+                        controller: wm.pageController,
+                        scrollDirection: Axis.horizontal,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: questions
+                            .map((e) => QuestionWidget(
+                                  question: e,
+                                  theme: theme,
+                                  model: wm,
+                                ))
+                            .toList(),
                       );
                     },
                   ),
-                ),
-              ],
+                  Positioned(
+                    bottom: 16,
+                    right: 8,
+                    child: SizedBox(
+                      height: 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          FloatingActionButton(
+                            onPressed: wm.toPrevPage,
+                            child: const Icon(Icons.navigate_before_outlined),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          FloatingActionButton(
+                            onPressed: wm.toNextPage,
+                            child: const Icon(Icons.navigate_next_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -139,34 +165,26 @@ class QuestionWidget extends StatelessWidget {
               imageUrl: question.picture!,
               placeholder: (_, __) => Image.asset(
                 'assets/images/default_test.jpeg',
-                height: double.infinity,
+                height: 180,
                 fit: BoxFit.cover,
               ),
             ),
-          if (question.type == 'single_checked')
-            RadioVariantWidget(
-              variants: question.variants,
-              model: model,
-            ),
-          if (question.type != 'single_checked')
-            ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: question.variants.length,
-                itemBuilder: (_, __) {
-                  return switch (question.type) {
-                    'multiple_checked' => VariantWidget(
-                        variants: question.variants,
-                        model: model,
-                      ),
-                    'text' => TextVariantWidget(
-                        variants: question.variants,
-                        model: model,
-                        theme: theme,
-                      ),
-                    _ => const SizedBox.shrink(),
-                  };
-                }),
+          switch (question.type) {
+            'multiple_checked' => VariantWidget(
+                variants: question.variants,
+                model: model,
+              ),
+            'single_checked' => RadioVariantWidget(
+                variants: question.variants,
+                model: model,
+              ),
+            'text' => TextVariantWidget(
+                variants: question.variants,
+                model: model,
+                theme: theme,
+              ),
+            _ => const SizedBox.shrink(),
+          },
         ],
       ),
     );
@@ -232,6 +250,7 @@ class VariantWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      cacheExtent: double.maxFinite,
       itemCount: variants.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -267,7 +286,7 @@ class RadioVariantWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 80,
+      height: 48,
       child: ListView.builder(
         itemCount: variants.length,
         scrollDirection: Axis.horizontal,
@@ -277,7 +296,7 @@ class RadioVariantWidget extends StatelessWidget {
             stream: model.radioChooseController,
             builder: (context, snapshot) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 4.8),
                 child: ChoiceChip(
                     label: Text(variant.title),
                     onSelected: (_) => model.selectRadio(variant),
@@ -357,117 +376,6 @@ class EmptyPage extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class TestWidget extends StatelessWidget {
-  const TestWidget({
-    super.key,
-    required this.test,
-    required this.theme,
-    required this.onTap,
-  });
-
-  final ValueChanged<Test> onTap;
-  final Test test;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    final defaultImage = Image.asset(
-      'assets/images/default_test.jpeg',
-      fit: BoxFit.cover,
-    );
-    return SizedBox(
-      height: 180,
-      child: Card(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: InkWell(
-          onTap: () => onTap(test),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: CachedNetworkImage(
-                  height: double.infinity,
-                  imageUrl: test.picture!,
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) => defaultImage,
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        test.name,
-                        style: theme.textTheme.titleMedium,
-                      ),
-                      const Spacer(),
-                      Text(
-                        test.topic,
-                        style: theme.textTheme.labelLarge,
-                      ),
-                      Text(
-                        test.description,
-                        maxLines: 4,
-                        style: theme.textTheme.labelLarge,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              test.complexity ?? '',
-                              style: theme.textTheme.labelLarge,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              test.forAge ?? '',
-                              style: theme.textTheme.labelLarge,
-                              maxLines: 3,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              test.createdAt ?? '',
-                              style: theme.textTheme.labelLarge,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              test.requiredScore?.toStringAsFixed(2) ?? '',
-                              style: theme.textTheme.labelLarge,
-                              maxLines: 3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

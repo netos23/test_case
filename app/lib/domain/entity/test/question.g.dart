@@ -12,7 +12,11 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
       variants: (json['variants'] as List<dynamic>)
           .map((e) => Variant.fromJson(e as Map<String, dynamic>))
           .toList(),
+      finalVariants: (json['final_variants'] as List<dynamic>?)
+          ?.map((e) => Variant.fromJson(e as Map<String, dynamic>))
+          .toList(),
       question: json['question'] as String,
+      isCorrect: json['is_correct'] as bool?,
       picture: json['picture'] as String?,
       type: json['type'] as String?,
       id: json['id'] as int?,
@@ -22,7 +26,6 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) {
   final val = <String, dynamic>{
     'explain_answer': instance.explainAnswer,
     'variants': instance.variants.map((e) => e.toJson()).toList(),
-    'question': instance.question,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -31,6 +34,10 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) {
     }
   }
 
+  writeNotNull('final_variants',
+      instance.finalVariants?.map((e) => e.toJson()).toList());
+  val['question'] = instance.question;
+  writeNotNull('is_correct', instance.isCorrect);
   writeNotNull('picture', instance.picture);
   writeNotNull('type', instance.type);
   writeNotNull('id', instance.id);
