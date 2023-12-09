@@ -6,11 +6,21 @@ from cstests.models import CSTestModel
 from cstests.serializers import CSTestSerializer, ISTestDetailSerializer, ResultTestResponseSerializer, \
     ResultTestRequestSerializer
 from cstests.services import CService
+from utils.elastic_client import ElasticClient
 
 
 class GetAllISTestAPIView(generics.ListAPIView):
     serializer_class = CSTestSerializer
-    queryset = CSTestModel.objects.all()
+    lookup_url_kwarg = "search"
+
+    def get_queryset(self):
+        search = self.request.query_params.get(self.lookup_url_kwarg)
+        tests = CSTestModel.objects.all()
+        if search:
+            client = ElasticClient(index='tests')
+            result_ids = client.search_tests(search)
+            tests = tests.filter(pk__in=result_ids)
+        return tests
 
 
 class ISTestDetailView(generics.RetrieveAPIView):

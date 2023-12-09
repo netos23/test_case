@@ -3,6 +3,7 @@ from rest_framework import generics, status
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
+from utils.elastic_client import ElasticClient
 from utils.pagination import ApiPagination
 from .models import BannerModel, SourceModel
 from .serializers import BannerSerializer, SourceModelSerializer
@@ -27,4 +28,13 @@ class SourcesListView(generics.ListAPIView):
     serializer_class = SourceModelSerializer
     permission_classes = ()
     authentication_classes = ()
-    queryset = SourceModel.objects.all()
+    lookup_url_kwarg = "search"
+
+    def get_queryset(self):
+        search = self.request.query_params.get(self.lookup_url_kwarg)
+        sources = SourceModel.objects.all()
+        if search:
+            client = ElasticClient(index='sources')
+            result_ids = client.search_sources(search)
+            sources = sources.filter(pk__in=result_ids)
+        return sources
