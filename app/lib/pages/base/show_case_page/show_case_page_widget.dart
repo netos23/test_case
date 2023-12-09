@@ -227,18 +227,28 @@ class ShowCasePageWidget extends ElementaryWidget<IShowCasePageWidgetModel> {
   }
 }
 
-class SourceWidget extends StatelessWidget {
-  SourceWidget({
+class SourceWidget extends StatefulWidget {
+  const SourceWidget({
     super.key,
     this.source,
   });
 
   final Source? source;
 
-  late final dataSource = OgpDataExtract.execute(source?.url ?? '');
+  @override
+  State<SourceWidget> createState() => _SourceWidgetState();
+}
+
+class _SourceWidgetState extends State<SourceWidget>
+    with AutomaticKeepAliveClientMixin {
+  late final dataSource = OgpDataExtract.execute(widget.source?.url ?? '');
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
@@ -411,15 +421,15 @@ class SourceWidget extends StatelessWidget {
         }
         final description = data.description;
         final title = data.title;
-        final subtitle = data.type ?? source?.topic ?? '';
+        final subtitle = data.type ?? widget.source?.topic ?? '';
         var picture = data.image;
-        final uri = Uri.tryParse(source?.url ?? '');
+        final uri = Uri.tryParse(widget.source?.url ?? '');
 
         if (picture != null && picture.startsWith('/')) {
           picture = 'https://${uri?.host}/$picture';
         }
 
-        final forAge = source?.forAge;
+        final forAge = widget.source?.forAge;
         return Card(
           margin: EdgeInsets.zero,
           elevation: 2,
@@ -445,7 +455,7 @@ class SourceWidget extends StatelessWidget {
                       'assets/images/${uri?.host}.png',
                     ),
                   ),
-                  title: Text(title ?? source?.title ?? ''),
+                  title: Text(title ?? widget.source?.title ?? ''),
                   subtitle: Text(subtitle),
                 ),
                 const Divider(

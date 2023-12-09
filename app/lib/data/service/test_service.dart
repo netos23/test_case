@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/annotations.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
+import 'package:test_case/domain/entity/test/recommends.dart';
 import 'package:test_case/domain/entity/test/test.dart';
 import 'package:test_case/domain/entity/test/test_detail.dart';
 import 'package:test_case/domain/entity/test/test_result.dart';
@@ -26,4 +27,9 @@ abstract class TestService {
   Future<TestResultResponse> checkResult({
     @Body() required TestResult testResult,
   });
+
+
+  // я так чуствую
+  @GET('/recommends/')
+  Future<Recommends> getRecommends();
 }
