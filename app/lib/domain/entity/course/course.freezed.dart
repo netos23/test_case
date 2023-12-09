@@ -25,7 +25,7 @@ mixin _$Course {
   String? get description => throw _privateConstructorUsedError;
   String? get educationText => throw _privateConstructorUsedError;
   int? get test => throw _privateConstructorUsedError;
-  List<ShowCaseBanner>? get sources => throw _privateConstructorUsedError;
+  List<Course>? get sources => throw _privateConstructorUsedError;
   bool? get isSelect => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $CourseCopyWith<$Res> {
       String? description,
       String? educationText,
       int? test,
-      List<ShowCaseBanner>? sources,
+      List<Course>? sources,
       bool? isSelect});
 }
 
@@ -93,7 +93,7 @@ class _$CourseCopyWithImpl<$Res, $Val extends Course>
       sources: freezed == sources
           ? _value.sources
           : sources // ignore: cast_nullable_to_non_nullable
-              as List<ShowCaseBanner>?,
+              as List<Course>?,
       isSelect: freezed == isSelect
           ? _value.isSelect
           : isSelect // ignore: cast_nullable_to_non_nullable
@@ -115,7 +115,7 @@ abstract class _$$CourseImplCopyWith<$Res> implements $CourseCopyWith<$Res> {
       String? description,
       String? educationText,
       int? test,
-      List<ShowCaseBanner>? sources,
+      List<Course>? sources,
       bool? isSelect});
 }
 
@@ -162,7 +162,7 @@ class __$$CourseImplCopyWithImpl<$Res>
       sources: freezed == sources
           ? _value._sources
           : sources // ignore: cast_nullable_to_non_nullable
-              as List<ShowCaseBanner>?,
+              as List<Course>?,
       isSelect: freezed == isSelect
           ? _value.isSelect
           : isSelect // ignore: cast_nullable_to_non_nullable
@@ -180,7 +180,7 @@ class _$CourseImpl implements _Course {
       this.description,
       this.educationText,
       this.test,
-      final List<ShowCaseBanner>? sources,
+      final List<Course>? sources,
       this.isSelect})
       : _sources = sources;
 
@@ -197,9 +197,9 @@ class _$CourseImpl implements _Course {
   final String? educationText;
   @override
   final int? test;
-  final List<ShowCaseBanner>? _sources;
+  final List<Course>? _sources;
   @override
-  List<ShowCaseBanner>? get sources {
+  List<Course>? get sources {
     final value = _sources;
     if (value == null) return null;
     if (_sources is EqualUnmodifiableListView) return _sources;
@@ -265,7 +265,7 @@ abstract class _Course implements Course {
       final String? description,
       final String? educationText,
       final int? test,
-      final List<ShowCaseBanner>? sources,
+      final List<Course>? sources,
       final bool? isSelect}) = _$CourseImpl;
 
   factory _Course.fromJson(Map<String, dynamic> json) = _$CourseImpl.fromJson;
@@ -281,7 +281,7 @@ abstract class _Course implements Course {
   @override
   int? get test;
   @override
-  List<ShowCaseBanner>? get sources;
+  List<Course>? get sources;
   @override
   bool? get isSelect;
   @override

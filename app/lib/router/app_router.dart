@@ -10,6 +10,8 @@ import 'package:test_case/pages/base/auth_code_page/auth_code_page_widget.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_wm.dart';
 import 'package:test_case/pages/base/auth_page/auth_page_widget.dart';
 import 'package:test_case/pages/base/auth_page/auth_page_wm.dart';
+import 'package:test_case/pages/base/course_detail_page/course_detail_page_widget.dart';
+import 'package:test_case/pages/base/course_detail_page/course_detail_page_wm.dart';
 import 'package:test_case/pages/base/course_page/course_page_widget.dart';
 import 'package:test_case/pages/base/course_page/course_page_wm.dart';
 import 'package:test_case/pages/base/detail_test_page/detail_test_page_widget.dart';
@@ -95,6 +97,9 @@ class AppRouter extends _$AppRouter {
               page: CourseTab.page,
               children: [
                 AutoRoute(page: CourseRoute.page, initial: true),
+                AutoRoute(
+                  page: CourseDetailRoute.page,
+                ),
               ],
             ),
             AutoRoute(

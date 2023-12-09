@@ -61,6 +61,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    CourseDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<CourseDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CourseDetailPageWidget(
+          key: args.key,
+          courseId: args.courseId,
+          wmFactory: args.wmFactory,
+        ),
+      );
+    },
     CourseRoute.name: (routeData) {
       final args = routeData.argsAs<CourseRouteArgs>(
           orElse: () => const CourseRouteArgs());
@@ -451,6 +462,52 @@ class ChooseCityRouteArgs {
   @override
   String toString() {
     return 'ChooseCityRouteArgs{profile: $profile, key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [CourseDetailPageWidget]
+class CourseDetailRoute extends PageRouteInfo<CourseDetailRouteArgs> {
+  CourseDetailRoute({
+    Key? key,
+    required int courseId,
+    WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+            BuildContext)
+        wmFactory = defaultCourseDetailPageWidgetModelFactory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CourseDetailRoute.name,
+          args: CourseDetailRouteArgs(
+            key: key,
+            courseId: courseId,
+            wmFactory: wmFactory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CourseDetailRoute';
+
+  static const PageInfo<CourseDetailRouteArgs> page =
+      PageInfo<CourseDetailRouteArgs>(name);
+}
+
+class CourseDetailRouteArgs {
+  const CourseDetailRouteArgs({
+    this.key,
+    required this.courseId,
+    this.wmFactory = defaultCourseDetailPageWidgetModelFactory,
+  });
+
+  final Key? key;
+
+  final int courseId;
+
+  final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+      BuildContext) wmFactory;
+
+  @override
+  String toString() {
+    return 'CourseDetailRouteArgs{key: $key, courseId: $courseId, wmFactory: $wmFactory}';
   }
 }
 

@@ -66,7 +66,7 @@ class _CourseService implements CourseService {
     )
             .compose(
               _dio.options,
-              '/course//{id}/',
+              '/course/${id}/',
               queryParameters: queryParameters,
               data: _data,
             )

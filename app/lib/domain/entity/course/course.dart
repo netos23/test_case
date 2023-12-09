@@ -13,7 +13,7 @@ class Course with _$Course {
     String? description,
     String? educationText,
     int? test,
-    List<ShowCaseBanner>? sources,
+    List<Course>? sources,
 
     bool? isSelect,
   }) = _Course;

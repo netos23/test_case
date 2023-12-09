@@ -24,8 +24,8 @@ abstract class CourseService {
   });
 
 
-  @GET('/course//{id}/')
+  @GET('/course/{id}/')
   Future<Course> getCourseDetail({
-    @queryParam int? id,
+    @Path() int? id,
   });
 }

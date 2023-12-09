@@ -13,7 +13,7 @@ _$CourseImpl _$$CourseImplFromJson(Map<String, dynamic> json) => _$CourseImpl(
       educationText: json['educationText'] as String?,
       test: json['test'] as int?,
       sources: (json['sources'] as List<dynamic>?)
-          ?.map((e) => ShowCaseBanner.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Course.fromJson(e as Map<String, dynamic>))
           .toList(),
       isSelect: json['isSelect'] as bool?,
     );

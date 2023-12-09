@@ -1,8 +1,10 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/entity/course/course_preview.dart';
+import 'package:test_case/router/app_router.dart';
 import 'package:test_case/util/pagination_builder.dart';
 import 'course_page_wm.dart';
 
@@ -30,7 +32,6 @@ class CoursePageWidget extends ElementaryWidget<ICoursePageWidgetModel> {
               itemCount: sources?.length ?? 100,
               padding: const EdgeInsets.symmetric(
                 horizontal: 8,
-                vertical: 16,
               ),
               itemBuilder: (context, index) {
                 CoursePreview? coursePreview;
@@ -64,12 +65,17 @@ class CoursePreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){
-
-      },
-      child: Card(
-        clipBehavior: Clip.hardEdge,
+    return Card(
+      color: Colors.white,
+      clipBehavior: Clip.hardEdge,
+      surfaceTintColor: Colors.white,
+      child: InkWell(
+        onTap: () {
+          final id = course?.id;
+          if (id != null) {
+            context.router.navigate(CourseDetailRoute(courseId: id));
+          }
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
