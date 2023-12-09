@@ -247,11 +247,23 @@ class TestPageWidgetModel
           )
           .toList(),
     );
-    final response = await testService.checkResult(
-      testResult: request,
-    );
-    if (context.mounted) {
-      context.router.navigate(TestResultRoute(testResultResponse: response));
+
+    List<Variant> variants = [];
+    request.questions.forEach((question) {
+     final vars =  question.variants ?? [];
+      variants.addAll(vars);
+    });
+
+    if (variants.where((element) => element.check == null && !(element.answer?.isNotEmpty == true)).isNotEmpty){
+      final response = await testService.checkResult(
+        testResult: request,
+      );
+      if (context.mounted) {
+        context.router.navigate(TestResultRoute(testResultResponse: response));
+      }
+    }else {
+      context.showErrorSnackBar('Убедитесь, что все поля заполнены');
     }
+
   }
 }
