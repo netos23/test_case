@@ -18,7 +18,8 @@ abstract class BannerService {
 
   @GET('/banners/sources/')
   Future<Pagination<Source>> getSources({
-    @Query('page')int? page,
+    @Query('page') int? page,
     @Query('page_size') int? pageSize,
+    @Query('search') String? search,
   });
 }

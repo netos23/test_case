@@ -30,15 +30,15 @@ class ShowCasePageWidget extends ElementaryWidget<IShowCasePageWidgetModel> {
         appBar: AppBar(
           centerTitle: true,
           // leading: Padding(
-        //   padding: const EdgeInsets.only(left: 8),
-        //   child: Image.asset(
-        //     'assets/images/logo.png',
-        //     width: 60,
-        //     height: 60,
-        //   ),
-        // ),
-        title: const Text(
-          'Cyber security',
+          //   padding: const EdgeInsets.only(left: 8),
+          //   child: Image.asset(
+          //     'assets/images/logo.png',
+          //     width: 60,
+          //     height: 60,
+          //   ),
+          // ),
+          title: const Text(
+            'Cyber security',
           ),
           bottom: const TabBar(
             tabs: [
@@ -115,33 +115,105 @@ class ShowCasePageWidget extends ElementaryWidget<IShowCasePageWidgetModel> {
               child: SizedBox(
                 width: 600,
                 child: SafeArea(
-                  child: PagePaginationBuilder<Source>(
-                    initialPage: 1,
-                    paginationCallback: wm.loadPages,
-                    builder: (context, controller, snapshot) {
-                      final sources = snapshot.data;
+                  child: ListenableBuilder(
+                    listenable: wm.sourceSearchController,
+                    builder: (context, _) {
+                      return PagePaginationBuilder<Source>(
+                        key: Key(wm.sourceSearchController.text),
+                        initialPage: 1,
+                        paginationCallback: wm.loadPages,
+                        builder: (context, controller, snapshot) {
+                          final theme = Theme.of(context);
+                          final colorScheme = theme.colorScheme;
+                          final textTheme = theme.textTheme;
+                          final sources = snapshot.data;
 
-                      return ListView.separated(
-                        controller: controller,
-                        itemCount: sources?.length ?? 100,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 16,
-                        ),
-                        itemBuilder: (context, index) {
-                          Source? source;
+                          return CustomScrollView(
+                            controller: controller,
+                            slivers: [
+                              SliverAppBar(
+                                key: wm.searchKey,
+                                automaticallyImplyLeading: false,
+                                pinned: true,
+                                expandedHeight: 80,
+                                collapsedHeight: 80,
+                                flexibleSpace: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                    horizontal: 8,
+                                  ),
+                                  child: TextField(
+                                    controller: wm.sourceSearchController,
+                                    textAlign: TextAlign.start,
+                                    style: textTheme.bodyMedium?.copyWith(
+                                      color: colorScheme.onBackground,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(16),
+                                        ),
+                                        borderSide: BorderSide(
+                                          width: 0,
+                                          style: BorderStyle.none,
+                                        ),
+                                      ),
+                                      filled: true,
+                                      fillColor: colorScheme.surfaceVariant,
+                                      labelText: 'Поиск по названию',
+                                      suffixIcon: Icon(
+                                        Icons.search,
+                                        color: colorScheme.primary,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              if (sources != null && sources.isEmpty)
+                                SliverToBoxAdapter(
+                                  child: SizedBox(
+                                    height: 400,
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: 300,
+                                        child: Text(
+                                          'К сожалению мы ничего не нашли :(',
+                                          style: textTheme.bodyMedium?.copyWith(
+                                            color: colorScheme.onSurface,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              if (sources == null || sources.isNotEmpty)
+                                SliverList.separated(
+                                  itemCount: sources?.length ?? 100,
+                                  itemBuilder: (context, index) {
+                                    Source? source;
 
-                          if (sources != null) {
-                            source = sources[index];
-                          }
+                                    if (sources != null) {
+                                      source = sources[index];
+                                    }
 
-                          return SourceWidget(
-                            source: source,
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 16,
+                                      ),
+                                      child: SourceWidget(
+                                        source: source,
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (_, __) => const SizedBox(
+                                    height: 16,
+                                  ),
+                                ),
+                            ],
                           );
                         },
-                        separatorBuilder: (_, __) => const SizedBox(
-                          height: 16,
-                        ),
                       );
                     },
                   ),
@@ -384,7 +456,12 @@ class SourceWidget extends StatelessWidget {
                 if (description != null)
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Text(description),
+                    child: Text(
+                      description,
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
                   ),
                 if (picture != null) CachedNetworkImage(imageUrl: picture),
                 if (picture != null)
@@ -401,6 +478,9 @@ class SourceWidget extends StatelessWidget {
                       child: Text(
                         forAge,
                         textAlign: TextAlign.end,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurface,
+                        ),
                       ),
                     ),
                   ),
