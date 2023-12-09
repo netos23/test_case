@@ -66,8 +66,8 @@ class CourseDetailPageWidgetModel
       courseState.loading();
       final test = await courseService.getCourseDetail(id: widget.courseId);
       courseState.content(test);
-    } catch (e,s) {
-      logger.e('Cant get tests',stackTrace: s);
+    } catch (e, s) {
+      logger.e('Cant get tests', stackTrace: s);
       context.showSnackBar(
         'Не удалось получить информацию о курсе',
       );
@@ -100,9 +100,7 @@ class CourseDetailPageWidgetModel
           ),
         );
         await loadCourse();
-      } else {
-
-      }
+      } else {}
       policyController.content(true);
     } catch (e) {
       policyController.content(true);
@@ -124,6 +122,12 @@ class CourseDetailPageWidgetModel
 
   @override
   void openTest(int courseId) {
-    router.push(DetailTestRoute(testId: courseId));
+    router.push(
+      TestTab(
+        children: [
+          DetailTestRoute(testId: courseId),
+        ]
+      )
+    );
   }
 }
