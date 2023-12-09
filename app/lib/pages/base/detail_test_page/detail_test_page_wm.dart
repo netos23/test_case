@@ -254,7 +254,7 @@ class TestPageWidgetModel
       variants.addAll(vars);
     });
 
-    if (variants.where((element) => element.check == null && !(element.answer?.isNotEmpty == true)).isNotEmpty){
+    if (variants.where((element) => element.checked == null && !(element.answer?.isNotEmpty == true)).isNotEmpty){
       final response = await testService.checkResult(
         testResult: request,
       );
