@@ -20,13 +20,16 @@ Course _$CourseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Course {
-  String? get name => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+  bool get payed => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   String? get picture => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'educational_text')
   String? get educationText => throw _privateConstructorUsedError;
+  int? get price => throw _privateConstructorUsedError;
   int? get test => throw _privateConstructorUsedError;
-  List<Course>? get sources => throw _privateConstructorUsedError;
-  bool? get isSelect => throw _privateConstructorUsedError;
+  List<Source> get sources => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,13 +42,15 @@ abstract class $CourseCopyWith<$Res> {
       _$CourseCopyWithImpl<$Res, Course>;
   @useResult
   $Res call(
-      {String? name,
+      {int id,
+      bool payed,
+      String name,
       String? picture,
-      String? description,
-      String? educationText,
+      String description,
+      @JsonKey(name: 'educational_text') String? educationText,
+      int? price,
       int? test,
-      List<Course>? sources,
-      bool? isSelect});
+      List<Source> sources});
 }
 
 /// @nodoc
@@ -61,43 +66,53 @@ class _$CourseCopyWithImpl<$Res, $Val extends Course>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? id = null,
+    Object? payed = null,
+    Object? name = null,
     Object? picture = freezed,
-    Object? description = freezed,
+    Object? description = null,
     Object? educationText = freezed,
+    Object? price = freezed,
     Object? test = freezed,
-    Object? sources = freezed,
-    Object? isSelect = freezed,
+    Object? sources = null,
   }) {
     return _then(_value.copyWith(
-      name: freezed == name
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      payed: null == payed
+          ? _value.payed
+          : payed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       picture: freezed == picture
           ? _value.picture
           : picture // ignore: cast_nullable_to_non_nullable
               as String?,
-      description: freezed == description
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       educationText: freezed == educationText
           ? _value.educationText
           : educationText // ignore: cast_nullable_to_non_nullable
               as String?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int?,
       test: freezed == test
           ? _value.test
           : test // ignore: cast_nullable_to_non_nullable
               as int?,
-      sources: freezed == sources
+      sources: null == sources
           ? _value.sources
           : sources // ignore: cast_nullable_to_non_nullable
-              as List<Course>?,
-      isSelect: freezed == isSelect
-          ? _value.isSelect
-          : isSelect // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as List<Source>,
     ) as $Val);
   }
 }
@@ -110,13 +125,15 @@ abstract class _$$CourseImplCopyWith<$Res> implements $CourseCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? name,
+      {int id,
+      bool payed,
+      String name,
       String? picture,
-      String? description,
-      String? educationText,
+      String description,
+      @JsonKey(name: 'educational_text') String? educationText,
+      int? price,
       int? test,
-      List<Course>? sources,
-      bool? isSelect});
+      List<Source> sources});
 }
 
 /// @nodoc
@@ -130,43 +147,53 @@ class __$$CourseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? id = null,
+    Object? payed = null,
+    Object? name = null,
     Object? picture = freezed,
-    Object? description = freezed,
+    Object? description = null,
     Object? educationText = freezed,
+    Object? price = freezed,
     Object? test = freezed,
-    Object? sources = freezed,
-    Object? isSelect = freezed,
+    Object? sources = null,
   }) {
     return _then(_$CourseImpl(
-      name: freezed == name
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      payed: null == payed
+          ? _value.payed
+          : payed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       picture: freezed == picture
           ? _value.picture
           : picture // ignore: cast_nullable_to_non_nullable
               as String?,
-      description: freezed == description
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       educationText: freezed == educationText
           ? _value.educationText
           : educationText // ignore: cast_nullable_to_non_nullable
               as String?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int?,
       test: freezed == test
           ? _value.test
           : test // ignore: cast_nullable_to_non_nullable
               as int?,
-      sources: freezed == sources
+      sources: null == sources
           ? _value._sources
           : sources // ignore: cast_nullable_to_non_nullable
-              as List<Course>?,
-      isSelect: freezed == isSelect
-          ? _value.isSelect
-          : isSelect // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as List<Source>,
     ));
   }
 }
@@ -174,45 +201,50 @@ class __$$CourseImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CourseImpl implements _Course {
-  _$CourseImpl(
-      {this.name,
+  const _$CourseImpl(
+      {required this.id,
+      required this.payed,
+      required this.name,
       this.picture,
-      this.description,
-      this.educationText,
+      required this.description,
+      @JsonKey(name: 'educational_text') this.educationText,
+      this.price,
       this.test,
-      final List<Course>? sources,
-      this.isSelect})
+      final List<Source> sources = const <Source>[]})
       : _sources = sources;
 
   factory _$CourseImpl.fromJson(Map<String, dynamic> json) =>
       _$$CourseImplFromJson(json);
 
   @override
-  final String? name;
+  final int id;
+  @override
+  final bool payed;
+  @override
+  final String name;
   @override
   final String? picture;
   @override
-  final String? description;
+  final String description;
   @override
+  @JsonKey(name: 'educational_text')
   final String? educationText;
   @override
-  final int? test;
-  final List<Course>? _sources;
+  final int? price;
   @override
-  List<Course>? get sources {
-    final value = _sources;
-    if (value == null) return null;
+  final int? test;
+  final List<Source> _sources;
+  @override
+  @JsonKey()
+  List<Source> get sources {
     if (_sources is EqualUnmodifiableListView) return _sources;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_sources);
   }
 
   @override
-  final bool? isSelect;
-
-  @override
   String toString() {
-    return 'Course(name: $name, picture: $picture, description: $description, educationText: $educationText, test: $test, sources: $sources, isSelect: $isSelect)';
+    return 'Course(id: $id, payed: $payed, name: $name, picture: $picture, description: $description, educationText: $educationText, price: $price, test: $test, sources: $sources)';
   }
 
   @override
@@ -220,29 +252,32 @@ class _$CourseImpl implements _Course {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CourseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.payed, payed) || other.payed == payed) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.picture, picture) || other.picture == picture) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.educationText, educationText) ||
                 other.educationText == educationText) &&
+            (identical(other.price, price) || other.price == price) &&
             (identical(other.test, test) || other.test == test) &&
-            const DeepCollectionEquality().equals(other._sources, _sources) &&
-            (identical(other.isSelect, isSelect) ||
-                other.isSelect == isSelect));
+            const DeepCollectionEquality().equals(other._sources, _sources));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
+      payed,
       name,
       picture,
       description,
       educationText,
+      price,
       test,
-      const DeepCollectionEquality().hash(_sources),
-      isSelect);
+      const DeepCollectionEquality().hash(_sources));
 
   @JsonKey(ignore: true)
   @override
@@ -259,31 +294,38 @@ class _$CourseImpl implements _Course {
 }
 
 abstract class _Course implements Course {
-  factory _Course(
-      {final String? name,
+  const factory _Course(
+      {required final int id,
+      required final bool payed,
+      required final String name,
       final String? picture,
-      final String? description,
-      final String? educationText,
+      required final String description,
+      @JsonKey(name: 'educational_text') final String? educationText,
+      final int? price,
       final int? test,
-      final List<Course>? sources,
-      final bool? isSelect}) = _$CourseImpl;
+      final List<Source> sources}) = _$CourseImpl;
 
   factory _Course.fromJson(Map<String, dynamic> json) = _$CourseImpl.fromJson;
 
   @override
-  String? get name;
+  int get id;
+  @override
+  bool get payed;
+  @override
+  String get name;
   @override
   String? get picture;
   @override
-  String? get description;
+  String get description;
   @override
+  @JsonKey(name: 'educational_text')
   String? get educationText;
+  @override
+  int? get price;
   @override
   int? get test;
   @override
-  List<Course>? get sources;
-  @override
-  bool? get isSelect;
+  List<Source> get sources;
   @override
   @JsonKey(ignore: true)
   _$$CourseImplCopyWith<_$CourseImpl> get copyWith =>

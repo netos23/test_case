@@ -27,6 +27,7 @@ import 'package:test_case/pages/base/register_page/register_page_widget.dart';
 import 'package:test_case/pages/base/register_page/register_page_wm.dart';
 import 'package:test_case/pages/base/test_page/test_page_widget.dart';
 import 'package:test_case/pages/base/test_page/test_page_wm.dart';
+import 'package:test_case/pages/base/top_users_page/top_users_page.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
 import 'package:test_case/pages/game/components/empty_character_page.dart';
 import 'package:test_case/pages/game/components/naiv_page.dart';
@@ -51,6 +52,9 @@ class AppRouter extends _$AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           page: ShopGameRoute.page,
+        ),
+        AutoRoute(
+          page: TopUsersRoute.page,
         ),
         AutoRoute(page: WebViewerRoute.page),
         AutoRoute(

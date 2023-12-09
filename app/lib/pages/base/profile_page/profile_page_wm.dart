@@ -30,6 +30,8 @@ abstract class IProfilePageWidgetModel extends IWidgetModel
   void onMyZone();
 
   void onAabout();
+
+  void openTop();
 }
 
 ProfilePageWidgetModel defaultProfilePageWidgetModelFactory(
@@ -196,5 +198,10 @@ class ProfilePageWidgetModel
   @override
   void onMyZone() {
     // router.navigate(HomeRoute(children: [MapRoute()]));
+  }
+
+  @override
+  void openTop() {
+    // TODO: implement openTop
   }
 }

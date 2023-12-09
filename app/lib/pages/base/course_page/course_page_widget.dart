@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/entity/course/course_preview.dart';
+import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/router/app_router.dart';
 import 'package:test_case/util/pagination_builder.dart';
 
@@ -19,12 +20,41 @@ class CoursePageWidget extends ElementaryWidget<ICoursePageWidgetModel> {
 
   @override
   Widget build(ICoursePageWidgetModel wm) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Курсы'),
-        centerTitle: true,
-      ),
-      body: SafeArea(
+    return ListenableBuilder(
+      listenable: AppComponents().tokenRepository,
+      builder: (context, child) {
+        final auth = AppComponents().tokenRepository.auth;
+        return DefaultTabController(
+          length: 2,
+          child: SafeArea(
+            child: Scaffold(
+              appBar: !auth
+                  ? AppBar(
+                      title: const Text('Курсы'),
+                      centerTitle: true,
+                    )
+                  : const PreferredSize(
+                      preferredSize: Size.fromHeight(50),
+                      child: SizedBox(
+                        height: 50,
+                        child: TabBar(
+                          tabs: [
+                            Tab(
+                              text: 'Все курсы',
+                            ),
+                            Tab(
+                              text: 'Мои курсы',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+              body: child,
+            ),
+          ),
+        );
+      },
+      child: SafeArea(
         child: PagePaginationBuilder<CoursePreview>(
           initialPage: 1,
           paginationCallback: wm.loadPages,
@@ -72,6 +102,7 @@ class CoursePreviewWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
+    final price = course?.price ?? 0;
 
     return Card(
       clipBehavior: Clip.hardEdge,
@@ -108,10 +139,32 @@ class CoursePreviewWidget extends StatelessWidget {
                 left: 8,
                 bottom: 8,
               ),
-              child: Text(
-                course?.description ?? '',
-                style: textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurface,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxHeight: 100,
+                ),
+                child: Text(
+                  course?.description ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  price == 0 ? 'Бесплатно' : '$price ₽',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                  style: textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green[800],
+                  ),
                 ),
               ),
             ),
