@@ -1,5 +1,6 @@
 from banners.models import SourceModel
 from cstests.models import UserAnswers, TestResults
+from utils.constants import age_profi_filtering
 from utils.elastic_client import ElasticClient
 
 from utils.morph_utils import WordMorph
@@ -9,6 +10,7 @@ class RecommendService:
     @staticmethod
     def get_recommends(user):
         sources = SourceModel.objects.all()
+        sources = age_profi_filtering(sources, user)
         title = 'Вам будет интересно:'
         client = ElasticClient(index='sources')
         last_test = TestResults.objects.filter(user=user, last_attempt=True).first()

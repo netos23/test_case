@@ -7,7 +7,6 @@ from cstests.models import CSTestModel
 from utils.constants import FOR_AGES
 
 
-# Create your models here.
 class Course(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название курса')
     picture = models.URLField(null=True, blank=True, verbose_name='Изображение')

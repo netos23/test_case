@@ -6,6 +6,7 @@ from cstests.models import CSTestModel
 from cstests.serializers import CSTestSerializer, ISTestDetailSerializer, ResultTestResponseSerializer, \
     ResultTestRequestSerializer
 from cstests.services import CService
+from utils.constants import age_profi_filtering
 from utils.elastic_client import ElasticClient
 
 
@@ -16,6 +17,7 @@ class GetAllISTestAPIView(generics.ListAPIView):
     def get_queryset(self):
         search = self.request.query_params.get(self.lookup_url_kwarg)
         tests = CSTestModel.objects.all()
+        tests = age_profi_filtering(tests, self.request.user)
         if search:
             client = ElasticClient(index='tests')
             result_ids = client.search_tests(search)
