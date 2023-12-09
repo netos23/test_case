@@ -5,7 +5,6 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:test_case/domain/entity/test/question.dart';
-import 'package:test_case/domain/entity/test/test.dart';
 import 'package:test_case/domain/entity/test/test_detail.dart';
 import 'package:test_case/domain/entity/test/variant.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
@@ -39,7 +38,6 @@ class DetailTestPageWidget
         child: Center(
           child: SizedBox(
             width: 600,
-            height: 700,
             child: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
@@ -135,19 +133,19 @@ class DetailTestPageWidget
                                           ],
                                         )
                                       : Row(
-                                        children: [
-                                          if (wm.pageController.initialPage !=
-                                              snapshot.data)
-                                          FloatingActionButton(
-                                            key: UniqueKey(),
-                                            onPressed: wm.toPrevPage,
-                                            child: const Icon(Icons
-                                                .navigate_before_outlined),
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          SizedBox(
+                                          children: [
+                                            if (wm.pageController.initialPage !=
+                                                snapshot.data)
+                                              FloatingActionButton(
+                                                key: UniqueKey(),
+                                                onPressed: wm.toPrevPage,
+                                                child: const Icon(Icons
+                                                    .navigate_before_outlined),
+                                              ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            SizedBox(
                                               width: 80,
                                               child: FloatingActionButton(
                                                 onPressed: () {
@@ -156,8 +154,8 @@ class DetailTestPageWidget
                                                 child: const Text('Отправить'),
                                               ),
                                             ),
-                                        ],
-                                      ),
+                                          ],
+                                        ),
                                 );
                               }),
                         ),
@@ -233,7 +231,7 @@ class QuestionWidget extends StatelessWidget {
                 variants: question.variants ?? [],
                 model: model,
                 theme: theme,
-            ),
+              ),
             _ => const SizedBox.shrink(),
           },
         ],
@@ -270,14 +268,17 @@ class TextVariantWidget extends StatelessWidget {
             final controller = snapshot.hasData
                 ? snapshot.data![variant.id]
                 : TextEditingController();
-            return TextField(
-              controller: controller,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onBackground,
-                overflow: TextOverflow.ellipsis,
-              ),
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: controller,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onBackground,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
               ),
             );
           },
@@ -313,7 +314,7 @@ class VariantWidget extends StatelessWidget {
           builder: (context, snapshot) {
             return CheckboxListTile(
               title: Text(variant.title ?? ''),
-              value: ((model.choosesController.valueOrNull ?? {})[variant.id] ??
+              value: ((model.choosesController.valueOrNull ?? {})[questionId] ??
                       [])
                   .contains(variant.id),
               onChanged: (_) => model.selectVariant(questionId, variant),
@@ -351,12 +352,16 @@ class RadioVariantWidget extends StatelessWidget {
           builder: (context, snapshot) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.8),
-              child: ChoiceChip(
-                  label: Text(variant.title ?? ''),
-                  onSelected: (_) => model.selectRadio(questionId, variant),
-                  selected: (model.radioChooseController.valueOrNull ??
-                          {})[questionId] ==
-                      variant.id),
+              child: RadioListTile(
+                title: Text(variant.title ?? ''),
+                onChanged: (_) => model.selectRadio(questionId, variant),
+                // selected: (model.radioChooseController.valueOrNull ??
+                //         {})[questionId] ==
+                //     variant.id,
+                value: variant.id,
+                groupValue:
+                    (model.radioChooseController.valueOrNull ?? {})[questionId],
+              ),
             );
           },
         );
