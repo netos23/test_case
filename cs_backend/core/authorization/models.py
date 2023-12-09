@@ -22,6 +22,10 @@ class Users(AbstractUser):
     address = models.CharField(max_length=1024, null=True)
     tg_chat_id = models.IntegerField(null=True)
     tg_chat_start_link = models.URLField(max_length=256, null=True)
+    profi = models.BooleanField(default=False)
+    age6_12 = models.BooleanField(default=False)
+    age13_16 = models.BooleanField(default=False)
+    age16_90 = models.BooleanField(default=False)
 
 
 class AuthCodeModel(models.Model):

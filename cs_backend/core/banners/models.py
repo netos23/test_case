@@ -21,6 +21,7 @@ class BannerModel(models.Model):
         ('sliderBanner', _('слайдер')),
     ]
     type = models.CharField(max_length=256, choices=TYPES, default='image')
+    for_age = models.CharField(max_length=256, choices=FOR_AGES, default='16-90+')
     sort = models.IntegerField(default=0)
 
     def __str__(self):

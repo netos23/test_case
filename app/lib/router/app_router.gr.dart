@@ -97,29 +97,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    FinTest1Route.name: (routeData) {
-      final queryParams = routeData.queryParams;
-      final args = routeData.argsAs<FinTest1RouteArgs>(
-          orElse: () => FinTest1RouteArgs(level: queryParams.get('level')));
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: FinTest1PageWidget(
-          key: args.key,
-          level: args.level,
-        ),
-      );
-    },
-    FinTest1_1Route.name: (routeData) {
-      final args = routeData.argsAs<FinTest1_1RouteArgs>(
-          orElse: () => const FinTest1_1RouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: FinTest1_1PageWidget(
-          key: args.key,
-          level: args.level,
-        ),
-      );
-    },
     GameRoute.name: (routeData) {
       final args =
           routeData.argsAs<GameRouteArgs>(orElse: () => const GameRouteArgs());
@@ -184,9 +161,19 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ShopGameRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<ShopGameRouteArgs>(
+          orElse: () => ShopGameRouteArgs(
+                level: queryParams.get('level'),
+                config: queryParams.get('config'),
+              ));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ShopGamePageWidget(),
+        child: ShopGamePageWidget(
+          key: args.key,
+          level: args.level,
+          config: args.config,
+        ),
       );
     },
     ShowCaseRoute.name: (routeData) {
@@ -582,83 +569,6 @@ class EmptyCharacterRouteArgs {
 }
 
 /// generated route for
-/// [FinTest1PageWidget]
-class FinTest1Route extends PageRouteInfo<FinTest1RouteArgs> {
-  FinTest1Route({
-    Key? key,
-    Level? level,
-    List<PageRouteInfo>? children,
-  }) : super(
-          FinTest1Route.name,
-          args: FinTest1RouteArgs(
-            key: key,
-            level: level,
-          ),
-          rawQueryParams: {'level': level},
-          initialChildren: children,
-        );
-
-  static const String name = 'FinTest1Route';
-
-  static const PageInfo<FinTest1RouteArgs> page =
-      PageInfo<FinTest1RouteArgs>(name);
-}
-
-class FinTest1RouteArgs {
-  const FinTest1RouteArgs({
-    this.key,
-    this.level,
-  });
-
-  final Key? key;
-
-  final Level? level;
-
-  @override
-  String toString() {
-    return 'FinTest1RouteArgs{key: $key, level: $level}';
-  }
-}
-
-/// generated route for
-/// [FinTest1_1PageWidget]
-class FinTest1_1Route extends PageRouteInfo<FinTest1_1RouteArgs> {
-  FinTest1_1Route({
-    Key? key,
-    Level? level,
-    List<PageRouteInfo>? children,
-  }) : super(
-          FinTest1_1Route.name,
-          args: FinTest1_1RouteArgs(
-            key: key,
-            level: level,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'FinTest1_1Route';
-
-  static const PageInfo<FinTest1_1RouteArgs> page =
-      PageInfo<FinTest1_1RouteArgs>(name);
-}
-
-class FinTest1_1RouteArgs {
-  const FinTest1_1RouteArgs({
-    this.key,
-    this.level,
-  });
-
-  final Key? key;
-
-  final Level? level;
-
-  @override
-  String toString() {
-    return 'FinTest1_1RouteArgs{key: $key, level: $level}';
-  }
-}
-
-/// generated route for
 /// [GamePageWidget]
 class GameRoute extends PageRouteInfo<GameRouteArgs> {
   GameRoute({
@@ -879,16 +789,49 @@ class RegisterRouteArgs {
 
 /// generated route for
 /// [ShopGamePageWidget]
-class ShopGameRoute extends PageRouteInfo<void> {
-  const ShopGameRoute({List<PageRouteInfo>? children})
-      : super(
+class ShopGameRoute extends PageRouteInfo<ShopGameRouteArgs> {
+  ShopGameRoute({
+    Key? key,
+    Level? level,
+    ShopPageConfiguration? config,
+    List<PageRouteInfo>? children,
+  }) : super(
           ShopGameRoute.name,
+          args: ShopGameRouteArgs(
+            key: key,
+            level: level,
+            config: config,
+          ),
+          rawQueryParams: {
+            'level': level,
+            'config': config,
+          },
           initialChildren: children,
         );
 
   static const String name = 'ShopGameRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<ShopGameRouteArgs> page =
+      PageInfo<ShopGameRouteArgs>(name);
+}
+
+class ShopGameRouteArgs {
+  const ShopGameRouteArgs({
+    this.key,
+    this.level,
+    this.config,
+  });
+
+  final Key? key;
+
+  final Level? level;
+
+  final ShopPageConfiguration? config;
+
+  @override
+  String toString() {
+    return 'ShopGameRouteArgs{key: $key, level: $level, config: $config}';
+  }
 }
 
 /// generated route for
