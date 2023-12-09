@@ -122,8 +122,8 @@ class CourseDetailPageWidgetModel
 
   @override
   void openTest(int courseId) {
-    router.navigate(TestTab(children: [
+    router.navigate(
       DetailTestRoute(testId: courseId),
-    ]));
+    );
   }
 }

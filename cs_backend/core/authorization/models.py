@@ -22,7 +22,7 @@ class Users(AbstractUser):
     profi = models.BooleanField(default=False, verbose_name="В профи")
     age6_12 = models.BooleanField(default=False, verbose_name="Категория 6-12")
     age13_16 = models.BooleanField(default=False, verbose_name="Категория 13-16")
-    age16_90 = models.BooleanField(default=False, verbose_name="Категория 16-90")
+    age16_90 = models.BooleanField(default=True, verbose_name="Категория 16-90")
     total_score = models.IntegerField(default=0, verbose_name="Общая сумма баллов")
     initial_passed = models.BooleanField(default=False)
 

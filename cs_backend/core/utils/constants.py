@@ -1,4 +1,5 @@
 from django.core.cache import cache
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from authorization.models import UserLevel
@@ -24,3 +25,17 @@ def get_user_level(user):
         if level[0] <= user.total_score < level[1]:
             return level[2]
     return "Начинающий"
+
+
+def age_profi_filtering(queryset, user):
+    if user.id is None:
+        return queryset
+    if not user.profi:
+        queryset = queryset.filter(profi=False)
+    if not user.age6_12:
+        queryset = queryset.filter(~Q(for_age='6-12+'))
+    if not user.age13_16:
+        queryset = queryset.filter(~Q(for_age='13-16+'))
+    if not user.age16_90:
+        queryset = queryset.filter(~Q(for_age='16-90+'))
+    return queryset

@@ -27,98 +27,91 @@ class TestPageWidget extends ElementaryWidget<ITestPageWidgetModel> {
     final textTheme = theme.textTheme;
 
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 600,
-          child: StreamBuilder<Profile?>(
-            initialData: wm.profileController.valueOrNull,
-            stream: wm.profileController.stream,
-            builder: (context, profileSnapshot) {
-              final isLogin = profileSnapshot.hasData &&
-                  profileSnapshot.data!.email.isNotEmpty;
+      body: StreamBuilder<Profile?>(
+        initialData: wm.profileController.valueOrNull,
+        stream: wm.profileController.stream,
+        builder: (context, profileSnapshot) {
+          final isLogin =
+              profileSnapshot.hasData && profileSnapshot.data!.email.isNotEmpty;
 
-              return SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        pinned: true,
-                        expandedHeight: 100,
-                        collapsedHeight: 80,
-                        flexibleSpace: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            style: textTheme.bodyMedium?.copyWith(
-                              color: colorScheme.onBackground,
-                              overflow: TextOverflow.ellipsis,
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    pinned: true,
+                    expandedHeight: 100,
+                    collapsedHeight: 80,
+                    flexibleSpace: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: TextField(
+                        textAlign: TextAlign.start,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onBackground,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16),
                             ),
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(16),
-                                ),
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: colorScheme.surfaceVariant,
-                              labelText: 'Поиск по названию',
-                              suffixIcon: Icon(
-                                Icons.search,
-                                color: colorScheme.primary,
-                              ),
+                            borderSide: BorderSide(
+                              width: 0,
+                              style: BorderStyle.none,
                             ),
+                          ),
+                          filled: true,
+                          fillColor: colorScheme.surfaceVariant,
+                          labelText: 'Поиск по названию',
+                          suffixIcon: Icon(
+                            Icons.search,
+                            color: colorScheme.primary,
                           ),
                         ),
                       ),
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          child: EntityStateNotifierBuilder(
-                            listenableEntityState: wm.testsState,
-                            loadingBuilder: (context, data) {
-                              if (!isLogin) {
-                                return const EmptyPage();
-                              }
-                              return const Center(
-                                child: LoadingIndicator(),
-                              );
-                            },
-                            builder: (context, testsData) {
-                              final tests = testsData ?? [];
-                              if (tests.isEmpty) {
-                                return const Center(
-                                  child: Text('Can`t get tests'),
-                                );
-                              }
-                              return ListView.builder(
-                                itemCount: tests.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  final test = tests[index];
-                                  return TestWidget(
-                                    test: test,
-                                    theme: theme,
-                                    onTap: wm.toTestDetail,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ),
+                  SliverToBoxAdapter(
+                    child: EntityStateNotifierBuilder(
+                      listenableEntityState: wm.testsState,
+                      loadingBuilder: (context, data) {
+                        if (!isLogin) {
+                          return const EmptyPage();
+                        }
+                        return const Center(
+                          child: LoadingIndicator(),
+                        );
+                      },
+                      builder: (context, testsData) {
+                        final tests = testsData ?? [];
+                        if (tests.isEmpty) {
+                          return const Center(
+                            child: Text('Can`t get tests'),
+                          );
+                        }
+                        return ListView.builder(
+                          itemCount: tests.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final test = tests[index];
+                            return TestWidget(
+                              test: test,
+                              theme: theme,
+                              onTap: wm.toTestDetail,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -252,7 +245,7 @@ class TestWidget extends StatelessWidget {
                       const Spacer(),
                       Text(
                         test.description,
-                        maxLines: 4,
+                        maxLines: 3,
                         style: theme.textTheme.labelLarge,
                       ),
                       Row(
@@ -270,7 +263,7 @@ class TestWidget extends StatelessWidget {
                             child: Text(
                               test.forAge ?? '',
                               style: theme.textTheme.labelLarge,
-                              maxLines: 3,
+                              maxLines: 2,
                             ),
                           ),
                         ],

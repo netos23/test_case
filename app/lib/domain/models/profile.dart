@@ -20,6 +20,11 @@ class Profile with _$Profile {
     @JsonKey(name: 'phone') String? phone,
     @JsonKey(name: 'brand') String? brand,
     @JsonKey(name: 'tg_chat_start_link') String? tgChatStartLink,
+    @JsonKey(name: 'age6_12') bool? age6_12,
+    @JsonKey(name: 'age13_16') bool? age13_16,
+    @JsonKey(name: 'age16_90') bool? age16_90,
+    @JsonKey(name: 'total_score') int? totalScore,
+    @JsonKey(name: 'initial_passed') bool? initialPassed,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, dynamic> json) =>

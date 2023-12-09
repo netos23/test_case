@@ -17,8 +17,8 @@ class SecurePageWidget extends StatelessWidget {
       children: [
         Positioned(
           top: 200,
-          width: 200,
-          height: 150,
+          width: 225,
+          height: 175,
           right: 25,
           child: Card(
               color: Colors.white,

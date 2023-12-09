@@ -5,9 +5,6 @@ import 'package:rxdart/subjects.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
 import 'package:test_case/internal/app_components.dart';
-import 'package:test_case/router/app_router.dart';
-import 'package:test_case/util/snack_bar_util.dart';
-import 'package:test_case/util/value_stream_wrapper.dart';
 import 'package:test_case/util/wm_extensions.dart';
 
 import 'edit_profile_page_model.dart';
@@ -30,6 +27,16 @@ abstract class IEditProfilePageWidgetModel extends IWidgetModel
   TextEditingController get phoneNumber;
 
   BehaviorSubject<Profile?> get profileController;
+
+  BehaviorSubject<bool> get age6Controller;
+
+  BehaviorSubject<bool> get age13Controller;
+
+  BehaviorSubject<bool> get age16Controller;
+
+  BehaviorSubject<int> get totalScoreController;
+
+  BehaviorSubject<bool> get initialController;
 
   onEditProfile();
 }
@@ -64,14 +71,20 @@ class EditProfilePageWidgetModel
 
   @override
   BehaviorSubject<String?> genderController = BehaviorSubject();
-
+  BehaviorSubject<bool> age6Controller = BehaviorSubject();
+  BehaviorSubject<bool> age13Controller = BehaviorSubject();
+  BehaviorSubject<bool> age16Controller = BehaviorSubject();
+  BehaviorSubject<bool> initialController = BehaviorSubject();
+  BehaviorSubject<int> totalScoreController = BehaviorSubject();
   @override
   BehaviorSubject<Profile?> profileController = BehaviorSubject<Profile?>();
+  @override
+  BehaviorSubject<List<int>> profileInterestIdsController =
+      BehaviorSubject.seeded([]);
 
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-
     if (profileController.valueOrNull != null) {
       profileController.add(profileUseCase.profile.value);
     }
@@ -80,16 +93,25 @@ class EditProfilePageWidgetModel
       profileController.add(event);
     });
 
+    profileController.listen((event) {
+      emailController.text = event?.email ?? '';
+      firstNameController.text = event?.firstName ?? '';
+      secondNameController.text = event?.secondName ?? '';
+      phoneNumber.text = event?.phone ?? '';
+      bitrhdayController.text = event?.birthDate ?? '';
+      genderController.add(event?.gender);
+      age6Controller.add(event?.age6_12 ?? false);
+      age13Controller.add(event?.age13_16 ?? false);
+      age16Controller.add(event?.age16_90 ?? false);
+      totalScoreController.add(event?.totalScore ?? 0);
+    });
+
     if (profileUseCase.profile.valueOrNull == null) {
       profileUseCase.loadProfile();
     }
-
-    emailController.text = widget.profile?.email ?? '';
-    firstNameController.text = widget.profile?.firstName ?? '';
-    secondNameController.text = widget.profile?.secondName ?? '';
-    phoneNumber.text = widget.profile?.phone ?? '';
-    bitrhdayController.text = widget.profile?.birthDate ?? '';
-    genderController.add(widget.profile?.gender);
+    if (widget.profile != null) {
+      profileController.add(widget.profile);
+    }
   }
 
   @override
@@ -101,6 +123,9 @@ class EditProfilePageWidgetModel
       phone: phoneNumber.text,
       birthDate: bitrhdayController.text,
       gender: genderController.value,
+      age6_12: age6Controller.valueOrNull ?? false,
+      age13_16: age13Controller.valueOrNull ?? false,
+      age16_90: age16Controller.valueOrNull ?? false,
     );
 
     try {
@@ -121,6 +146,11 @@ class EditProfilePageWidgetModel
     bitrhdayController.dispose();
     genderController.close();
     profileController.close();
+    age6Controller.close();
+    age13Controller.close();
+    age16Controller.close();
+    totalScoreController.close();
+    initialController.close();
     super.dispose();
   }
 

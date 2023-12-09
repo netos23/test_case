@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from course.models import Course
 from course.serializers import CourseSerializer, CourseShortSerializer, CourseDetailSerializer
 from orders.models import OrderModel
+from utils.constants import age_profi_filtering
 from utils.pagination import ApiPagination
 
 
@@ -12,10 +13,11 @@ from utils.pagination import ApiPagination
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
-    queryset = Course.objects.all().order_by("-id")
     pagination_class = ApiPagination
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        queryset = Course.objects.all().order_by("-id")
+        return age_profi_filtering(queryset, self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'list':

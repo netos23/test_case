@@ -30,10 +30,10 @@ class CourseAdmin(admin.ModelAdmin):
     @staticmethod
     def start_parse_view(request, course_id: int):
         course = Course.objects.get(id=course_id)
-        test = ParseTestService.parse_test(request.user, course.educational_text)
+        test = ParseTestService.parse_test(request.user, course)
         course.test = test
         course.save()
-        return HttpResponse(status=201)
+        return redirect('/admin/course/course/')
 
     @staticmethod
     def start_gen_view(request, course_id: int):

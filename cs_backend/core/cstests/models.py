@@ -50,12 +50,13 @@ class CSTestModel(models.Model):
     picture = models.URLField(null=True, blank=True, verbose_name="Картинка")
     topic = models.CharField(max_length=255, verbose_name="Тема")
     for_age = models.CharField(max_length=256, choices=FOR_AGES, default='16-90+', verbose_name='Для возраста')
-    description = models.CharField(max_length=1024, verbose_name="Описание")
+    description = models.TextField(verbose_name="Описание")
     complexity = models.CharField(max_length=256, choices=COMPLEXITY, default='easy', verbose_name='Сложность')
     user = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name="Пользователь")
     created_at = models.DateTimeField(default=now, verbose_name="Дата создания")
     required_score = models.IntegerField(default=0, verbose_name="Балл прохождения")
     questions = models.ManyToManyField(QuestionModel, related_name='tests', verbose_name="Вопросы")
+    profi = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Тест"
