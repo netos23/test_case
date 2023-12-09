@@ -16,9 +16,9 @@ class QuestionModel(models.Model):
     created_at = models.DateTimeField(default=now, verbose_name="Дата создания")
     type = models.CharField(max_length=256, choices=TYPES, default='single_checked', verbose_name="Тип вопроса")
     question = models.CharField(max_length=255, verbose_name="Вопрос")
-    explain_answer = models.CharField(max_length=1024, verbose_name="Подсказка")
+    explain_answer = models.CharField(max_length=1024, verbose_name="Подсказка", default='')
     picture = models.URLField(null=True, blank=True, verbose_name="Изображение")
-    sort_number = models.IntegerField(verbose_name="Порядок в тесте")
+    sort_number = models.IntegerField(verbose_name="Порядок в тесте", default=0)
 
     class Meta:
         ordering = ['sort_number', 'id']
@@ -29,7 +29,7 @@ class QuestionModel(models.Model):
 class VariantModel(models.Model):
     title = models.CharField(max_length=255, verbose_name="Название")
     picture = models.URLField(null=True, blank=True, verbose_name="Изображение")
-    is_right = models.BooleanField(null=True, blank=True, verbose_name="Является правильным")
+    is_right = models.BooleanField(default=False, verbose_name="Является правильным")
     right_answer = models.CharField(max_length=255, null=True, blank=True, verbose_name="Правильный ответ")
     question = models.ForeignKey(QuestionModel, on_delete=models.CASCADE, related_name='variants',
                                  verbose_name="Вопрос")
