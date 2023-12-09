@@ -61,6 +61,23 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    CourseRoute.name: (routeData) {
+      final args = routeData.argsAs<CourseRouteArgs>(
+          orElse: () => const CourseRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CoursePageWidget(
+          key: args.key,
+          wmFactory: args.wmFactory,
+        ),
+      );
+    },
+    CourseTab.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CourseTabPage(),
+      );
+    },
     DetailTestRoute.name: (routeData) {
       final args = routeData.argsAs<DetailTestRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -435,6 +452,60 @@ class ChooseCityRouteArgs {
   String toString() {
     return 'ChooseCityRouteArgs{profile: $profile, key: $key, wmFactory: $wmFactory}';
   }
+}
+
+/// generated route for
+/// [CoursePageWidget]
+class CourseRoute extends PageRouteInfo<CourseRouteArgs> {
+  CourseRoute({
+    Key? key,
+    WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+            BuildContext)
+        wmFactory = defaultCoursePageWidgetModelFactory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CourseRoute.name,
+          args: CourseRouteArgs(
+            key: key,
+            wmFactory: wmFactory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CourseRoute';
+
+  static const PageInfo<CourseRouteArgs> page = PageInfo<CourseRouteArgs>(name);
+}
+
+class CourseRouteArgs {
+  const CourseRouteArgs({
+    this.key,
+    this.wmFactory = defaultCoursePageWidgetModelFactory,
+  });
+
+  final Key? key;
+
+  final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+      BuildContext) wmFactory;
+
+  @override
+  String toString() {
+    return 'CourseRouteArgs{key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [CourseTabPage]
+class CourseTab extends PageRouteInfo<void> {
+  const CourseTab({List<PageRouteInfo>? children})
+      : super(
+          CourseTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CourseTab';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

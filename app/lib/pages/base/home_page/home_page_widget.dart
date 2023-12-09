@@ -33,6 +33,7 @@ class _MobilePage extends StatelessWidget {
         ShowCaseTab(),
         TestTab(),
         GameTab(),
+        CourseTab(),
         UserProfileTab(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
@@ -53,6 +54,10 @@ class _MobilePage extends StatelessWidget {
             NavigationDestination(
               label: 'Игры',
               icon: Icon(Icons.whatshot_outlined),
+            ),
+            NavigationDestination(
+              label: 'Курсы',
+              icon: Icon(Icons.cast_for_education),
             ),
             NavigationDestination(
               label: 'Профиль',

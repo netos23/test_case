@@ -8,6 +8,7 @@ import 'package:test_case/data/repository/game_repository.dart';
 import 'package:test_case/data/repository/token_ropository.dart';
 import 'package:test_case/data/service/auth_service.dart';
 import 'package:test_case/data/service/banner_service.dart';
+import 'package:test_case/data/service/course_service.dart';
 import 'package:test_case/data/service/geozones_service.dart';
 import 'package:test_case/data/service/test_service.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
@@ -28,6 +29,7 @@ class AppComponents {
   late final BannerService bannerService = BannerService(dio);
   late final GeozonesService geozonesService = GeozonesService(dio);
   late final TestService testService = TestService(dio);
+  late final CourseService courseService = CourseService(dio);
 
   final TokenRepository tokenRepository = TokenRepository();
 

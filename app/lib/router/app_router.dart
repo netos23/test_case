@@ -10,6 +10,8 @@ import 'package:test_case/pages/base/auth_code_page/auth_code_page_widget.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_wm.dart';
 import 'package:test_case/pages/base/auth_page/auth_page_widget.dart';
 import 'package:test_case/pages/base/auth_page/auth_page_wm.dart';
+import 'package:test_case/pages/base/course_page/course_page_widget.dart';
+import 'package:test_case/pages/base/course_page/course_page_wm.dart';
 import 'package:test_case/pages/base/detail_test_page/detail_test_page_widget.dart';
 import 'package:test_case/pages/base/detail_test_page/detail_test_page_wm.dart';
 import 'package:test_case/pages/base/edit_profile_page/edit_profile_page_widget.dart';
@@ -80,15 +82,17 @@ class AppRouter extends _$AppRouter {
             AutoRoute(
               page: TestTab.page,
               children: [
-                AutoRoute(
-                  page: TestRoute.page,
-                  initial: true,
-                  children: [
-                    AutoRoute(
-                      page: DetailTestRoute.page,
-                    ),
-                  ]
-                ),
+                AutoRoute(page: TestRoute.page, initial: true, children: [
+                  AutoRoute(
+                    page: DetailTestRoute.page,
+                  ),
+                ]),
+              ],
+            ),
+            AutoRoute(
+              page: CourseTab.page,
+              children: [
+                AutoRoute(page: CourseRoute.page, initial: true),
               ],
             ),
             AutoRoute(
@@ -125,6 +129,11 @@ class ShowCaseTabPage extends AutoRouter {
 @RoutePage(name: 'UserProfileTab')
 class UserProfileTabPage extends AutoRouter {
   const UserProfileTabPage({super.key});
+}
+
+@RoutePage(name: 'CourseTab')
+class CourseTabPage extends AutoRouter {
+  const CourseTabPage({super.key});
 }
 
 @RoutePage(name: 'TestTab')
