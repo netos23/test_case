@@ -68,13 +68,15 @@ class _TestService implements TestService {
   }
 
   @override
-  Future<List<TestResult>> checkResult() async {
+  Future<TestResultResponse> checkResult(
+      {required TestResult testResult}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(testResult.toJson());
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<TestResult>>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<TestResultResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -86,9 +88,7 @@ class _TestService implements TestService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => TestResult.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = TestResultResponse.fromJson(_result.data!);
     return value;
   }
 

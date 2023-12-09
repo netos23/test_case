@@ -23,7 +23,11 @@ mixin _$Question {
   @JsonKey(name: 'explain_answer')
   String get explainAnswer => throw _privateConstructorUsedError;
   List<Variant> get variants => throw _privateConstructorUsedError;
+  @JsonKey(name: 'final_variants')
+  List<Variant>? get finalVariants => throw _privateConstructorUsedError;
   String get question => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_correct')
+  bool? get isCorrect => throw _privateConstructorUsedError;
   String? get picture => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
@@ -42,7 +46,9 @@ abstract class $QuestionCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'explain_answer') String explainAnswer,
       List<Variant> variants,
+      @JsonKey(name: 'final_variants') List<Variant>? finalVariants,
       String question,
+      @JsonKey(name: 'is_correct') bool? isCorrect,
       String? picture,
       String? type,
       int? id});
@@ -63,7 +69,9 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   $Res call({
     Object? explainAnswer = null,
     Object? variants = null,
+    Object? finalVariants = freezed,
     Object? question = null,
+    Object? isCorrect = freezed,
     Object? picture = freezed,
     Object? type = freezed,
     Object? id = freezed,
@@ -77,10 +85,18 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.variants
           : variants // ignore: cast_nullable_to_non_nullable
               as List<Variant>,
+      finalVariants: freezed == finalVariants
+          ? _value.finalVariants
+          : finalVariants // ignore: cast_nullable_to_non_nullable
+              as List<Variant>?,
       question: null == question
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
               as String,
+      isCorrect: freezed == isCorrect
+          ? _value.isCorrect
+          : isCorrect // ignore: cast_nullable_to_non_nullable
+              as bool?,
       picture: freezed == picture
           ? _value.picture
           : picture // ignore: cast_nullable_to_non_nullable
@@ -108,7 +124,9 @@ abstract class _$$QuestionImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'explain_answer') String explainAnswer,
       List<Variant> variants,
+      @JsonKey(name: 'final_variants') List<Variant>? finalVariants,
       String question,
+      @JsonKey(name: 'is_correct') bool? isCorrect,
       String? picture,
       String? type,
       int? id});
@@ -127,7 +145,9 @@ class __$$QuestionImplCopyWithImpl<$Res>
   $Res call({
     Object? explainAnswer = null,
     Object? variants = null,
+    Object? finalVariants = freezed,
     Object? question = null,
+    Object? isCorrect = freezed,
     Object? picture = freezed,
     Object? type = freezed,
     Object? id = freezed,
@@ -141,10 +161,18 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value._variants
           : variants // ignore: cast_nullable_to_non_nullable
               as List<Variant>,
+      finalVariants: freezed == finalVariants
+          ? _value._finalVariants
+          : finalVariants // ignore: cast_nullable_to_non_nullable
+              as List<Variant>?,
       question: null == question
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
               as String,
+      isCorrect: freezed == isCorrect
+          ? _value.isCorrect
+          : isCorrect // ignore: cast_nullable_to_non_nullable
+              as bool?,
       picture: freezed == picture
           ? _value.picture
           : picture // ignore: cast_nullable_to_non_nullable
@@ -168,11 +196,14 @@ class _$QuestionImpl implements _Question {
   _$QuestionImpl(
       {@JsonKey(name: 'explain_answer') required this.explainAnswer,
       required final List<Variant> variants,
+      @JsonKey(name: 'final_variants') final List<Variant>? finalVariants,
       required this.question,
+      @JsonKey(name: 'is_correct') this.isCorrect,
       this.picture,
       this.type,
       this.id})
-      : _variants = variants;
+      : _variants = variants,
+        _finalVariants = finalVariants;
 
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionImplFromJson(json);
@@ -188,8 +219,22 @@ class _$QuestionImpl implements _Question {
     return EqualUnmodifiableListView(_variants);
   }
 
+  final List<Variant>? _finalVariants;
+  @override
+  @JsonKey(name: 'final_variants')
+  List<Variant>? get finalVariants {
+    final value = _finalVariants;
+    if (value == null) return null;
+    if (_finalVariants is EqualUnmodifiableListView) return _finalVariants;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String question;
+  @override
+  @JsonKey(name: 'is_correct')
+  final bool? isCorrect;
   @override
   final String? picture;
   @override
@@ -199,7 +244,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   String toString() {
-    return 'Question(explainAnswer: $explainAnswer, variants: $variants, question: $question, picture: $picture, type: $type, id: $id)';
+    return 'Question(explainAnswer: $explainAnswer, variants: $variants, finalVariants: $finalVariants, question: $question, isCorrect: $isCorrect, picture: $picture, type: $type, id: $id)';
   }
 
   @override
@@ -210,8 +255,12 @@ class _$QuestionImpl implements _Question {
             (identical(other.explainAnswer, explainAnswer) ||
                 other.explainAnswer == explainAnswer) &&
             const DeepCollectionEquality().equals(other._variants, _variants) &&
+            const DeepCollectionEquality()
+                .equals(other._finalVariants, _finalVariants) &&
             (identical(other.question, question) ||
                 other.question == question) &&
+            (identical(other.isCorrect, isCorrect) ||
+                other.isCorrect == isCorrect) &&
             (identical(other.picture, picture) || other.picture == picture) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.id, id) || other.id == id));
@@ -223,7 +272,9 @@ class _$QuestionImpl implements _Question {
       runtimeType,
       explainAnswer,
       const DeepCollectionEquality().hash(_variants),
+      const DeepCollectionEquality().hash(_finalVariants),
       question,
+      isCorrect,
       picture,
       type,
       id);
@@ -246,7 +297,9 @@ abstract class _Question implements Question {
   factory _Question(
       {@JsonKey(name: 'explain_answer') required final String explainAnswer,
       required final List<Variant> variants,
+      @JsonKey(name: 'final_variants') final List<Variant>? finalVariants,
       required final String question,
+      @JsonKey(name: 'is_correct') final bool? isCorrect,
       final String? picture,
       final String? type,
       final int? id}) = _$QuestionImpl;
@@ -260,7 +313,13 @@ abstract class _Question implements Question {
   @override
   List<Variant> get variants;
   @override
+  @JsonKey(name: 'final_variants')
+  List<Variant>? get finalVariants;
+  @override
   String get question;
+  @override
+  @JsonKey(name: 'is_correct')
+  bool? get isCorrect;
   @override
   String? get picture;
   @override

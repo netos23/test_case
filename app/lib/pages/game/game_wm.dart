@@ -28,7 +28,6 @@ class GameWidgetModel extends WidgetModel<GamePageWidget, GameModel>
   GameWidgetModel(GameModel model) : super(model);
 
   @override
-  // TODO: implement context
   BuildContext get context => super.context;
 
   @override

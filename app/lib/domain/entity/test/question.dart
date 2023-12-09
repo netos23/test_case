@@ -14,7 +14,9 @@ class Question with _$Question {
   factory Question({
     @JsonKey(name: 'explain_answer') required String explainAnswer,
     required List<Variant> variants,
+    @JsonKey(name: 'final_variants') List<Variant>? finalVariants,
     required String question,
+    @JsonKey(name: 'is_correct') bool? isCorrect,
     String? picture,
     String? type,
     int? id,

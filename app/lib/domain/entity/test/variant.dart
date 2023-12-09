@@ -14,7 +14,10 @@ class Variant with _$Variant {
     required String title,
     String? picture,
     int? id,
-
+    bool? isRight,
+    String? rightAnswer,
+    bool? userCheck,
+    String? userAnswer,
   }) = _Variant;
 
   factory Variant.fromJson(Map<String, dynamic> json) =>

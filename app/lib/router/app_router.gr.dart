@@ -260,6 +260,16 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    TestResultRoute.name: (routeData) {
+      final args = routeData.argsAs<TestResultRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TestResultPageWidget(
+          key: args.key,
+          testResultResponse: args.testResultResponse,
+        ),
+      );
+    },
     TestTab.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -1148,6 +1158,44 @@ class TestRouteArgs {
   @override
   String toString() {
     return 'TestRouteArgs{key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [TestResultPageWidget]
+class TestResultRoute extends PageRouteInfo<TestResultRouteArgs> {
+  TestResultRoute({
+    Key? key,
+    required TestResultResponse testResultResponse,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TestResultRoute.name,
+          args: TestResultRouteArgs(
+            key: key,
+            testResultResponse: testResultResponse,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TestResultRoute';
+
+  static const PageInfo<TestResultRouteArgs> page =
+      PageInfo<TestResultRouteArgs>(name);
+}
+
+class TestResultRouteArgs {
+  const TestResultRouteArgs({
+    this.key,
+    required this.testResultResponse,
+  });
+
+  final Key? key;
+
+  final TestResultResponse testResultResponse;
+
+  @override
+  String toString() {
+    return 'TestResultRouteArgs{key: $key, testResultResponse: $testResultResponse}';
   }
 }
 
