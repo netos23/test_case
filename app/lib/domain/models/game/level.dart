@@ -7,6 +7,11 @@ import '../../../pages/game/domain/shop_page_configuration.dart';
 typedef LevelPageBuilder = PageRouteInfo Function(Level? level);
 
 class Level {
+  // unique
+  final int id;
+
+  final bool isPassed;
+
   // message при старте уровня
   final List<Message>? helloMessage;
 
@@ -25,6 +30,8 @@ class Level {
   final ShopPageConfiguration? config;
 
   Level({
+    this.isPassed = false,
+    required this.id,
     this.config,
     this.variant,
     this.wrongMessage,

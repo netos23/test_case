@@ -21,7 +21,7 @@ class GamePageWidget extends ElementaryWidget<IGameWidgetModel> {
       backgroundColor: Colors.greenAccent,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ListView(
             children: [
               const SizedBox(
