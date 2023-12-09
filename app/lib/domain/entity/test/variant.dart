@@ -11,13 +11,13 @@ class Variant with _$Variant {
     includeIfNull: false,
   )
   factory Variant({
-    required String title,
+    String? title,
     String? picture,
     int? id,
     bool? isRight,
     String? rightAnswer,
-    bool? userCheck,
-    String? userAnswer,
+    bool? check,
+    String? answer,
   }) = _Variant;
 
   factory Variant.fromJson(Map<String, dynamic> json) =>

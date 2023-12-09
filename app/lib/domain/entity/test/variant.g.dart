@@ -8,19 +8,17 @@ part of 'variant.dart';
 
 _$VariantImpl _$$VariantImplFromJson(Map<String, dynamic> json) =>
     _$VariantImpl(
-      title: json['title'] as String,
+      title: json['title'] as String?,
       picture: json['picture'] as String?,
       id: json['id'] as int?,
       isRight: json['isRight'] as bool?,
       rightAnswer: json['rightAnswer'] as String?,
-      userCheck: json['userCheck'] as bool?,
-      userAnswer: json['userAnswer'] as String?,
+      check: json['check'] as bool?,
+      answer: json['answer'] as String?,
     );
 
 Map<String, dynamic> _$$VariantImplToJson(_$VariantImpl instance) {
-  final val = <String, dynamic>{
-    'title': instance.title,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -28,11 +26,12 @@ Map<String, dynamic> _$$VariantImplToJson(_$VariantImpl instance) {
     }
   }
 
+  writeNotNull('title', instance.title);
   writeNotNull('picture', instance.picture);
   writeNotNull('id', instance.id);
   writeNotNull('isRight', instance.isRight);
   writeNotNull('rightAnswer', instance.rightAnswer);
-  writeNotNull('userCheck', instance.userCheck);
-  writeNotNull('userAnswer', instance.userAnswer);
+  writeNotNull('check', instance.check);
+  writeNotNull('answer', instance.answer);
   return val;
 }

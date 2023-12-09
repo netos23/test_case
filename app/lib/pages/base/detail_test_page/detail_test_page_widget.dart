@@ -222,16 +222,18 @@ class QuestionWidget extends StatelessWidget {
             'multiple_checked' => VariantWidget(
                 variants: question.variants ?? [],
                 model: model,
+                questionId: question.id ?? -1,
               ),
             'single_checked' => RadioVariantWidget(
                 variants: question.variants ?? [],
                 model: model,
+                questionId: question.id ?? -1,
               ),
             'text' => TextVariantWidget(
                 variants: question.variants ?? [],
                 model: model,
                 theme: theme,
-              ),
+            ),
             _ => const SizedBox.shrink(),
           },
         ],
@@ -290,29 +292,31 @@ class VariantWidget extends StatelessWidget {
     super.key,
     required this.variants,
     required this.model,
+    required this.questionId,
   });
 
   final IDetailTestPageWidgetModel model;
 
   final List<Variant> variants;
+  final int questionId;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      cacheExtent: double.maxFinite,
       itemCount: variants.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (_, index) {
         final variant = variants[index];
-        return StreamBuilder<List<int>>(
+        return StreamBuilder<Map<int, List<int>>>(
           stream: model.choosesController,
           builder: (context, snapshot) {
             return CheckboxListTile(
-              title: Text(variant.title),
-              value: (model.choosesController.valueOrNull ?? [])
+              title: Text(variant.title ?? ''),
+              value: ((model.choosesController.valueOrNull ?? {})[variant.id] ??
+                      [])
                   .contains(variant.id),
-              onChanged: (_) => model.selectVariant(variant),
+              onChanged: (_) => model.selectVariant(questionId, variant),
             );
           },
         );
@@ -326,7 +330,10 @@ class RadioVariantWidget extends StatelessWidget {
     super.key,
     required this.variants,
     required this.model,
+    required this.questionId,
   });
+
+  final int questionId;
 
   final IDetailTestPageWidgetModel model;
 
@@ -334,28 +341,26 @@ class RadioVariantWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: ListView.builder(
-        itemCount: variants.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_, index) {
-          final variant = variants[index];
-          return StreamBuilder<int?>(
-            stream: model.radioChooseController,
-            builder: (context, snapshot) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.8),
-                child: ChoiceChip(
-                    label: Text(variant.title),
-                    onSelected: (_) => model.selectRadio(variant),
-                    selected:
-                        model.radioChooseController.valueOrNull == variant.id),
-              );
-            },
-          );
-        },
-      ),
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: variants.length,
+      itemBuilder: (_, index) {
+        final variant = variants[index];
+        return StreamBuilder<Map<int, int?>>(
+          stream: model.radioChooseController,
+          builder: (context, snapshot) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.8),
+              child: ChoiceChip(
+                  label: Text(variant.title ?? ''),
+                  onSelected: (_) => model.selectRadio(questionId, variant),
+                  selected: (model.radioChooseController.valueOrNull ??
+                          {})[questionId] ==
+                      variant.id),
+            );
+          },
+        );
+      },
     );
   }
 }
