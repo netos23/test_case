@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test_case/data/repository/auth_repository.dart';
 import 'package:test_case/domain/models/profile.dart';
+import 'package:test_case/domain/models/user_stat.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
 import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/router/app_router.dart';
@@ -32,6 +33,8 @@ abstract class IProfilePageWidgetModel extends IWidgetModel
   void onAabout();
 
   void openTop();
+
+  Stream<UserStat> get userStats;
 }
 
 ProfilePageWidgetModel defaultProfilePageWidgetModelFactory(
@@ -53,8 +56,13 @@ class ProfilePageWidgetModel
       profileController.valueOrNull == null ||
       (profileController.value!.email ?? '').isEmpty;
 
+
+
   @override
   BehaviorSubject<Profile?> profileController = BehaviorSubject();
+
+  @override
+  final BehaviorSubject<UserStat> userStats = BehaviorSubject();
 
   final telegramLink =
       'https://telegram.me/MiraMessTeam_help_bot?start=w1i1zvbu9h6teeO3gR1mXxE-eZG9Pl5SFW4-vhSjNU4';
@@ -75,8 +83,12 @@ class ProfilePageWidgetModel
     }
   }
 
+
+
+
   @override
   void dispose() {
+    userStats.close();
     profileController.close();
     super.dispose();
   }
@@ -204,4 +216,5 @@ class ProfilePageWidgetModel
   void openTop() {
     router.navigate(TopUsersRoute());
   }
+
 }

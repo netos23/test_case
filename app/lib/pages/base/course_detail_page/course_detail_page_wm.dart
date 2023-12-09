@@ -99,8 +99,8 @@ class CourseDetailPageWidgetModel
             },
           ),
         );
-        await loadCourse();
-      } else {}
+      }
+      await loadCourse();
       policyController.content(true);
     } catch (e) {
       policyController.content(true);
@@ -122,12 +122,8 @@ class CourseDetailPageWidgetModel
 
   @override
   void openTest(int courseId) {
-    router.navigate(
-      TestTab(
-        children: [
-          DetailTestRoute(testId: courseId),
-        ]
-      )
-    );
+    router.navigate(TestTab(children: [
+      DetailTestRoute(testId: courseId),
+    ]));
   }
 }

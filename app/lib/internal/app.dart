@@ -15,6 +15,7 @@ class App extends StatelessWidget {
     final themeMode = context.watch<ValueNotifier<ThemeMode>>();
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // filledButtonTheme: const FilledButtonThemeData(
         //   style: ButtonStyle(
