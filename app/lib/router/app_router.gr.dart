@@ -276,6 +276,14 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const TestTabPage(),
       );
     },
+    TopUsersRoute.name: (routeData) {
+      final args = routeData.argsAs<TopUsersRouteArgs>(
+          orElse: () => const TopUsersRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TopUsersPageWidget(key: args.key),
+      );
+    },
     UserProfileTab.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -1211,6 +1219,35 @@ class TestTab extends PageRouteInfo<void> {
   static const String name = 'TestTab';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TopUsersPageWidget]
+class TopUsersRoute extends PageRouteInfo<TopUsersRouteArgs> {
+  TopUsersRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TopUsersRoute.name,
+          args: TopUsersRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'TopUsersRoute';
+
+  static const PageInfo<TopUsersRouteArgs> page =
+      PageInfo<TopUsersRouteArgs>(name);
+}
+
+class TopUsersRouteArgs {
+  const TopUsersRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'TopUsersRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for

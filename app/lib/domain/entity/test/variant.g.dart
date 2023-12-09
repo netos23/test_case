@@ -11,9 +11,10 @@ _$VariantImpl _$$VariantImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String?,
       picture: json['picture'] as String?,
       id: json['id'] as int?,
-      isRight: json['isRight'] as bool?,
-      rightAnswer: json['rightAnswer'] as String?,
-      check: json['check'] as bool?,
+      isRight: json['is_right'] as bool?,
+      rightAnswer: json['right_answer'] as String?,
+      isCorrect: json['is_correct'] as bool?,
+      checked: json['checked'] as bool?,
       answer: json['answer'] as String?,
     );
 
@@ -29,9 +30,10 @@ Map<String, dynamic> _$$VariantImplToJson(_$VariantImpl instance) {
   writeNotNull('title', instance.title);
   writeNotNull('picture', instance.picture);
   writeNotNull('id', instance.id);
-  writeNotNull('isRight', instance.isRight);
-  writeNotNull('rightAnswer', instance.rightAnswer);
-  writeNotNull('check', instance.check);
+  writeNotNull('is_right', instance.isRight);
+  writeNotNull('right_answer', instance.rightAnswer);
+  writeNotNull('is_correct', instance.isCorrect);
+  writeNotNull('checked', instance.checked);
   writeNotNull('answer', instance.answer);
   return val;
 }

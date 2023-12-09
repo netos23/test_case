@@ -12,6 +12,7 @@ _$CoursePreviewImpl _$$CoursePreviewImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
       picture: json['picture'] as String?,
       description: json['description'] as String?,
+      price: json['price'] as int?,
     );
 
 Map<String, dynamic> _$$CoursePreviewImplToJson(_$CoursePreviewImpl instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$CoursePreviewImplToJson(_$CoursePreviewImpl instance) =>
       'name': instance.name,
       'picture': instance.picture,
       'description': instance.description,
+      'price': instance.price,
     };

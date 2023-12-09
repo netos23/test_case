@@ -7,24 +7,31 @@ part of 'course.dart';
 // **************************************************************************
 
 _$CourseImpl _$$CourseImplFromJson(Map<String, dynamic> json) => _$CourseImpl(
-      name: json['name'] as String?,
+      id: json['id'] as int,
+      payed: json['payed'] as bool,
+      name: json['name'] as String,
       picture: json['picture'] as String?,
-      description: json['description'] as String?,
-      educationText: json['educationText'] as String?,
-      test: json['test'] as int?,
+      description: json['description'] as String,
+      educationText: json['educational_text'] as String?,
+      price: json['price'] as int?,
+      test: json['test'] == null
+          ? null
+          : Test.fromJson(json['test'] as Map<String, dynamic>),
       sources: (json['sources'] as List<dynamic>?)
-          ?.map((e) => Course.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      isSelect: json['isSelect'] as bool?,
+              ?.map((e) => Source.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <Source>[],
     );
 
 Map<String, dynamic> _$$CourseImplToJson(_$CourseImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
+      'payed': instance.payed,
       'name': instance.name,
       'picture': instance.picture,
       'description': instance.description,
-      'educationText': instance.educationText,
+      'educational_text': instance.educationText,
+      'price': instance.price,
       'test': instance.test,
       'sources': instance.sources,
-      'isSelect': instance.isSelect,
     };

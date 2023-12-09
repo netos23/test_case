@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:elementary/elementary.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:test_case/data/repository/auth_repository.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/internal/app_components.dart';
@@ -48,7 +49,9 @@ class RegisterPageWidgetModel
   AuthRepository authRepository = AuthRepository(AppComponents().authService);
 
   @override
-  final bitrhdayController = TextEditingController();
+  final bitrhdayController = MaskedTextController(
+    mask: '00.00.0000'
+  );
 
   @override
   final emailController = TextEditingController();

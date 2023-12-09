@@ -14,9 +14,15 @@ class Variant with _$Variant {
     String? title,
     String? picture,
     int? id,
+    @JsonKey(name: 'is_right')
     bool? isRight,
+
+    @JsonKey(name: 'right_answer')
     String? rightAnswer,
-    bool? check,
+
+    @JsonKey(name: 'is_correct')
+    bool? isCorrect,
+    bool? checked,
     String? answer,
   }) = _Variant;
 

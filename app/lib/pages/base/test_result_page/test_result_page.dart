@@ -1,7 +1,10 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart' hide TestRoute;
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/entity/test/question.dart';
 import 'package:test_case/domain/entity/test/test_result_response.dart';
+
+import '../../../router/app_router.dart';
 
 @RoutePage()
 class TestResultPageWidget extends StatelessWidget {
@@ -15,30 +18,79 @@ class TestResultPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          const Text('Ваш результат'),
-          CircularProgressIndicator(
-            value:
-                testResultResponse.score! / testResultResponse.questions.length,
-          ),
-          if (testResultResponse.passed == true)
-            const Text('Вы успешно прошли тест!')
-          else
-            const Text('Вы не прошли тест :('),
-          if (testResultResponse.passed == true &&
-              testResultResponse.topPercent != null)
-            Text('И попали в ${testResultResponse.topPercent}'),
-          const Text('Ваши ошибки:'),
-          ListView.builder(
-            itemCount: testResultResponse.questions.length,
-            itemBuilder: (context, index) {
-              return QuestionWidget(
-                question: testResultResponse.questions[index],
-              );
-            },
-          ),
-        ],
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          context.router.navigate(TestRoute());
+        },
+        child: Icon(Icons.house),
+      ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          children: [
+            const Center(
+              child: Text(
+                'Ваш результат',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+              ),
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            Center(
+              child: SizedBox(
+                height: 250,
+                width: 250,
+                child: CircularProgressIndicator(
+                  value: testResultResponse.correctAmount! /
+                      testResultResponse.questions.length,
+                  strokeWidth: 30,
+                  color: testResultResponse.passed == true
+                      ? Colors.green
+                      : Colors.red,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            if (testResultResponse.passed == true)
+              const Center(
+                  child: Text(
+                'Вы успешно прошли тест!',
+                style: TextStyle(fontSize: 24),
+              ))
+            else
+              const Center(
+                child: Text(
+                  'Вы не прошли тест :(',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
+            if (testResultResponse.passed == true &&
+                testResultResponse.topPercent != null)
+              Center(
+                child: Text(
+                  'И попали в ${testResultResponse.topPercent}%',
+                  style: const TextStyle(fontSize: 24),
+                ),
+              ),
+            const Text(
+              'Ваши ошибки:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: testResultResponse.questions.length,
+              itemBuilder: (context, index) {
+                return QuestionWidget(
+                  question: testResultResponse.questions[index],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -58,8 +110,8 @@ class QuestionWidget extends StatelessWidget {
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(question.question),
               Icon(
                 question.isCorrect == true ? Icons.check : Icons.close,
                 color: question.isCorrect == true ? Colors.green : Colors.red,
@@ -74,62 +126,79 @@ class QuestionWidget extends StatelessWidget {
             children: [
               Builder(
                 builder: (context) {
-                  return Column(
-                    children: [
-                      Text(
-                        question.question,
-                      ),
-                      Text(
-                        question.explainAnswer ?? '',
-                      ),
-                      ...question.finalVariants?.map((e) {
-                            if (question.type == 'text') {
-                              return Column(
-                                children: [
-                                  Row(
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        ...question.finalVariants?.map((e) {
+                              if (question.type == 'text') {
+                                return Center(
+                                  child: Column(
                                     children: [
-                                      Text(e.answer ?? ''),
-                                      Icon(
-                                        question.isCorrect == true
-                                            ? Icons.check
-                                            : Icons.close,
-                                        color: question.isCorrect == true
-                                            ? Colors.green
-                                            : Colors.red,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            e.answer ?? '',
+                                            style: const TextStyle(
+                                              fontSize: 24,
+                                            ),
+                                          ),
+                                          Icon(
+                                            question.isCorrect == true
+                                                ? Icons.check
+                                                : Icons.close,
+                                            color: question.isCorrect == true
+                                                ? Colors.green
+                                                : Colors.red,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 16,
+                                      ),
+                                      Text(
+                                        'Правильный вариант - ${e.rightAnswer ?? ''}',
+                                        style: const TextStyle(
+                                          fontSize: 24,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  Text(
-                                      'Правильный вариант - ${e.rightAnswer ?? ''}'),
-                                ],
-                              );
-                            } else {
-                              return Row(
-                                children: [
-                                  if (question.type == 'multiple_checked')
-                                    Checkbox(
-                                        value: e.check, onChanged: null),
-                                  if (question.type == 'single_checked')
-                                    Radio<bool>(
-                                        value: e.check ?? false,
-                                        groupValue: true,
-                                        onChanged: null),
-                                  Text(e.title ?? ''),
-                                  const Spacer(),
-                                  Icon(
-                                    question.isCorrect == true
-                                        ? Icons.check
-                                        : Icons.close,
-                                    color: question.isCorrect == true
-                                        ? Colors.green
-                                        : Colors.red,
-                                  ),
-                                ],
-                              );
-                            }
-                          }) ??
-                          [],
-                    ],
+                                );
+                              } else {
+                                return Row(
+                                  children: [
+                                    if (question.type == 'multiple_checked')
+                                      Checkbox(
+                                          value: e.checked, onChanged: null),
+                                    if (question.type == 'single_checked')
+                                      Radio<bool>(
+                                          value: e.checked ?? false,
+                                          groupValue: true,
+                                          onChanged: null),
+                                    Text(e.title ?? ''),
+                                    const Spacer(),
+                                    if (e.checked == true)
+                                      Icon(
+                                        e.isRight == true
+                                            ? Icons.check
+                                            : Icons.close,
+                                        color: e.isRight == true
+                                            ? Colors.green
+                                            : Colors.red,
+                                      ),
+                                  ],
+                                );
+                              }
+                            }) ??
+                            [],
+                        Text(
+                          question.explainAnswer ?? '',
+                        ),
+                      ],
+                    ),
                   );
                 },
               )

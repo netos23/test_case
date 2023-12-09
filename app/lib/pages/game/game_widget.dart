@@ -39,7 +39,7 @@ class LevelPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+          Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.5),
       body: InkWell(
         onTap: () {
           if (chapter.levels != null) {

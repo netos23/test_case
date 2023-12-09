@@ -233,7 +233,7 @@ class TestPageWidgetModel
                     .map(
                       (variant) => Variant(
                         id: variant.id,
-                        check: (radioChooseController.valueOrNull ??
+                        checked: (radioChooseController.valueOrNull ??
                                     {})[question.id] ==
                                 variant.id ||
                             (choosesController.valueOrNull ?? {})[question.id]
@@ -247,11 +247,24 @@ class TestPageWidgetModel
           )
           .toList(),
     );
+
+    List<Variant> variants = [];
+    request.questions.forEach((question) {
+     final vars =  question.variants ?? [];
+      variants.addAll(vars);
+    });
+
     final response = await testService.checkResult(
       testResult: request,
     );
     if (context.mounted) {
       context.router.navigate(TestResultRoute(testResultResponse: response));
     }
+    // if (variants.where((element) => element.checked == null && !(element.answer?.isNotEmpty == true)).isNotEmpty){
+    //
+    // }else {
+    //   context.showErrorSnackBar('Убедитесь, что все поля заполнены');
+    // }
+
   }
 }

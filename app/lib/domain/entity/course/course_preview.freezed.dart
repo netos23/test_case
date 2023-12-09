@@ -24,6 +24,7 @@ mixin _$CoursePreview {
   String? get name => throw _privateConstructorUsedError;
   String? get picture => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  int? get price => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,12 @@ abstract class $CoursePreviewCopyWith<$Res> {
           CoursePreview value, $Res Function(CoursePreview) then) =
       _$CoursePreviewCopyWithImpl<$Res, CoursePreview>;
   @useResult
-  $Res call({int? id, String? name, String? picture, String? description});
+  $Res call(
+      {int? id,
+      String? name,
+      String? picture,
+      String? description,
+      int? price});
 }
 
 /// @nodoc
@@ -57,6 +63,7 @@ class _$CoursePreviewCopyWithImpl<$Res, $Val extends CoursePreview>
     Object? name = freezed,
     Object? picture = freezed,
     Object? description = freezed,
+    Object? price = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -75,6 +82,10 @@ class _$CoursePreviewCopyWithImpl<$Res, $Val extends CoursePreview>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -87,7 +98,12 @@ abstract class _$$CoursePreviewImplCopyWith<$Res>
       __$$CoursePreviewImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? id, String? name, String? picture, String? description});
+  $Res call(
+      {int? id,
+      String? name,
+      String? picture,
+      String? description,
+      int? price});
 }
 
 /// @nodoc
@@ -105,6 +121,7 @@ class __$$CoursePreviewImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? picture = freezed,
     Object? description = freezed,
+    Object? price = freezed,
   }) {
     return _then(_$CoursePreviewImpl(
       id: freezed == id
@@ -123,6 +140,10 @@ class __$$CoursePreviewImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -130,7 +151,8 @@ class __$$CoursePreviewImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CoursePreviewImpl implements _CoursePreview {
-  _$CoursePreviewImpl({this.id, this.name, this.picture, this.description});
+  _$CoursePreviewImpl(
+      {this.id, this.name, this.picture, this.description, this.price});
 
   factory _$CoursePreviewImpl.fromJson(Map<String, dynamic> json) =>
       _$$CoursePreviewImplFromJson(json);
@@ -143,10 +165,12 @@ class _$CoursePreviewImpl implements _CoursePreview {
   final String? picture;
   @override
   final String? description;
+  @override
+  final int? price;
 
   @override
   String toString() {
-    return 'CoursePreview(id: $id, name: $name, picture: $picture, description: $description)';
+    return 'CoursePreview(id: $id, name: $name, picture: $picture, description: $description, price: $price)';
   }
 
   @override
@@ -158,12 +182,14 @@ class _$CoursePreviewImpl implements _CoursePreview {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.picture, picture) || other.picture == picture) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, picture, description);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, picture, description, price);
 
   @JsonKey(ignore: true)
   @override
@@ -184,7 +210,8 @@ abstract class _CoursePreview implements CoursePreview {
       {final int? id,
       final String? name,
       final String? picture,
-      final String? description}) = _$CoursePreviewImpl;
+      final String? description,
+      final int? price}) = _$CoursePreviewImpl;
 
   factory _CoursePreview.fromJson(Map<String, dynamic> json) =
       _$CoursePreviewImpl.fromJson;
@@ -197,6 +224,8 @@ abstract class _CoursePreview implements CoursePreview {
   String? get picture;
   @override
   String? get description;
+  @override
+  int? get price;
   @override
   @JsonKey(ignore: true)
   _$$CoursePreviewImplCopyWith<_$CoursePreviewImpl> get copyWith =>
