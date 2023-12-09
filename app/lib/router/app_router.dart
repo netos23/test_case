@@ -54,6 +54,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: ShopGameRoute.page,
         ),
+        AutoRoute(page: TestResultRoute.page),
         AutoRoute(
           page: ChatAppRoute.page,
         ),
