@@ -24,6 +24,7 @@ class Users(AbstractUser):
     age13_16 = models.BooleanField(default=False, verbose_name="Категория 13-16")
     age16_90 = models.BooleanField(default=False, verbose_name="Категория 16-90")
     total_score = models.IntegerField(default=0, verbose_name="Общая сумма баллов")
+    initial_passed = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Пользователь"

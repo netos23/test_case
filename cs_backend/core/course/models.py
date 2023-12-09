@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 
 from banners.models import SourceModel
 from cstests.models import CSTestModel
+from utils.constants import FOR_AGES
 
 
 # Create your models here.
@@ -17,7 +18,8 @@ class Course(models.Model):
     sources = ManyToManyField(SourceModel, blank=True, verbose_name='Обучающие материалы')
     certificate_template = models.URLField(null=True, blank=True, verbose_name='Шаблон сертификата')
     price = models.IntegerField(default=0, verbose_name='Цена курса')
-
+    for_age = models.CharField(max_length=256, choices=FOR_AGES, default='16-90+',
+                               verbose_name="Для возрастной категории")
 
     def picture_image(self):
         return mark_safe(f'<img src="{self.picture or ""}" width="150" height="150" /> ')

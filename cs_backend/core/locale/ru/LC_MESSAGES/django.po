@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-27 09:22+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Notice from farm service"
+msgstr "Уведомление от службы поддержки"
+
+msgid "Hello"
+msgstr "Здравствуйте"
+
+msgid "Your authorization code"
+msgstr "Ваш код авторизации"
+
+msgid "Don't tell anyone your code"
+msgstr "Никому не говорите ваш код"
+
+msgid "Best regards, MiraMessTeam"
+msgstr "С уважением, MiraMessTeam"
+
+msgid "картинка"
+msgstr ""
+
+msgid "кнопка"
+msgstr ""
+
+msgid "заголовок"
+msgstr ""
+
+msgid "markdown"
+msgstr "текст"
+
+msgid "слайдер"
+msgstr ""
+
+msgid "Only one farmer's products can be in one order"
+msgstr "В одном заказе могут быть продукты только одного фермера"
+
+msgid "Cart is empty"
+msgstr "Корзина пустая"
+
+#~ msgid "image"
+#~ msgstr "изображение"
+
+#~ msgid "button"
+#~ msgstr "кнопка"
+
+#~ msgid "title"
+#~ msgstr "заголовок"
+
+#~ msgid "slider"
+#~ msgstr "слайдер"
+
+#~ msgid "Price"
+#~ msgstr "Цена"
+
+#~ msgid "Only discounted items"
+#~ msgstr "Только товары со скидкой"
+
+#~ msgid "Brand"
+#~ msgstr "Бренд"
