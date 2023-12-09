@@ -237,8 +237,8 @@ class VariantWidget extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (_, index) {
         final variant = variants[index];
-        return StreamBuilder<int?>(
-          stream: model.radioChooseController,
+        return StreamBuilder<List<int>>(
+          stream: model.choosesController,
           builder: (context, snapshot) {
             return CheckboxListTile(
               title: Text(variant.title),
