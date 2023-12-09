@@ -19,7 +19,8 @@ class TestResultPageWidget extends StatelessWidget {
         children: [
           const Text('Ваш результат'),
           CircularProgressIndicator(
-              value: testResultResponse.score! / testResultResponse.questions.length,
+            value:
+                testResultResponse.score! / testResultResponse.questions.length,
           ),
           if (testResultResponse.passed == true)
             const Text('Вы успешно прошли тест!')
@@ -32,7 +33,7 @@ class TestResultPageWidget extends StatelessWidget {
           ListView.builder(
             itemCount: testResultResponse.questions.length,
             itemBuilder: (context, index) {
-              QuestionWidget(
+              return QuestionWidget(
                 question: testResultResponse.questions[index],
               );
             },
@@ -79,7 +80,7 @@ class QuestionWidget extends StatelessWidget {
                         question.question,
                       ),
                       Text(
-                        question.explainAnswer,
+                        question.explainAnswer ?? '',
                       ),
                       ...question.finalVariants?.map((e) {
                             if (question.type == 'text') {
@@ -87,7 +88,7 @@ class QuestionWidget extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(e.userAnswer ?? ''),
+                                      Text(e.answer ?? ''),
                                       Icon(
                                         question.isCorrect == true
                                             ? Icons.check
@@ -107,13 +108,13 @@ class QuestionWidget extends StatelessWidget {
                                 children: [
                                   if (question.type == 'multiple_checked')
                                     Checkbox(
-                                        value: e.userCheck, onChanged: null),
+                                        value: e.check, onChanged: null),
                                   if (question.type == 'single_checked')
                                     Radio<bool>(
-                                        value: e.userCheck ?? false,
+                                        value: e.check ?? false,
                                         groupValue: true,
                                         onChanged: null),
-                                  Text(e.title),
+                                  Text(e.title ?? ''),
                                   const Spacer(),
                                   Icon(
                                     question.isCorrect == true

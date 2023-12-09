@@ -1,13 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test_case/data/service/test_service.dart';
+import 'package:test_case/domain/entity/test/question.dart';
 import 'package:test_case/domain/entity/test/test_detail.dart';
+import 'package:test_case/domain/entity/test/test_result.dart';
 import 'package:test_case/domain/entity/test/variant.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
 import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/internal/logger.dart';
+import 'package:test_case/router/app_router.dart';
 import 'package:test_case/util/snack_bar_util.dart';
 import 'package:test_case/util/wm_extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -16,9 +20,9 @@ import 'detail_test_page_widget.dart';
 
 abstract class IDetailTestPageWidgetModel extends IWidgetModel
     implements ThemeProvider {
-  BehaviorSubject<int?> get radioChooseController;
+  BehaviorSubject<Map<int, int?>> get radioChooseController;
 
-  BehaviorSubject<List<int>> get choosesController;
+  BehaviorSubject<Map<int, List<int>>> get choosesController;
 
   BehaviorSubject<Map<int, TextEditingController>> get textsController;
 
@@ -38,13 +42,15 @@ abstract class IDetailTestPageWidgetModel extends IWidgetModel
 
   Future<void> loadTest();
 
-  void selectRadio(Variant variant);
+  void selectRadio(int id, Variant variant);
 
-  void selectVariant(Variant variant);
+  void selectVariant(int id, Variant variant);
 
   void toNextPage();
 
   void toPrevPage();
+
+  Future<void> toResult();
 }
 
 TestPageWidgetModel defaultDetailTestPageWidgetModelFactory(
@@ -94,59 +100,82 @@ class TestPageWidgetModel
               (element) => element.type == 'text' && element.id != null) ??
           []);
 
-      Map<int, TextEditingController> results = {};
+      Map<int, TextEditingController> textsResults = {};
       for (var question in textQuestions) {
-        results.addEntries(question.variants
-            .map((e) => MapEntry(e.id!, TextEditingController()))
-            .toList());
+        textsResults.addEntries(question.variants
+                ?.map((e) => MapEntry(e.id!, TextEditingController()))
+                .toList() ??
+            []);
       }
 
-      textsController.add(results);
+      textsController.add(textsResults);
+
+      final singleQuestions = (testState.value?.data?.questions.where(
+              (element) =>
+                  element.type == 'single_checked' && element.id != null) ??
+          []);
+
+      Map<int, int?> singleResults = {};
+      singleResults.addEntries(
+          singleQuestions.map((e) => MapEntry(e.id!, null)).toList());
+      radioChooseController.add(singleResults);
+
+      final multipleQuestions = (testState.value?.data?.questions.where(
+              (element) =>
+                  element.type == 'multiple_checked' && element.id != null) ??
+          []);
+      Map<int, List<int>> multipleResults = {};
+      multipleResults.addEntries(
+          multipleQuestions.map((e) => MapEntry(e.id!, <int>[])).toList());
+      radioChooseController.add(singleResults);
     });
     loadTest();
   }
 
   @override
-  void selectRadio(Variant variant) {
-    final id = variant.id;
-    if (id == null) {
+  void selectRadio(int id, Variant variant) {
+    final variantId = variant.id;
+    if (variantId == null) {
       return;
     }
-    final current = radioChooseController.valueOrNull;
-    if (current == id) {
-      radioChooseController.add(null);
+    final current = radioChooseController.valueOrNull ?? {};
+    if (current[id] == variantId) {
+      current[id] = null;
     } else {
-      radioChooseController.add(id);
+      current[id] = variantId;
     }
+    radioChooseController.add(current);
   }
 
   @override
-  void selectVariant(Variant variant) {
-    final id = variant.id;
-    if (id == null) {
+  void selectVariant(int id, Variant variant) {
+    final variantId = variant.id;
+    if (variantId == null) {
       return;
     }
-    List<int> current = choosesController.valueOrNull ?? [];
-    if (current.contains(id)) {
-      current = current.where((element) => element != id).toList();
+    Map<int, List<int>> current = choosesController.valueOrNull ?? {};
+    if (current[id]?.contains(variantId) ?? false) {
+      final withoutCurrentId =
+          (current[id]?.where((element) => element != id) ?? []).toList();
+      current[id] = withoutCurrentId;
     } else {
-      current.add(id);
+      current[id]?.add(variantId);
     }
     choosesController.add(current);
   }
 
-  toNextPage() {
+  @override
+  void toNextPage() {
     pageController.nextPage(
         duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-    pageIndexController
-        .add((pageIndexController.valueOrNull ?? -1) + 1);
+    pageIndexController.add((pageIndexController.valueOrNull ?? -1) + 1);
   }
 
-  toPrevPage() {
+  @override
+  void toPrevPage() {
     pageController.previousPage(
         duration: const Duration(milliseconds: 400), curve: Curves.easeOut);
-    pageIndexController
-        .add((pageIndexController.valueOrNull ?? 1) - 1);
+    pageIndexController.add((pageIndexController.valueOrNull ?? 1) - 1);
   }
 
   @override
@@ -179,6 +208,43 @@ class TestPageWidgetModel
   Future<void> openLink(String value) async {
     if (await canLaunchUrlString(value)) {
       launchUrlString(value);
+    }
+  }
+
+  @override
+  Future<void> toResult() async {
+    final test = testState.value?.data;
+
+    final request = TestResult(
+      testId: test?.id ?? -1,
+      questions: (test?.questions ?? [])
+          .map(
+            (question) => Question(
+              id: question.id,
+                question: question.question,
+                variants: (question.variants ?? [])
+                    .map(
+                      (variant) => Variant(
+                        id: variant.id,
+                        check: (radioChooseController.valueOrNull ??
+                                    {})[question.id] ==
+                                variant.id ||
+                            (choosesController.valueOrNull ?? {})[question.id]
+                                    ?.contains(variant.id) ==
+                                true,
+                        answer: (textsController.valueOrNull ?? {})[variant.id]
+                            ?.text,
+                      ),
+                    )
+                    .toList()),
+          )
+          .toList(),
+    );
+    final response = await testService.checkResult(
+      testResult: request,
+    );
+    if (context.mounted) {
+      context.router.navigate(TestResultRoute(testResultResponse: response));
     }
   }
 }

@@ -61,5 +61,5 @@ class CourseAdmin(admin.ModelAdmin):
         return format_html("<a href=\"/admin/course/course/parse/{course_id}\" target=\"_blank\">Parse tests</a>",
                            course_id=obj.id)
 
-    def picture_image(self, obj):
-        return mark_safe(f'<img src="{obj.picture or ""}" width="150" height="150" /> ')
+    # def picture_image(self, obj):
+    #     return mark_safe(f'<img src="{obj.picture or ""}" width="150" height="150" /> ')

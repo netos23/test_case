@@ -8,9 +8,9 @@ part of 'question.dart';
 
 _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     _$QuestionImpl(
-      explainAnswer: json['explain_answer'] as String,
-      variants: (json['variants'] as List<dynamic>)
-          .map((e) => Variant.fromJson(e as Map<String, dynamic>))
+      explainAnswer: json['explain_answer'] as String?,
+      variants: (json['variants'] as List<dynamic>?)
+          ?.map((e) => Variant.fromJson(e as Map<String, dynamic>))
           .toList(),
       finalVariants: (json['final_variants'] as List<dynamic>?)
           ?.map((e) => Variant.fromJson(e as Map<String, dynamic>))
@@ -23,10 +23,7 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) {
-  final val = <String, dynamic>{
-    'explain_answer': instance.explainAnswer,
-    'variants': instance.variants.map((e) => e.toJson()).toList(),
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -34,6 +31,8 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) {
     }
   }
 
+  writeNotNull('explain_answer', instance.explainAnswer);
+  writeNotNull('variants', instance.variants?.map((e) => e.toJson()).toList());
   writeNotNull('final_variants',
       instance.finalVariants?.map((e) => e.toJson()).toList());
   val['question'] = instance.question;

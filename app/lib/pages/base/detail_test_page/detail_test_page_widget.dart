@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:test_case/domain/entity/test/question.dart';
 import 'package:test_case/domain/entity/test/test.dart';
+import 'package:test_case/domain/entity/test/test_detail.dart';
 import 'package:test_case/domain/entity/test/variant.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:test_case/router/app_router.dart';
@@ -74,18 +75,18 @@ class DetailTestPageWidget
                   ),
                 ];
               },
-              body: Stack(
-                children: [
-                  EntityStateNotifierBuilder(
-                    listenableEntityState: wm.testState,
-                    loadingBuilder: (context, data) {
-                      return const Center(
-                        child: LoadingIndicator(),
-                      );
-                    },
-                    builder: (context, testData) {
-                      final questions = testData?.questions ?? [];
-                      return PageView(
+              body: EntityStateNotifierBuilder(
+                listenableEntityState: wm.testState,
+                loadingBuilder: (context, data) {
+                  return const Center(
+                    child: LoadingIndicator(),
+                  );
+                },
+                builder: (BuildContext context, TestDetail? data) {
+                  final questions = data?.questions ?? [];
+                  return Stack(
+                    children: [
+                      PageView(
                         controller: wm.pageController,
                         scrollDirection: Axis.horizontal,
                         physics: const NeverScrollableScrollPhysics(),
@@ -96,54 +97,81 @@ class DetailTestPageWidget
                                   model: wm,
                                 ))
                             .toList(),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    right: 8,
-                    child: SizedBox(
-                      height: 40,
-                      child: StreamBuilder<int>(
-                          stream: wm.pageIndexController,
-                          builder: (context, snapshot) {
-                            return AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 400),
-                              child: (snapshot.hasData &&
-                                      snapshot.data! ==
-                                          (wm.testState.value?.data?.questions
-                                                  .length ??
-                                              0))
-                                  ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        if (wm.pageController.initialPage !=
-                                            snapshot.data)
+                      ),
+                      Positioned(
+                        bottom: 16,
+                        right: 8,
+                        child: SizedBox(
+                          height: 40,
+                          child: StreamBuilder<int>(
+                              stream: wm.pageIndexController,
+                              builder: (context, snapshot) {
+                                return AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 400),
+                                  child: (snapshot.hasData &&
+                                          snapshot.data! + 1 !=
+                                              (wm.testState.value?.data
+                                                  ?.questions.length))
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            if (wm.pageController.initialPage !=
+                                                snapshot.data)
+                                              FloatingActionButton(
+                                                key: UniqueKey(),
+                                                onPressed: wm.toPrevPage,
+                                                child: const Icon(Icons
+                                                    .navigate_before_outlined),
+                                              ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            FloatingActionButton(
+                                              onPressed: wm.toNextPage,
+                                              child: const Icon(
+                                                  Icons.navigate_next_outlined),
+                                            ),
+                                          ],
+                                        )
+                                      : Row(
+                                        children: [
+                                          if (wm.pageController.initialPage !=
+                                              snapshot.data)
                                           FloatingActionButton(
                                             key: UniqueKey(),
                                             onPressed: wm.toPrevPage,
-                                            child: const Icon(
-                                                Icons.navigate_before_outlined),
+                                            child: const Icon(Icons
+                                                .navigate_before_outlined),
                                           ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        FloatingActionButton(
-                                          onPressed: wm.toNextPage,
-                                          child: const Icon(
-                                              Icons.navigate_next_outlined),
-                                        ),
-                                      ],
-                                    )
-                                  : FloatingActionButton(
-                                      onPressed: wm.toPrevPage,
-                                      child: const Text('Отправить'),
-                                    ),
-                            );
-                          }),
-                    ),
-                  )
-                ],
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          SizedBox(
+                                              width: 80,
+                                              child: FloatingActionButton(
+                                                onPressed: () {
+                                                  wm.toResult();
+                                                },
+                                                child: const Text('Отправить'),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                );
+                              }),
+                        ),
+                      )
+                    ],
+                  );
+                },
+                // EntityStateNotifierBuilder(
+                //   listenableEntityState: wm.testState,
+                //   loadingBuilder: (context, data) {
+                //     return const Center(
+                //       child: LoadingIndicator(),
+                //     );
+                //   },
               ),
             ),
           ),
@@ -192,18 +220,20 @@ class QuestionWidget extends StatelessWidget {
             ),
           switch (question.type) {
             'multiple_checked' => VariantWidget(
-                variants: question.variants,
+                variants: question.variants ?? [],
                 model: model,
+                questionId: question.id ?? -1,
               ),
             'single_checked' => RadioVariantWidget(
-                variants: question.variants,
+                variants: question.variants ?? [],
                 model: model,
+                questionId: question.id ?? -1,
               ),
             'text' => TextVariantWidget(
-                variants: question.variants,
+                variants: question.variants ?? [],
                 model: model,
                 theme: theme,
-              ),
+            ),
             _ => const SizedBox.shrink(),
           },
         ],
@@ -262,29 +292,31 @@ class VariantWidget extends StatelessWidget {
     super.key,
     required this.variants,
     required this.model,
+    required this.questionId,
   });
 
   final IDetailTestPageWidgetModel model;
 
   final List<Variant> variants;
+  final int questionId;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      cacheExtent: double.maxFinite,
       itemCount: variants.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (_, index) {
         final variant = variants[index];
-        return StreamBuilder<List<int>>(
+        return StreamBuilder<Map<int, List<int>>>(
           stream: model.choosesController,
           builder: (context, snapshot) {
             return CheckboxListTile(
-              title: Text(variant.title),
-              value: (model.choosesController.valueOrNull ?? [])
+              title: Text(variant.title ?? ''),
+              value: ((model.choosesController.valueOrNull ?? {})[variant.id] ??
+                      [])
                   .contains(variant.id),
-              onChanged: (_) => model.selectVariant(variant),
+              onChanged: (_) => model.selectVariant(questionId, variant),
             );
           },
         );
@@ -298,7 +330,10 @@ class RadioVariantWidget extends StatelessWidget {
     super.key,
     required this.variants,
     required this.model,
+    required this.questionId,
   });
+
+  final int questionId;
 
   final IDetailTestPageWidgetModel model;
 
@@ -306,28 +341,26 @@ class RadioVariantWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: ListView.builder(
-        itemCount: variants.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_, index) {
-          final variant = variants[index];
-          return StreamBuilder<int?>(
-            stream: model.radioChooseController,
-            builder: (context, snapshot) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.8),
-                child: ChoiceChip(
-                    label: Text(variant.title),
-                    onSelected: (_) => model.selectRadio(variant),
-                    selected:
-                        model.radioChooseController.valueOrNull == variant.id),
-              );
-            },
-          );
-        },
-      ),
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: variants.length,
+      itemBuilder: (_, index) {
+        final variant = variants[index];
+        return StreamBuilder<Map<int, int?>>(
+          stream: model.radioChooseController,
+          builder: (context, snapshot) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.8),
+              child: ChoiceChip(
+                  label: Text(variant.title ?? ''),
+                  onSelected: (_) => model.selectRadio(questionId, variant),
+                  selected: (model.radioChooseController.valueOrNull ??
+                          {})[questionId] ==
+                      variant.id),
+            );
+          },
+        );
+      },
     );
   }
 }

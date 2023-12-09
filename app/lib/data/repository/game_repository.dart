@@ -407,6 +407,7 @@ class GameRepository {
     LevelMap(
       currLevel: 0,
       title: 'Пока закрыто!',
+      image: 'assets/images/lock.png',
     ),
   ];
 }

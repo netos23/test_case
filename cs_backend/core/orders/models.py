@@ -12,8 +12,13 @@ class OrderModel(models.Model):
         (1, "Wait for payment"),
         (2, "Payed")
     ]
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default=now)
-    price = models.FloatField()
-    status = models.IntegerField(default=0, choices=STATUS_TYPE_CHOICES)
-    course = ForeignKey(Course, on_delete=models.CASCADE, related_name='order', null=True)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, verbose_name="Пользователь")
+    created_at = models.DateTimeField(default=now, verbose_name="Дата создания")
+    price = models.FloatField(verbose_name="Цена")
+    status = models.IntegerField(default=0, choices=STATUS_TYPE_CHOICES, verbose_name="Статус заказа")
+    course = ForeignKey(Course, on_delete=models.CASCADE, related_name='order', null=True, verbose_name="Курс")
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"

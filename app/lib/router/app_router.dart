@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:test_case/domain/entity/test/test_result_response.dart';
 import 'package:test_case/domain/models/game/level.dart';
 import 'package:test_case/domain/models/game/level_map.dart';
 import 'package:test_case/domain/models/profile.dart';
@@ -25,6 +26,7 @@ import 'package:test_case/pages/base/register_page/register_page_widget.dart';
 import 'package:test_case/pages/base/register_page/register_page_wm.dart';
 import 'package:test_case/pages/base/test_page/test_page_widget.dart';
 import 'package:test_case/pages/base/test_page/test_page_wm.dart';
+import 'package:test_case/pages/base/test_result_page/test_result_page.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
 import 'package:test_case/pages/game/chat/chat_app.dart';
 import 'package:test_case/pages/game/components/empty_character_page.dart';
@@ -40,8 +42,10 @@ import 'package:test_case/pages/game/story_telling_utils.dart';
 import 'package:test_case/pages/web_view/web_view_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../domain/entity/test/test_result_response.dart';
 import '../pages/base/home_page/home_page_widget.dart';
 import '../pages/base/show_case_page/show_case_page.dart';
+import '../pages/base/test_result_page/test_result_page.dart';
 
 part 'app_router.gr.dart';
 
@@ -52,6 +56,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: ShopGameRoute.page,
         ),
+        AutoRoute(page: TestResultRoute.page),
         AutoRoute(
           page: ChatAppRoute.page,
         ),
