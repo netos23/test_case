@@ -42,10 +42,21 @@ class CService:
         correct_amount = score
         score = 100 * score / len(questions)
         passed = test.required_score <= score
-
-        TestResults.objects.filter(user_id=user.id, test_id=test.id).update(last_attempt=False)
+        if test.complexity == 'easy':
+            app_score = 25
+        elif test.complexity == 'medium':
+            app_score = 50
+        else:
+            app_score = 100
+        last_result = TestResults.objects.filter(user_id=user.id, test_id=test.id, last_attempt=True).first()
+        if last_result:
+            user.total_score -= last_result.app_score
+        user.total_score += app_score
+        user.save()
+        last_result.last_attempt = False
+        last_result.save()
         test_result = TestResults.objects.create(passed=passed, last_attempt=True, score=int(score), test=test,
-                                                 user=user)
+                                                 user=user, app_score=app_score)
         created_user_answer = []
         for user_answer in user_answers:
             created_user_answer.append(
@@ -54,4 +65,4 @@ class CService:
         UserAnswers.objects.bulk_create(created_user_answer)
 
         return {"questions": test.questions, "passed": passed, "correct_amount": correct_amount,
-                "top_percent": 0, "score": score}
+                "top_percent": 0, "score": score, "total_amount": len(questions)}

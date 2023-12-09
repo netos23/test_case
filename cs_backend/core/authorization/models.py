@@ -26,6 +26,7 @@ class Users(AbstractUser):
     age6_12 = models.BooleanField(default=False)
     age13_16 = models.BooleanField(default=False)
     age16_90 = models.BooleanField(default=False)
+    total_score = models.IntegerField(default=0)
 
 
 class AuthCodeModel(models.Model):

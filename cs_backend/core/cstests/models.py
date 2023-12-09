@@ -55,6 +55,7 @@ class TestResults(models.Model):
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     test = models.ForeignKey(CSTestModel, on_delete=models.CASCADE)
     score = models.IntegerField()
+    app_score = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=now)
     last_attempt = models.BooleanField()
     passed = models.BooleanField()
