@@ -77,7 +77,7 @@ class ChooseCityPageWidgetModel
   @override
   Future<void> onAutocomplete() async {
     try {
-      EasyDebounce.debounce('dadata', const Duration(microseconds: 400),
+      EasyDebounce.debounce('dadata', const Duration(milliseconds: 400),
           () async {
         final List<GeoData> request =
             await dadataRepository.getCities(search: cityController.text);

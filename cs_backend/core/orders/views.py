@@ -1,7 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from rest_framework_simplejwt import authentication
-
+from course.models import Course
 from orders.models import OrderModel
 from orders.serializers import OrderSerializer, RequestOrderSerializer
 
@@ -16,8 +15,13 @@ class CreateOrderAPIView(generics.CreateAPIView):
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         data['user'] = request.user.id
-        data['status'] = 0
-        data['price'] = 0
+        course = Course.objects.get(id=data['course'])
+        if course.price:
+            data['price'] = course.price
+            data['status'] = 0
+        else:
+            data['price'] = 0
+            data['status'] = 2
         serializer = OrderSerializer(data=data)
         serializer.is_valid()
         self.perform_create(serializer)

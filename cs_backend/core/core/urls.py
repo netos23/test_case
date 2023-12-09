@@ -54,7 +54,8 @@ urlpatterns = [
                   path("", include("django.contrib.auth.urls")),
                   path("dashboard/", include('dashboard.urls')),
                   path("", RedirectView.as_view(url='/admin/')),
-                  path("statistics/", include("cs_statistics.urls"))
+                  path("statistics/", include("cs_statistics.urls")),
+                  path("recommends/", include("recommends.urls"))
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 for app in settings.APP_MODULES:

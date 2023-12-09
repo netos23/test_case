@@ -70,5 +70,6 @@ class ResultTestResponseSerializer(serializers.Serializer):
     passed = serializers.BooleanField()
     score = serializers.FloatField()
     correct_amount = serializers.IntegerField()
+    total_amount = serializers.IntegerField()
     top_percent = serializers.IntegerField()
     questions = ExtendedQuestionSerializer(many=True)

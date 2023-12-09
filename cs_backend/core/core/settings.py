@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     "payments",
     "cstests",
     "course",
-    "cs_statistics"
+    "cs_statistics",
+    "recommends"
 ]
 
 MIDDLEWARE = [
