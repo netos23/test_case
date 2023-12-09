@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test_case/data/service/test_service.dart';
 import 'package:test_case/domain/entity/test/test_detail.dart';
+import 'package:test_case/domain/entity/test/variant.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
 import 'package:test_case/internal/app_components.dart';
@@ -15,6 +16,12 @@ import 'detail_test_page_widget.dart';
 
 abstract class IDetailTestPageWidgetModel extends IWidgetModel
     implements ThemeProvider {
+  BehaviorSubject<int?> get radioChooseController;
+
+  BehaviorSubject<List<int>> get choosesController;
+
+  BehaviorSubject<Map<int, TextEditingController>> get textsController;
+
   TextEditingController get testsNameController;
 
   EntityStateNotifier<TestDetail> get testState;
@@ -25,10 +32,15 @@ abstract class IDetailTestPageWidgetModel extends IWidgetModel
 
   void openLink(String value);
 
-  Future<void> loadTests();
+  Future<void> loadTest();
+
+  void selectRadio(Variant variant);
+
+  void selectVariant(Variant variant);
 }
 
-TestPageWidgetModel defaultDetailTestPageWidgetModelFactory(BuildContext context) {
+TestPageWidgetModel defaultDetailTestPageWidgetModelFactory(
+    BuildContext context) {
   return TestPageWidgetModel(
     model: DetailTestPageModel(),
     testService: AppComponents().testService,
@@ -37,7 +49,8 @@ TestPageWidgetModel defaultDetailTestPageWidgetModelFactory(BuildContext context
 
 // TODO: cover with documentation
 /// Default widget model for ShowCasePageWidget
-class TestPageWidgetModel extends WidgetModel<DetailTestPageWidget, DetailTestPageModel>
+class TestPageWidgetModel
+    extends WidgetModel<DetailTestPageWidget, DetailTestPageModel>
     with ThemeProvider
     implements IDetailTestPageWidgetModel {
   TestPageWidgetModel({
@@ -53,16 +66,65 @@ class TestPageWidgetModel extends WidgetModel<DetailTestPageWidget, DetailTestPa
   @override
   final profileController = BehaviorSubject();
   @override
+  final textsController = BehaviorSubject();
+  @override
+  final radioChooseController = BehaviorSubject();
+  @override
+  final choosesController = BehaviorSubject();
+  @override
   final profileUseCase = AppComponents().profileUseCase;
 
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    loadTests();
+    testState.addListener(() {
+      final textQuestions = (testState.value?.data?.questions.where(
+              (element) => element.type == 'text' && element.id != null) ??
+          []);
+
+      Map<int, TextEditingController> results = {};
+      for (var question in textQuestions) {
+        results.addEntries(question.variants
+            .map((e) => MapEntry(e.id!, TextEditingController()))
+            .toList());
+      }
+
+      textsController.add(results);
+    });
+    loadTest();
   }
 
   @override
-  Future<void> loadTests() async {
+  void selectRadio(Variant variant) {
+    final id = variant.id;
+    if (id == null) {
+      return;
+    }
+    final current = radioChooseController.valueOrNull;
+    if (current == id) {
+      radioChooseController.add(null);
+    } else {
+      radioChooseController.add(id);
+    }
+  }
+
+  @override
+  void selectVariant(Variant variant) {
+    final id = variant.id;
+    if (id == null) {
+      return;
+    }
+    List<int> current = choosesController.valueOrNull ?? [];
+    if (current.contains(id)) {
+      current = current.where((element) => element != id).toList();
+    } else {
+      current.add(id);
+    }
+    choosesController.add(current);
+  }
+
+  @override
+  Future<void> loadTest() async {
     try {
       testState.loading();
       final test = await testService.getTestDetail(id: widget.testId);
@@ -79,6 +141,11 @@ class TestPageWidgetModel extends WidgetModel<DetailTestPageWidget, DetailTestPa
   void dispose() {
     testsNameController;
     testState.dispose();
+    radioChooseController.close();
+    choosesController.close();
+    (textsController.valueOrNull ?? {}).forEach((key, value) {
+      value.dispose();
+    });
     super.dispose();
   }
 

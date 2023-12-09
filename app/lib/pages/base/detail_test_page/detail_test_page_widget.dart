@@ -37,36 +37,35 @@ class DetailTestPageWidget
       body: Center(
         child: SizedBox(
           width: 600,
+          height: 700,
           child: SafeArea(
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
                   automaticallyImplyLeading: false,
                   pinned: true,
-                  expandedHeight: 225,
+                  expandedHeight: 200,
                   collapsedHeight: 125,
-                  flexibleSpace: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: EntityStateNotifierBuilder(
-                        listenableEntityState: wm.testState,
-                        builder: (BuildContext context, test) {
-                          return (test?.picture?.isNotEmpty == true)
-                              ? ImageCard.network(
-                                  leading: canPop
-                                      ? const Card(child: BackButton())
-                                      : null,
-                                  image: test!.picture ?? '',
-                                  title: test.name,
-                                )
-                              : ImageCard(
-                                  leading: canPop
-                                      ? const Card(child: BackButton())
-                                      : null,
-                                  image: 'assets/images/default_test.jpeg',
-                                  title: 'Тест',
-                                );
-                        },
-                      )),
+                  flexibleSpace: EntityStateNotifierBuilder(
+                    listenableEntityState: wm.testState,
+                    builder: (BuildContext context, test) {
+                      return (test?.picture?.isNotEmpty == true)
+                          ? ImageCard.network(
+                              leading: canPop
+                                  ? const Card(child: BackButton())
+                                  : null,
+                              image: test?.picture ?? '',
+                              title: test?.name ?? 'Тест',
+                            )
+                          : ImageCard(
+                              leading: canPop
+                                  ? const Card(child: BackButton())
+                                  : null,
+                              image: 'assets/images/default_test.jpeg',
+                              title: test?.name ?? 'Тест',
+                            );
+                    },
+                  ),
                 ),
                 SliverToBoxAdapter(
                   child: EntityStateNotifierBuilder(
@@ -78,18 +77,23 @@ class DetailTestPageWidget
                     },
                     builder: (context, testData) {
                       final questions = testData?.questions ?? [];
-                      return ListView.separated(
-                          itemBuilder: (_, index) {
-                            final question = questions[index];
-                            return QuestionWidget(
-                              question: question,
-                              theme: theme,
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider();
-                          },
-                          itemCount: questions.length);
+                      return SizedBox(
+                        height: MediaQuery.sizeOf(context).height,
+                        child: ListView.separated(
+                            itemBuilder: (_, index) {
+                              final question = questions[index];
+                              return QuestionWidget(
+                                question: question,
+                                theme: theme,
+                                model: wm,
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const Divider();
+                            },
+                            itemCount: questions.length),
+                      );
                     },
                   ),
                 ),
@@ -103,21 +107,31 @@ class DetailTestPageWidget
 }
 
 class QuestionWidget extends StatelessWidget {
-  const QuestionWidget(
-      {super.key, required this.question, required this.theme});
+  const QuestionWidget({
+    super.key,
+    required this.question,
+    required this.theme,
+    required this.model,
+  });
 
   final Question question;
   final ThemeData theme;
+  final IDetailTestPageWidgetModel model;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            question.question,
-            style: theme.textTheme.titleMedium,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              question.question,
+              style: theme.textTheme.titleSmall
+                  ?.copyWith(fontWeight: FontWeight.w700),
+            ),
           ),
           if (question.picture != null)
             CachedNetworkImage(
@@ -129,31 +143,151 @@ class QuestionWidget extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-          switch (question.type) {
-            'single_checked' => RadioVariantWidget(variants: question.variants),
-            // 'multiple_checked' => VariantWidget(variants: question.variants),
-            // 'text' => TextVariantWidget(variants: question.variants),
-            _ => const SizedBox.shrink(),
-          }
+          if (question.type == 'single_checked')
+            RadioVariantWidget(
+              variants: question.variants,
+              model: model,
+            ),
+          if (question.type != 'single_checked')
+            ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: question.variants.length,
+                itemBuilder: (_, __) {
+                  return switch (question.type) {
+                    'multiple_checked' => VariantWidget(
+                        variants: question.variants,
+                        model: model,
+                      ),
+                    'text' => TextVariantWidget(
+                        variants: question.variants,
+                        model: model,
+                        theme: theme,
+                      ),
+                    _ => const SizedBox.shrink(),
+                  };
+                }),
         ],
       ),
     );
   }
 }
 
-class RadioVariantWidget extends StatelessWidget {
-  RadioVariantWidget({super.key, required this.variants});
+class TextVariantWidget extends StatelessWidget {
+  const TextVariantWidget({
+    super.key,
+    required this.variants,
+    required this.model,
+    required this.theme,
+  });
 
-  List<Variant> variants;
+  final IDetailTestPageWidgetModel model;
+  final ThemeData theme;
+
+  final List<Variant> variants;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: variants.length,
-      itemBuilder: (_, index){
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (_, index) {
         final variant = variants[index];
-        return ChoiceChip(label: Text(variant.title), selected: false);
-      }
+        return StreamBuilder<Map<int, TextEditingController>>(
+          stream: model.textsController,
+          initialData: const {},
+          builder: (context, snapshot) {
+            final controller = snapshot.hasData
+                ? snapshot.data![variant.id]
+                : TextEditingController();
+            return TextField(
+              controller: controller,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onBackground,
+                overflow: TextOverflow.ellipsis,
+              ),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class VariantWidget extends StatelessWidget {
+  const VariantWidget({
+    super.key,
+    required this.variants,
+    required this.model,
+  });
+
+  final IDetailTestPageWidgetModel model;
+
+  final List<Variant> variants;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: variants.length,
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (_, index) {
+        final variant = variants[index];
+        return StreamBuilder<int?>(
+          stream: model.radioChooseController,
+          builder: (context, snapshot) {
+            return CheckboxListTile(
+              title: Text(variant.title),
+              value: (model.choosesController.valueOrNull ?? [])
+                  .contains(variant.id),
+              onChanged: (_) => model.selectVariant(variant),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class RadioVariantWidget extends StatelessWidget {
+  const RadioVariantWidget({
+    super.key,
+    required this.variants,
+    required this.model,
+  });
+
+  final IDetailTestPageWidgetModel model;
+
+  final List<Variant> variants;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 80,
+      child: ListView.builder(
+        itemCount: variants.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (_, index) {
+          final variant = variants[index];
+          return StreamBuilder<int?>(
+            stream: model.radioChooseController,
+            builder: (context, snapshot) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ChoiceChip(
+                    label: Text(variant.title),
+                    onSelected: (_) => model.selectRadio(variant),
+                    selected:
+                        model.radioChooseController.valueOrNull == variant.id),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
