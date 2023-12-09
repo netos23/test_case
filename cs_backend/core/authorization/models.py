@@ -32,3 +32,11 @@ class AuthCodeModel(models.Model):
     email = models.EmailField(null=True)
     code = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class UserLevel(models.Model):
+    level = models.CharField(max_length=255)
+    score_from = models.IntegerField()
+    score_to = models.IntegerField()
+    picture = models.URLField(null=True, blank=True)
+    color = models.CharField(max_length=255)

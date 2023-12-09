@@ -42,7 +42,8 @@ schema_view = get_schema_view(
 admin.site.site_header = 'Voronezh team'
 admin.site.index_title = "Панель администратора"
 urlpatterns = [
-                  path("api/", login_required(schema_view.with_ui('swagger', cache_timeout=0)), name="schema-swagger-ui"),
+                  path("api/", login_required(schema_view.with_ui('swagger', cache_timeout=0)),
+                       name="schema-swagger-ui"),
                   path("auth/", include("authorization.urls")),
                   path("banners/", include("banners.urls")),
                   path("order/", include("orders.urls")),
@@ -53,6 +54,7 @@ urlpatterns = [
                   path("", include("django.contrib.auth.urls")),
                   path("dashboard/", include('dashboard.urls')),
                   path("", RedirectView.as_view(url='/admin/')),
+                  path("statistics/", include("cs_statistics.urls"))
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 for app in settings.APP_MODULES:
