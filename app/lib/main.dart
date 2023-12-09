@@ -41,8 +41,4 @@ Future<void> main() async {
       app: App(),
     ),
   );
-
-  runApp(
-    ChatApp(),
-  );
 }
