@@ -23,9 +23,11 @@ mixin _$Variant {
   String? get title => throw _privateConstructorUsedError;
   String? get picture => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_right')
   bool? get isRight => throw _privateConstructorUsedError;
+  @JsonKey(name: 'right_answer')
   String? get rightAnswer => throw _privateConstructorUsedError;
-  bool? get check => throw _privateConstructorUsedError;
+  bool? get checked => throw _privateConstructorUsedError;
   String? get answer => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,9 +44,9 @@ abstract class $VariantCopyWith<$Res> {
       {String? title,
       String? picture,
       int? id,
-      bool? isRight,
-      String? rightAnswer,
-      bool? check,
+      @JsonKey(name: 'is_right') bool? isRight,
+      @JsonKey(name: 'right_answer') String? rightAnswer,
+      bool? checked,
       String? answer});
 }
 
@@ -66,7 +68,7 @@ class _$VariantCopyWithImpl<$Res, $Val extends Variant>
     Object? id = freezed,
     Object? isRight = freezed,
     Object? rightAnswer = freezed,
-    Object? check = freezed,
+    Object? checked = freezed,
     Object? answer = freezed,
   }) {
     return _then(_value.copyWith(
@@ -90,9 +92,9 @@ class _$VariantCopyWithImpl<$Res, $Val extends Variant>
           ? _value.rightAnswer
           : rightAnswer // ignore: cast_nullable_to_non_nullable
               as String?,
-      check: freezed == check
-          ? _value.check
-          : check // ignore: cast_nullable_to_non_nullable
+      checked: freezed == checked
+          ? _value.checked
+          : checked // ignore: cast_nullable_to_non_nullable
               as bool?,
       answer: freezed == answer
           ? _value.answer
@@ -113,9 +115,9 @@ abstract class _$$VariantImplCopyWith<$Res> implements $VariantCopyWith<$Res> {
       {String? title,
       String? picture,
       int? id,
-      bool? isRight,
-      String? rightAnswer,
-      bool? check,
+      @JsonKey(name: 'is_right') bool? isRight,
+      @JsonKey(name: 'right_answer') String? rightAnswer,
+      bool? checked,
       String? answer});
 }
 
@@ -135,7 +137,7 @@ class __$$VariantImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? isRight = freezed,
     Object? rightAnswer = freezed,
-    Object? check = freezed,
+    Object? checked = freezed,
     Object? answer = freezed,
   }) {
     return _then(_$VariantImpl(
@@ -159,9 +161,9 @@ class __$$VariantImplCopyWithImpl<$Res>
           ? _value.rightAnswer
           : rightAnswer // ignore: cast_nullable_to_non_nullable
               as String?,
-      check: freezed == check
-          ? _value.check
-          : check // ignore: cast_nullable_to_non_nullable
+      checked: freezed == checked
+          ? _value.checked
+          : checked // ignore: cast_nullable_to_non_nullable
               as bool?,
       answer: freezed == answer
           ? _value.answer
@@ -179,9 +181,9 @@ class _$VariantImpl implements _Variant {
       {this.title,
       this.picture,
       this.id,
-      this.isRight,
-      this.rightAnswer,
-      this.check,
+      @JsonKey(name: 'is_right') this.isRight,
+      @JsonKey(name: 'right_answer') this.rightAnswer,
+      this.checked,
       this.answer});
 
   factory _$VariantImpl.fromJson(Map<String, dynamic> json) =>
@@ -194,17 +196,19 @@ class _$VariantImpl implements _Variant {
   @override
   final int? id;
   @override
+  @JsonKey(name: 'is_right')
   final bool? isRight;
   @override
+  @JsonKey(name: 'right_answer')
   final String? rightAnswer;
   @override
-  final bool? check;
+  final bool? checked;
   @override
   final String? answer;
 
   @override
   String toString() {
-    return 'Variant(title: $title, picture: $picture, id: $id, isRight: $isRight, rightAnswer: $rightAnswer, check: $check, answer: $answer)';
+    return 'Variant(title: $title, picture: $picture, id: $id, isRight: $isRight, rightAnswer: $rightAnswer, checked: $checked, answer: $answer)';
   }
 
   @override
@@ -218,14 +222,14 @@ class _$VariantImpl implements _Variant {
             (identical(other.isRight, isRight) || other.isRight == isRight) &&
             (identical(other.rightAnswer, rightAnswer) ||
                 other.rightAnswer == rightAnswer) &&
-            (identical(other.check, check) || other.check == check) &&
+            (identical(other.checked, checked) || other.checked == checked) &&
             (identical(other.answer, answer) || other.answer == answer));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, title, picture, id, isRight, rightAnswer, check, answer);
+      runtimeType, title, picture, id, isRight, rightAnswer, checked, answer);
 
   @JsonKey(ignore: true)
   @override
@@ -246,9 +250,9 @@ abstract class _Variant implements Variant {
       {final String? title,
       final String? picture,
       final int? id,
-      final bool? isRight,
-      final String? rightAnswer,
-      final bool? check,
+      @JsonKey(name: 'is_right') final bool? isRight,
+      @JsonKey(name: 'right_answer') final String? rightAnswer,
+      final bool? checked,
       final String? answer}) = _$VariantImpl;
 
   factory _Variant.fromJson(Map<String, dynamic> json) = _$VariantImpl.fromJson;
@@ -260,11 +264,13 @@ abstract class _Variant implements Variant {
   @override
   int? get id;
   @override
+  @JsonKey(name: 'is_right')
   bool? get isRight;
   @override
+  @JsonKey(name: 'right_answer')
   String? get rightAnswer;
   @override
-  bool? get check;
+  bool? get checked;
   @override
   String? get answer;
   @override

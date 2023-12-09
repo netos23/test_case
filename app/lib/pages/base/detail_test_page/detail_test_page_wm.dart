@@ -226,7 +226,7 @@ class TestPageWidgetModel
                     .map(
                       (variant) => Variant(
                         id: variant.id,
-                        check: (radioChooseController.valueOrNull ??
+                        checked: (radioChooseController.valueOrNull ??
                                     {})[question.id] ==
                                 variant.id ||
                             (choosesController.valueOrNull ?? {})[question.id]
