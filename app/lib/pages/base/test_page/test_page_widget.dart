@@ -245,7 +245,7 @@ class TestWidget extends StatelessWidget {
                       const Spacer(),
                       Text(
                         test.description,
-                        maxLines: 4,
+                        maxLines: 3,
                         style: theme.textTheme.labelLarge,
                       ),
                       Row(
@@ -263,7 +263,7 @@ class TestWidget extends StatelessWidget {
                             child: Text(
                               test.forAge ?? '',
                               style: theme.textTheme.labelLarge,
-                              maxLines: 3,
+                              maxLines: 2,
                             ),
                           ),
                         ],
