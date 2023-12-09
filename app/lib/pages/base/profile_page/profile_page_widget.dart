@@ -675,7 +675,7 @@ class _BarChart extends StatelessWidget {
           x: 0,
           barRods: [
             BarChartRodData(
-              toY: 8,
+              toY: stat.easyTestCount.toDouble(),
               gradient: LinearGradient(
                 colors: [
                   Colors.green,
@@ -692,7 +692,7 @@ class _BarChart extends StatelessWidget {
           x: 1,
           barRods: [
             BarChartRodData(
-              toY: 10,
+              toY: stat.mediumTestCount.toDouble(),
               gradient: LinearGradient(
                 colors: [
                   AppColors.contentColorBlue,
@@ -709,7 +709,7 @@ class _BarChart extends StatelessWidget {
           x: 2,
           barRods: [
             BarChartRodData(
-              toY: 14,
+              toY: stat.hardTestCount.toDouble(),
               gradient: LinearGradient(
                 colors: [
                   Colors.red,
