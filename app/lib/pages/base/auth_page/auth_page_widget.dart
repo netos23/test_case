@@ -23,6 +23,10 @@ class AuthPageWidget extends ElementaryWidget<IAuthPageWidgetModel> {
   @override
   Widget build(IAuthPageWidgetModel wm) {
     return Scaffold(
+      floatingActionButton: wm.router.canPop()
+          ? const Card(child: BackButton())
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
@@ -211,8 +215,8 @@ class _PhoneWidget extends StatelessWidget {
                   child: SizedBox(
                     height: 48,
                     child: TextField(
-                      textAlign: TextAlign.start,
                       controller: wm.emailController,
+                      textAlign: TextAlign.start,
                       style: textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onBackground,
                         overflow: TextOverflow.ellipsis,

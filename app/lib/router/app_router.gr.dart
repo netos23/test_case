@@ -61,6 +61,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    DetailTestRoute.name: (routeData) {
+      final args = routeData.argsAs<DetailTestRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DetailTestPageWidget(
+          key: args.key,
+          testId: args.testId,
+          wmFactory: args.wmFactory,
+        ),
+      );
+    },
     EditProfileRoute.name: (routeData) {
       final args = routeData.argsAs<EditProfileRouteArgs>(
           orElse: () => const EditProfileRouteArgs());
@@ -436,6 +447,52 @@ class ChooseCityRouteArgs {
   @override
   String toString() {
     return 'ChooseCityRouteArgs{profile: $profile, key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [DetailTestPageWidget]
+class DetailTestRoute extends PageRouteInfo<DetailTestRouteArgs> {
+  DetailTestRoute({
+    Key? key,
+    required int testId,
+    WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+            BuildContext)
+        wmFactory = defaultDetailTestPageWidgetModelFactory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          DetailTestRoute.name,
+          args: DetailTestRouteArgs(
+            key: key,
+            testId: testId,
+            wmFactory: wmFactory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'DetailTestRoute';
+
+  static const PageInfo<DetailTestRouteArgs> page =
+      PageInfo<DetailTestRouteArgs>(name);
+}
+
+class DetailTestRouteArgs {
+  const DetailTestRouteArgs({
+    this.key,
+    required this.testId,
+    this.wmFactory = defaultDetailTestPageWidgetModelFactory,
+  });
+
+  final Key? key;
+
+  final int testId;
+
+  final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+      BuildContext) wmFactory;
+
+  @override
+  String toString() {
+    return 'DetailTestRouteArgs{key: $key, testId: $testId, wmFactory: $wmFactory}';
   }
 }
 

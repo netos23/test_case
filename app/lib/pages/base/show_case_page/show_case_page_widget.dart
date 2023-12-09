@@ -28,20 +28,19 @@ class ShowCasePageWidget extends ElementaryWidget<IShowCasePageWidgetModel> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: false,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: 60,
-              height: 60,
-            ),
-          ),
-          title: const Text(
-            'Cyber security',
-            style: TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
+          centerTitle: true,
+          // leading: Padding(
+        //   padding: const EdgeInsets.only(left: 8),
+        //   child: Image.asset(
+        //     'assets/images/logo.png',
+        //     width: 60,
+        //     height: 60,
+        //   ),
+        // ),
+        title: const Text(
+          'Cyber security',
+          style: TextStyle(
+            fontStyle: FontStyle.italic,),
           ),
           bottom: const TabBar(
             tabs: [
@@ -474,7 +473,7 @@ class _ImageBannerWidget extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 1.0,
             child: CachedNetworkImage(
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
               imageUrl: image,
               progressIndicatorBuilder: (_, __, ___) {
                 return const Center(

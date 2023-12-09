@@ -1,28 +1,23 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:test_case/data/service/banner_service.dart';
 import 'package:test_case/data/service/test_service.dart';
-import 'package:test_case/domain/entity/test/test.dart';
-import 'package:test_case/domain/models/banner.dart';
+import 'package:test_case/domain/entity/test/test_detail.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
 import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/internal/logger.dart';
-import 'package:test_case/router/app_router.dart';
 import 'package:test_case/util/snack_bar_util.dart';
 import 'package:test_case/util/wm_extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'test_page_model.dart';
-import 'test_page_widget.dart';
+import 'detail_test_page_model.dart';
+import 'detail_test_page_widget.dart';
 
-abstract class ITestPageWidgetModel extends IWidgetModel
+abstract class IDetailTestPageWidgetModel extends IWidgetModel
     implements ThemeProvider {
-  EntityStateNotifier<List<ShowCaseBanner>> get bannersState;
-
   TextEditingController get testsNameController;
 
-  EntityStateNotifier<List<Test>> get testsState;
+  EntityStateNotifier<TestDetail> get testState;
 
   BehaviorSubject<Profile?> get profileController;
 
@@ -31,35 +26,28 @@ abstract class ITestPageWidgetModel extends IWidgetModel
   void openLink(String value);
 
   Future<void> loadTests();
-
-  void toTestDetail(Test value);
 }
 
-TestPageWidgetModel defaultTestPageWidgetModelFactory(BuildContext context) {
+TestPageWidgetModel defaultDetailTestPageWidgetModelFactory(BuildContext context) {
   return TestPageWidgetModel(
-    model: TestPageModel(),
-    bannerService: AppComponents().bannerService,
+    model: DetailTestPageModel(),
     testService: AppComponents().testService,
   );
 }
 
 // TODO: cover with documentation
 /// Default widget model for ShowCasePageWidget
-class TestPageWidgetModel extends WidgetModel<TestPageWidget, TestPageModel>
+class TestPageWidgetModel extends WidgetModel<DetailTestPageWidget, DetailTestPageModel>
     with ThemeProvider
-    implements ITestPageWidgetModel {
+    implements IDetailTestPageWidgetModel {
   TestPageWidgetModel({
-    required TestPageModel model,
-    required this.bannerService,
+    required DetailTestPageModel model,
     required this.testService,
   }) : super(model);
 
-  @override
-  final bannersState = EntityStateNotifier();
-  final BannerService bannerService;
   final TestService testService;
   @override
-  final testsState = EntityStateNotifier();
+  final testState = EntityStateNotifier();
   @override
   final testsNameController = TextEditingController();
   @override
@@ -70,26 +58,15 @@ class TestPageWidgetModel extends WidgetModel<TestPageWidget, TestPageModel>
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    if (profileUseCase.profile.valueOrNull != null) {
-      profileController.add(profileUseCase.profile.value);
-    }
-    profileUseCase.profile.stream.listen((event) {
-      profileController.add(event);
-      loadTests();
-    });
-
-    if (profileUseCase.profile.valueOrNull == null) {
-      profileUseCase.loadProfile();
-    }
-    // loadTests();
+    loadTests();
   }
 
   @override
   Future<void> loadTests() async {
     try {
-      testsState.loading();
-      final tests = await testService.getTests();
-      testsState.content(tests);
+      testState.loading();
+      final test = await testService.getTestDetail(id: widget.testId);
+      testState.content(test);
     } catch (e) {
       logger.e('Cant get tests');
       context.showSnackBar(
@@ -99,16 +76,9 @@ class TestPageWidgetModel extends WidgetModel<TestPageWidget, TestPageModel>
   }
 
   @override
-  void toTestDetail(Test value){
-    router.push(DetailTestRoute(testId: value.id),);
-  }
-
-
-  @override
   void dispose() {
-    bannersState.dispose();
     testsNameController;
-    testsState.dispose();
+    testState.dispose();
     super.dispose();
   }
 

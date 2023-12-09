@@ -5,23 +5,25 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:test_case/domain/entity/test/test.dart';
-import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:test_case/router/app_router.dart';
 
-import 'test_page_wm.dart';
+import 'detail_test_page_wm.dart';
 
 // TODO: cover with documentation
 /// Main widget for ShowCasePage module
 @RoutePage()
-class TestPageWidget extends ElementaryWidget<ITestPageWidgetModel> {
-  const TestPageWidget({
+class DetailTestPageWidget extends ElementaryWidget<IDetailTestPageWidgetModel> {
+  const DetailTestPageWidget({
     Key? key,
-    WidgetModelFactory wmFactory = defaultTestPageWidgetModelFactory,
+    required this.testId,
+    WidgetModelFactory wmFactory = defaultDetailTestPageWidgetModelFactory,
   }) : super(wmFactory, key: key);
 
+  final int testId;
+
   @override
-  Widget build(ITestPageWidgetModel wm) {
+  Widget build(IDetailTestPageWidgetModel wm) {
     final theme = wm.theme;
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
@@ -30,93 +32,53 @@ class TestPageWidget extends ElementaryWidget<ITestPageWidgetModel> {
       body: Center(
         child: SizedBox(
           width: 600,
-          child: StreamBuilder<Profile?>(
-            initialData: wm.profileController.valueOrNull,
-            stream: wm.profileController.stream,
-            builder: (context, profileSnapshot) {
-              final isLogin = profileSnapshot.hasData &&
-                  profileSnapshot.data!.email.isNotEmpty;
-
-              return SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        pinned: true,
-                        expandedHeight: 100,
-                        collapsedHeight: 80,
-                        flexibleSpace: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: TextField(
-                            textAlign: TextAlign.start,
-                            style: textTheme.bodyMedium?.copyWith(
-                              color: colorScheme.onBackground,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(16),
-                                ),
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: colorScheme.surfaceVariant,
-                              labelText: 'Поиск по названию',
-                              suffixIcon: Icon(
-                                Icons.search,
-                                color: colorScheme.primary,
-                              ),
-                            ),
-                          ),
+          child:SafeArea(
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  primary: true,
+                  title: TextField(
+                    textAlign: TextAlign.start,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onBackground,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
                         ),
                       ),
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          child: EntityStateNotifierBuilder(
-                            listenableEntityState: wm.testsState,
-                            loadingBuilder: (context, data) {
-                              if (!isLogin) {
-                                return const EmptyPage();
-                              }
-                              return const Center(
-                                child: LoadingIndicator(),
-                              );
-                            },
-                            builder: (context, testsData) {
-                              final tests = testsData ?? [];
-                              if (tests.isEmpty) {
-                                return const Center(
-                                  child: Text('Can`t get tests'),
-                                );
-                              }
-                              return ListView.builder(
-                                itemCount: tests.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  final test = tests[index];
-                                  return TestWidget(
-                                    test: test,
-                                    theme: theme,
-                                    onTap: wm.toTestDetail,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
+                      filled: true,
+                      fillColor: colorScheme.surfaceVariant,
+                      labelText: 'Название теста',
+                      suffixIcon: Icon(
+                        Icons.search,
+                        color: colorScheme.primary,
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              );
-            },
+                SliverToBoxAdapter(
+                  child: EntityStateNotifierBuilder(
+                    listenableEntityState: wm.testState,
+                    loadingBuilder: (context, data) {
+                      return const Center(
+                        child: LoadingIndicator(),
+                      );
+                    },
+                    builder: (context, testData) {
+                      final test = testData ?? [];
+                      return const SizedBox();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -208,12 +170,11 @@ class TestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultImage = Image.asset(
-      'assets/images/default_test.jpeg',
-      height: double.infinity,
+      'assets/images/default_test.png',
       fit: BoxFit.cover,
     );
     return SizedBox(
-      height: 220,
+      height: 180,
       child: Card(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -225,14 +186,12 @@ class TestWidget extends StatelessWidget {
             children: [
               Expanded(
                 flex: 2,
-                child: (test.picture == null)
-                    ? defaultImage
-                    : CachedNetworkImage(
-                        height: double.infinity,
-                        imageUrl: test.picture ?? '',
-                        fit: BoxFit.cover,
-                        placeholder: (_, __) => defaultImage,
-                      ),
+                child: CachedNetworkImage(
+                  height: double.infinity,
+                  imageUrl: test.picture!,
+                  fit: BoxFit.cover,
+                  placeholder: (_, __) => defaultImage,
+                ),
               ),
               Expanded(
                 flex: 4,
@@ -245,11 +204,11 @@ class TestWidget extends StatelessWidget {
                         test.name,
                         style: theme.textTheme.titleMedium,
                       ),
+                      const Spacer(),
                       Text(
                         test.topic,
                         style: theme.textTheme.labelLarge,
                       ),
-                      const Spacer(),
                       Text(
                         test.description,
                         maxLines: 4,

@@ -55,10 +55,6 @@ class _MobilePage extends StatelessWidget {
               icon: Icon(Icons.whatshot_outlined),
             ),
             NavigationDestination(
-              label: 'Материалы',
-              icon: Icon(Icons.library_books),
-            ),
-            NavigationDestination(
               label: 'Профиль',
               icon: Icon(Icons.person_outline),
             ),
@@ -128,10 +124,6 @@ class _WebPage extends StatelessWidget {
                           NavigationRailDestination(
                             label: Text('Игры'),
                             icon: Icon(Icons.whatshot_outlined),
-                          ),
-                          NavigationRailDestination(
-                            label: Text('Материалы'),
-                            icon: Icon(Icons.library_books),
                           ),
                           NavigationRailDestination(
                             label: Text('Профиль'),

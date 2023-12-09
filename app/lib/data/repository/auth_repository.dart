@@ -6,18 +6,20 @@ import 'package:test_case/domain/entity/auth/auth_email_part2_response.dart';
 import 'package:test_case/domain/models/profile.dart';
 
 class AuthRepository {
-  AuthRepository(
-    this._authService,
-  );
+  AuthRepository(this._authService,);
 
   final AuthService _authService;
 
   Future<void> emailPart1({
     required AuthEmailPart1Request request,
   }) async {
-    await _authService.authEmailPart1(
-      request: request,
-    );
+    try {
+      await _authService.authEmailPart1(
+        request: request,
+      );
+    } on DioException {
+      rethrow;
+    }
   }
 
   Future<AuthEmailPart2Response> emailPart2({
@@ -35,7 +37,6 @@ class AuthRepository {
     }
   }
 
-  @override
   Future<Profile> getUser() async {
     try {
       final result = await _authService.getUser();
@@ -47,7 +48,6 @@ class AuthRepository {
     }
   }
 
-  @override
   Future<Profile> patchUser({required Profile request}) async {
     try {
       final result = await _authService.patchUser(request: request);
@@ -59,7 +59,6 @@ class AuthRepository {
     }
   }
 
-  @override
   Future<void> deleteUser() async {
     try {
       await _authService.deleteUser();
@@ -70,7 +69,6 @@ class AuthRepository {
     }
   }
 
-  @override
   Future<void> register({required Profile profile}) async {
     try {
       await _authService.register(
