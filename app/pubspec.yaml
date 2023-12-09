@@ -50,6 +50,8 @@ dependencies:
   flutter_credit_card: ^4.0.1
   flutter_masked_text2: ^0.9.1
   ogp_data_extract: ^0.1.4
+  onesignal_flutter: ^5.0.4
+  just_audio: ^0.9.36
 
 
 
