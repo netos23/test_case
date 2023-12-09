@@ -134,15 +134,30 @@ class DetailTestPageWidget
                                             ),
                                           ],
                                         )
-                                      : SizedBox(
-                                          width: 80,
-                                          child: FloatingActionButton(
-                                            onPressed: () {
-                                              wm.toResult();
-                                            },
-                                            child: const Text('Отправить'),
+                                      : Row(
+                                        children: [
+                                          if (wm.pageController.initialPage !=
+                                              snapshot.data)
+                                          FloatingActionButton(
+                                            key: UniqueKey(),
+                                            onPressed: wm.toPrevPage,
+                                            child: const Icon(Icons
+                                                .navigate_before_outlined),
                                           ),
-                                        ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          SizedBox(
+                                              width: 80,
+                                              child: FloatingActionButton(
+                                                onPressed: () {
+                                                  wm.toResult();
+                                                },
+                                                child: const Text('Отправить'),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
                                 );
                               }),
                         ),

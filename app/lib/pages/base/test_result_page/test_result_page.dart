@@ -19,7 +19,8 @@ class TestResultPageWidget extends StatelessWidget {
         children: [
           const Text('Ваш результат'),
           CircularProgressIndicator(
-              value: testResultResponse.score! / testResultResponse.questions.length,
+            value:
+                testResultResponse.score! / testResultResponse.questions.length,
           ),
           if (testResultResponse.passed == true)
             const Text('Вы успешно прошли тест!')
@@ -32,7 +33,7 @@ class TestResultPageWidget extends StatelessWidget {
           ListView.builder(
             itemCount: testResultResponse.questions.length,
             itemBuilder: (context, index) {
-              QuestionWidget(
+              return QuestionWidget(
                 question: testResultResponse.questions[index],
               );
             },

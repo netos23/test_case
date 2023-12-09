@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +20,11 @@ class GamePageWidget extends ElementaryWidget<IGameWidgetModel> {
   Widget build(IGameWidgetModel wm) {
     final chapters = wm.getLevelMaps();
     return Scaffold(
-      body: SafeArea(
-        child: PageView.builder(
-          itemCount: chapters.length,
-          itemBuilder: (BuildContext context, int index) {
-            return LevelPage(chapter: chapters[index]);
-          },
-        ),
+      body: PageView.builder(
+        itemCount: chapters.length,
+        itemBuilder: (BuildContext context, int index) {
+          return LevelPage(chapter: chapters[index]);
+        },
       ),
     );
   }
@@ -37,42 +37,46 @@ class LevelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (chapter.levels != null) {
-          context.router.push(
-            ChapterFinRoute(
-              levelMap: chapter,
-            ),
-          );
-        }
-      },
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
+    return Scaffold(
+      backgroundColor:
+          Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+      body: InkWell(
+        onTap: () {
+          if (chapter.levels != null) {
+            context.router.push(
+              ChapterFinRoute(
+                levelMap: chapter,
               ),
-              child: Image.asset(
-                fit: BoxFit.fill,
-                chapter.image ?? '',
-                height: 250,
-                width: 250,
+            );
+          }
+        },
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(
+                  fit: BoxFit.fill,
+                  chapter.image ?? '',
+                  height: 250,
+                  width: 250,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text(
-              chapter.title ?? '',
-              style: const TextStyle(
-                fontSize: 24,
+              const SizedBox(
+                height: 16,
               ),
-            ),
-          ],
+              Text(
+                chapter.title ?? '',
+                style: const TextStyle(
+                  fontSize: 24,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
