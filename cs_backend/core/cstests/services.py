@@ -60,6 +60,8 @@ class CService:
             last_result.save()
         if passed:
             user.total_score += app_score
+            if test.id == 1:
+                user.initial_passed = True
         user.save()
         test_result = TestResults.objects.create(passed=passed, last_attempt=True, score=int(score), test=test,
                                                  user=user, app_score=app_score)

@@ -11,6 +11,7 @@ from django.utils.safestring import mark_safe
 from ai.base import BaseAIRequestClient
 from ai.sber_gpt import SberGpt
 from course.models import Course
+from cstests.services import ParseTestService
 
 
 # Register your models here.
@@ -29,7 +30,9 @@ class CourseAdmin(admin.ModelAdmin):
     @staticmethod
     def start_parse_view(request, course_id: int):
         course = Course.objects.get(id=course_id)
-
+        test = ParseTestService.parse_test(request.user, course.educational_text)
+        course.test = test
+        course.save()
         return HttpResponse(status=201)
 
     @staticmethod
@@ -60,5 +63,5 @@ class CourseAdmin(admin.ModelAdmin):
         return format_html("<a href=\"/admin/course/course/parse/{course_id}\" target=\"_blank\">Parse tests</a>",
                            course_id=obj.id)
 
-    # def picture_image(self, obj):
-    #     return mark_safe(f'<img src="{obj.picture or ""}" width="150" height="150" /> ')
+    def picture_image(self, obj):
+        return mark_safe(f'<img src="{obj.picture or ""}" width="150" height="auto" /> ')

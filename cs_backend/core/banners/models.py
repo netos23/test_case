@@ -24,6 +24,7 @@ class BannerModel(models.Model):
     for_age = models.CharField(max_length=256, choices=FOR_AGES, default='16-90+',
                                verbose_name="Для возрастной категории")
     sort = models.IntegerField(default=0, verbose_name="Порядок в очереди")
+    profi = models.BooleanField(default=False, verbose_name="Профи")
 
     def __str__(self):
         return f'{str(self.id)}. {self.text}'
