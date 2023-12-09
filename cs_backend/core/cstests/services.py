@@ -32,4 +32,4 @@ class CService:
             if is_correct:
                 score += 1
         return {"questions": test.questions, "passed": test.required_score <= score, "correct_amount": score,
-                "top_percent": 0, "score": score / len(questions)}
+                "top_percent": 0, "score": 100 * score / len(questions)}

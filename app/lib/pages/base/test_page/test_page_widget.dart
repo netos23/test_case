@@ -1,11 +1,13 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:test_case/domain/models/banner.dart';
+import 'package:test_case/domain/entity/test/test.dart';
+import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:test_case/router/app_router.dart';
 
 import 'test_page_wm.dart';
 
@@ -20,309 +22,287 @@ class TestPageWidget extends ElementaryWidget<ITestPageWidgetModel> {
 
   @override
   Widget build(ITestPageWidgetModel wm) {
+    final theme = wm.theme;
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Image.asset(
-            'assets/images/logo.png',
-            width: 60,
-            height: 60,
-          ),
-        ),
-        title: const Text(
-          'Cyber security',
-          style: TextStyle(
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-      ),
       body: Center(
         child: SizedBox(
           width: 600,
-          child: SafeArea(
-            child: EntityStateNotifierBuilder(
-              listenableEntityState: wm.bannersState,
-              loadingBuilder: (context, data) {
-                return const Center(
-                  child: LoadingIndicator(),
-                );
-              },
-              builder: (context, bannersData) {
-                final banners = bannersData ?? [];
-                if (banners.isEmpty) {
-                  return const Center(
-                    child: Text('Can`t get banners'),
-                  );
-                }
+          child: StreamBuilder<Profile?>(
+            initialData: wm.profileController.valueOrNull,
+            stream: wm.profileController.stream,
+            builder: (context, profileSnapshot) {
+              final isLogin = profileSnapshot.hasData &&
+                  profileSnapshot.data!.email.isNotEmpty;
 
-                return RefreshIndicator.adaptive(
-                  onRefresh: wm.loadBanners,
-                  child: ListView.builder(
-                    itemCount: banners.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 5.0,
-                        ),
-                        child: banners[index].when(
-                          imageBanner: (imageUrl, link) => _ImageBannerWidget(
-                            image: imageUrl,
-                            link: link,
-                            onTap: wm.openLink,
-                          ),
-                          buttonBanner: (text, link) => _ButtonBannerWidget(
-                            text: text,
-                            link: link,
-                            onPressed: wm.openLink,
-                          ),
-                          titleBanner: (text) => _TitleBannerWidget(
-                            text: text,
-                          ),
-                          markdownBanner: (text) => _MarkdownBannerWidget(
-                            text: text,
-                            onTap: wm.openLink,
-                          ),
-                          sliderBanner: (items) => _SliderBannerWidget(
-                            items: items,
-                            onTap: wm.openLink,
+              return SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        pinned: true,
+                        expandedHeight: 100,
+                        collapsedHeight: 80,
+                        flexibleSpace: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: TextField(
+                            textAlign: TextAlign.start,
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onBackground,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(16),
+                                ),
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: colorScheme.surfaceVariant,
+                              labelText: 'Поиск по названию',
+                              suffixIcon: Icon(
+                                Icons.search,
+                                color: colorScheme.primary,
+                              ),
+                            ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ImageBannerWidget extends StatelessWidget {
-  const _ImageBannerWidget({
-    Key? key,
-    required this.image,
-    this.link,
-    required this.onTap,
-  }) : super(key: key);
-
-  final String image;
-  final String? link;
-
-  final ValueChanged<String>? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 0,
-      ),
-      child: ClipRRect(
-        clipBehavior: Clip.antiAlias,
-        borderRadius: BorderRadius.circular(0),
-        child: GestureDetector(
-          onTap: link != null ? () => onTap?.call(link!) : null,
-          child: AspectRatio(
-            aspectRatio: 1.0,
-            child: CachedNetworkImage(
-              fit: BoxFit.fill,
-              imageUrl: image,
-              progressIndicatorBuilder: (_, __, ___) {
-                return const Center(
-                  child: LoadingIndicator(),
-                );
-              },
-              errorWidget: (_, __, ___) {
-                return Image.asset(
-                  'assets/images/logo.png',
-                  fit: BoxFit.fill,
-                );
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ButtonBannerWidget extends StatelessWidget {
-  const _ButtonBannerWidget({
-    Key? key,
-    required this.text,
-    this.link,
-    this.onPressed,
-  }) : super(key: key);
-
-  final String text;
-  final String? link;
-  final ValueChanged<String>? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final link = this.link;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16.0,
-      ),
-      child: FilledButton(
-        onPressed: link != null ? () => onPressed?.call(link) : null,
-        child: Center(
-          child: Text(text),
-        ),
-      ),
-    );
-  }
-}
-
-class _TitleBannerWidget extends StatelessWidget {
-  const _TitleBannerWidget({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16.0,
-      ),
-      child: Text(
-        text,
-        style: theme.textTheme.headlineLarge?.copyWith(
-          color: theme.colorScheme.onBackground,
-        ),
-      ),
-    );
-  }
-}
-
-class _MarkdownBannerWidget extends StatelessWidget {
-  const _MarkdownBannerWidget({
-    Key? key,
-    required this.text,
-    this.onTap,
-  }) : super(key: key);
-
-  final String text;
-  final ValueChanged<String>? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Markdown(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16.0,
-      ),
-      styleSheet: fromTheme(
-        Theme.of(context),
-      ),
-      onTapLink: (text, href, title) {
-        if (href != null) {
-          onTap?.call(href);
-        }
-      },
-      styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
-      shrinkWrap: true,
-      softLineBreak: true,
-      selectable: true,
-      physics: const NeverScrollableScrollPhysics(),
-      data: text,
-    );
-  }
-}
-
-class _SliderBannerWidget extends StatefulWidget {
-  const _SliderBannerWidget({
-    Key? key,
-    required this.items,
-    required this.onTap,
-  }) : super(key: key);
-
-  final List<SliderItem> items;
-  final ValueChanged<String>? onTap;
-
-  @override
-  State<_SliderBannerWidget> createState() => _SliderBannerWidgetState();
-}
-
-class _SliderBannerWidgetState extends State<_SliderBannerWidget> {
-  final PageController controller = PageController();
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AspectRatio(
-          aspectRatio: 16 / 9,
-          child: PageView.builder(
-            controller: controller,
-            itemCount: widget.items.length,
-            itemBuilder: (context, index) {
-              final item = widget.items[index];
-              final link = widget.items[index].link;
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                ),
-                child: GestureDetector(
-                  onTap: link != null ? () => widget.onTap?.call(link) : null,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: CachedNetworkImage(
-                      fit: BoxFit.fill,
-                      imageUrl: item.url,
-                      progressIndicatorBuilder: (_, __, ___) {
-                        return const Center(
-                          child: LoadingIndicator(),
-                        );
-                      },
-                      errorWidget: (_, __, ___) {
-                        return Image.asset(
-                          'assets/images/logo.png',
-                          fit: BoxFit.fill,
-                        );
-                      },
-                    ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: EntityStateNotifierBuilder(
+                            listenableEntityState: wm.testsState,
+                            loadingBuilder: (context, data) {
+                              if (!isLogin) {
+                                return const EmptyPage();
+                              }
+                              return const Center(
+                                child: LoadingIndicator(),
+                              );
+                            },
+                            builder: (context, testsData) {
+                              final tests = testsData ?? [];
+                              if (tests.isEmpty) {
+                                return const Center(
+                                  child: Text('Can`t get tests'),
+                                );
+                              }
+                              return ListView.builder(
+                                itemCount: tests.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final test = tests[index];
+                                  return TestWidget(
+                                    test: test,
+                                    theme: theme,
+                                    onTap: wm.toTestDetail,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
             },
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        SmoothPageIndicator(
-          controller: controller, // PageController
-          count: widget.items.length,
-          effect: const WormEffect(
-            dotWidth: 8,
-            dotHeight: 8,
+      ),
+    );
+  }
+}
+
+class EmptyPage extends StatelessWidget {
+  const EmptyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width - 90;
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(
+          flex: 4,
+          child: Image.asset(
+            'assets/images/logo_large.png',
+            width: width,
+            height: width,
           ),
-          // your preferred effect
-          onDotClicked: (index) {
-            controller.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.bounceIn,
-            );
-          },
-        )
+        ),
+        Expanded(
+          child: Text(
+            'Что бы просматривать тесты\n войдите в аккаунт',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Expanded(
+          child: SizedBox(
+            width: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Flexible(
+                    flex: 3,
+                    child: FilledButton(
+                      style: theme.filledButtonTheme.style?.copyWith(
+                        fixedSize: const MaterialStatePropertyAll(
+                          Size.fromHeight(50),
+                        ),
+                      ),
+                      onPressed: () {
+                        context.router.push(AuthRoute());
+                      },
+                      child: const Center(
+                        child: Text('Войти'),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Flexible(
+                    flex: 3,
+                    child: OutlinedButton(
+                        onPressed: () => context.router.push(RegisterRoute()),
+                        child: const Center(child: Text('Зарегистрироваться'))),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class TestWidget extends StatelessWidget {
+  const TestWidget({
+    super.key,
+    required this.test,
+    required this.theme,
+    required this.onTap,
+  });
+
+  final ValueChanged<Test> onTap;
+  final Test test;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    final defaultImage = Image.asset(
+      'assets/images/default_test.jpeg',
+      height: double.infinity,
+      fit: BoxFit.cover,
+    );
+    return SizedBox(
+      height: 220,
+      child: Card(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: InkWell(
+          onTap: () => onTap(test),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: (test.picture == null)
+                    ? defaultImage
+                    : CachedNetworkImage(
+                        height: double.infinity,
+                        imageUrl: test.picture ?? '',
+                        fit: BoxFit.cover,
+                        placeholder: (_, __) => defaultImage,
+                      ),
+              ),
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        test.name,
+                        style: theme.textTheme.titleMedium,
+                      ),
+                      Text(
+                        test.topic,
+                        style: theme.textTheme.labelLarge,
+                      ),
+                      const Spacer(),
+                      Text(
+                        test.description,
+                        maxLines: 4,
+                        style: theme.textTheme.labelLarge,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              test.complexity ?? '',
+                              style: theme.textTheme.labelLarge,
+                              maxLines: 3,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              test.forAge ?? '',
+                              style: theme.textTheme.labelLarge,
+                              maxLines: 3,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              test.createdAt ?? '',
+                              style: theme.textTheme.labelLarge,
+                              maxLines: 3,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              test.requiredScore?.toStringAsFixed(2) ?? '',
+                              style: theme.textTheme.labelLarge,
+                              maxLines: 3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

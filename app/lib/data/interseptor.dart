@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:test_case/data/repository/token_ropository.dart';
+import 'package:test_case/domain/url/auth_url.dart';
 
 /// Interceptor for working with JWT tokens, updating and saving them.
 /// Requires [Dio] to work.
@@ -35,7 +36,7 @@ class JWTInterceptor extends QueuedInterceptor {
   /// Save tokens received after authorization.
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if (response.requestOptions.path == '/auth/email/part2') {
+    if (response.requestOptions.path == AuthUrl.authEmailPart2) {
       repository.saveTokens(
         accessToken: response.data['access_token'],
         refreshToken: response.data['refresh_token'],
@@ -50,7 +51,7 @@ class JWTInterceptor extends QueuedInterceptor {
   Future onError(error, handler) async {
     if ((error.response?.statusCode == 403 ||
             error.response?.statusCode == 401) &&
-        error.requestOptions.path != '/auth/email/part1') {
+        error.requestOptions.path != AuthUrl.authEmailPart1) {
       await _refresh();
       if (repository.auth) {
         final response = await _retry(error.requestOptions);

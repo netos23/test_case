@@ -10,6 +10,8 @@ import 'package:test_case/pages/base/auth_code_page/auth_code_page_widget.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_wm.dart';
 import 'package:test_case/pages/base/auth_page/auth_page_widget.dart';
 import 'package:test_case/pages/base/auth_page/auth_page_wm.dart';
+import 'package:test_case/pages/base/detail_test_page/detail_test_page_widget.dart';
+import 'package:test_case/pages/base/detail_test_page/detail_test_page_wm.dart';
 import 'package:test_case/pages/base/edit_profile_page/edit_profile_page_widget.dart';
 import 'package:test_case/pages/base/edit_profile_page/edit_profile_page_wm.dart';
 import 'package:test_case/pages/base/home_page/home_page_wm.dart';
@@ -22,7 +24,6 @@ import 'package:test_case/pages/base/test_page/test_page_wm.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
 import 'package:test_case/pages/game/components/empty_character_page.dart';
 import 'package:test_case/pages/game/components/naiv_page.dart';
-import 'package:test_case/pages/game/components/secure_page.dart';
 import 'package:test_case/pages/game/components/telling_page.dart';
 import 'package:test_case/pages/game/domain/shop_page_configuration.dart';
 import 'package:test_case/pages/game/game_widget.dart';
@@ -82,6 +83,11 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: TestRoute.page,
                   initial: true,
+                  children: [
+                    AutoRoute(
+                      page: DetailTestRoute.page,
+                    ),
+                  ]
                 ),
               ],
             ),

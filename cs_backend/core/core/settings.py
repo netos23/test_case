@@ -28,7 +28,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ["127.0.0.1", "cybertest.fbtw.ru", "92.118.113.156", "1c13-178-177-11-81.ngrok-free.app"]
+ALLOWED_HOSTS = ["127.0.0.1", "cybertest.fbtw.ru", "92.118.113.156"]
 
 APP_MODULES = []
 # Application definition
@@ -58,12 +58,15 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'core.urls'
 
@@ -227,3 +230,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 AUTH_USER_MODEL = 'authorization.Users'
+
+ELASTIC_URL = "https://cybertest.fbtw.ru"
+ELASTIC_PASSWORD = env("ELASTIC_PASSWORD")

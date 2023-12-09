@@ -14,6 +14,10 @@ class RequestUserSerializer(serializers.Serializer):
     phone = serializers.CharField(required=False, validators=(validators.validate_phone,))
     gender = serializers.ChoiceField(choices=models.Users.GENDERS, required=False)
     birthday = serializers.DateField(required=False, input_formats=["%d.%m.%Y", "%Y-%m-%d"])
+    profi = serializers.BooleanField(default=False)
+    age6_12 = serializers.BooleanField(default=False)
+    age13_16 = serializers.BooleanField(default=False)
+    age16_90 = serializers.BooleanField(default=False)
 
 
 class JWTRefreshSerializer(serializers.Serializer):
