@@ -112,7 +112,7 @@ class TestPageWidgetModel
 
       final singleQuestions = (testState.value?.data?.questions.where(
               (element) =>
-          element.type == 'single_checked' && element.id != null) ??
+                  element.type == 'single_checked' && element.id != null) ??
           []);
 
       Map<int, int?> singleResults = {};
@@ -120,12 +120,11 @@ class TestPageWidgetModel
           singleQuestions.map((e) => MapEntry(e.id!, null)).toList());
       radioChooseController.add(singleResults);
 
-
       final multipleQuestions = (testState.value?.data?.questions.where(
               (element) =>
-          element.type == 'multiple_checked' && element.id != null) ??
+                  element.type == 'multiple_checked' && element.id != null) ??
           []);
-      Map<int, List<int>>multipleResults = {};
+      Map<int, List<int>> multipleResults = {};
       multipleResults.addEntries(
           multipleQuestions.map((e) => MapEntry(e.id!, <int>[])).toList());
       radioChooseController.add(singleResults);
@@ -157,7 +156,7 @@ class TestPageWidgetModel
     Map<int, List<int>> current = choosesController.valueOrNull ?? {};
     if (current[id]?.contains(variantId) ?? false) {
       final withoutCurrentId =
-      (current[id]?.where((element) => element != id) ?? []).toList();
+          (current[id]?.where((element) => element != id) ?? []).toList();
       current[id] = withoutCurrentId;
     } else {
       current[id]?.add(variantId);
@@ -215,15 +214,34 @@ class TestPageWidgetModel
   @override
   Future<void> toResult() async {
     final test = testState.value?.data;
-    final response = await testService.checkResult(
-      testResult: TestResult(
-        testId: test?.id ?? -1, questions: [],
 
-        // questions: test.questions.map((e) =>
-        //     Question(question: e.question,
-        //       variants: ),
-        // ).toList(),
-      ),
+    final request = TestResult(
+      testId: test?.id ?? -1,
+      questions: (test?.questions ?? [])
+          .map(
+            (question) => Question(
+              id: question.id,
+                question: question.question,
+                variants: (question.variants ?? [])
+                    .map(
+                      (variant) => Variant(
+                        id: variant.id,
+                        check: (radioChooseController.valueOrNull ??
+                                    {})[question.id] ==
+                                variant.id ||
+                            (choosesController.valueOrNull ?? {})[question.id]
+                                    ?.contains(variant.id) ==
+                                true,
+                        answer: (textsController.valueOrNull ?? {})[variant.id]
+                            ?.text,
+                      ),
+                    )
+                    .toList()),
+          )
+          .toList(),
+    );
+    final response = await testService.checkResult(
+      testResult: request,
     );
     if (context.mounted) {
       context.router.navigate(TestResultRoute(testResultResponse: response));
