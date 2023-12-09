@@ -349,12 +349,17 @@ class CourseDetailPageWidget
                       ),
                     ),
                     SliverToBoxAdapter(
-                      child:  FilledButton(
+                      child: FilledButton(
                         style: FilledButton.styleFrom(
                           shape: const RoundedRectangleBorder(),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: () => wm.openTest(courseId),
+                        onPressed: () {
+                          var test = course.test;
+                          if (test != null) {
+                            wm.openTest(test);
+                          }
+                        },
                         child: Center(
                           child: const Text('Пройти тест'),
                         ),
