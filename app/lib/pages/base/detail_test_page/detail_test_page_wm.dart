@@ -254,16 +254,17 @@ class TestPageWidgetModel
       variants.addAll(vars);
     });
 
-    if (variants.where((element) => element.checked == null && !(element.answer?.isNotEmpty == true)).isNotEmpty){
-      final response = await testService.checkResult(
-        testResult: request,
-      );
-      if (context.mounted) {
-        context.router.navigate(TestResultRoute(testResultResponse: response));
-      }
-    }else {
-      context.showErrorSnackBar('Убедитесь, что все поля заполнены');
+    final response = await testService.checkResult(
+      testResult: request,
+    );
+    if (context.mounted) {
+      context.router.navigate(TestResultRoute(testResultResponse: response));
     }
+    // if (variants.where((element) => element.checked == null && !(element.answer?.isNotEmpty == true)).isNotEmpty){
+    //
+    // }else {
+    //   context.showErrorSnackBar('Убедитесь, что все поля заполнены');
+    // }
 
   }
 }
