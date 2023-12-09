@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -127,7 +128,7 @@ class TestPageWidgetModel
       Map<int, List<int>> multipleResults = {};
       multipleResults.addEntries(
           multipleQuestions.map((e) => MapEntry(e.id!, <int>[])).toList());
-      radioChooseController.add(singleResults);
+      choosesController.add(multipleResults);
     });
     loadTest();
   }
@@ -165,17 +166,23 @@ class TestPageWidgetModel
   }
 
   @override
-  void toNextPage() {
-    pageController.nextPage(
-        duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-    pageIndexController.add((pageIndexController.valueOrNull ?? -1) + 1);
+  Future<void> toNextPage() async {
+    EasyDebounce.debounce('change_page', const Duration(milliseconds: 400),
+        () async {
+      await pageController.nextPage(
+          duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+      pageIndexController.add((pageIndexController.valueOrNull ?? -1) + 1);
+    });
   }
 
   @override
-  void toPrevPage() {
-    pageController.previousPage(
-        duration: const Duration(milliseconds: 400), curve: Curves.easeOut);
-    pageIndexController.add((pageIndexController.valueOrNull ?? 1) - 1);
+  Future<void> toPrevPage() async {
+    EasyDebounce.debounce('change_page', const Duration(milliseconds: 400),
+        () async {
+      await pageController.previousPage(
+          duration: const Duration(milliseconds: 400), curve: Curves.easeOut);
+      pageIndexController.add((pageIndexController.valueOrNull ?? 1) - 1);
+    });
   }
 
   @override
@@ -220,7 +227,7 @@ class TestPageWidgetModel
       questions: (test?.questions ?? [])
           .map(
             (question) => Question(
-              id: question.id,
+                id: question.id,
                 question: question.question,
                 variants: (question.variants ?? [])
                     .map(
