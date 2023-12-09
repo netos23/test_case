@@ -52,4 +52,6 @@ https://cybertest.fbtw.ru/api/
 
 ## Скрин Web приложения:
 
-![Alt text](demo_pictures/image1.png)
+![Alt text](demo_pictures/image1.jpg)
+
+
