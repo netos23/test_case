@@ -51,7 +51,7 @@ class ProfilePageWidgetModel
 
   bool get isUnauthorisedUser =>
       profileController.valueOrNull == null ||
-      (profileController.value!.email ?? '').isEmpty;
+      (profileController.value?.email ?? '').isEmpty;
 
   @override
   BehaviorSubject<Profile?> profileController = BehaviorSubject();
@@ -112,8 +112,9 @@ class ProfilePageWidgetModel
 
   @override
   void onEditProfileTap() {
+
     onUnauthorisedTap(() {
-      router.push(EditProfileRoute());
+      router.push(EditProfileRoute(profile: profileUseCase.profile.valueOrNull));
     });
   }
 
