@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from course.models import Course
-from course.serializers import CourseSerializer
+from course.serializers import CourseSerializer, CourseShortSerializer
 from utils.pagination import ApiPagination
 
 
@@ -16,3 +16,8 @@ class CourseViewSet(viewsets.ModelViewSet):
     pagination_class = ApiPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
     authentication_classes = [JWTAuthentication]
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return CourseShortSerializer
+        return CourseSerializer
