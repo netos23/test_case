@@ -202,6 +202,6 @@ class ProfilePageWidgetModel
 
   @override
   void openTop() {
-    // TODO: implement openTop
+    router.navigate(TopUsersRoute());
   }
 }
