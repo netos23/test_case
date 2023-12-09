@@ -1,4 +1,5 @@
 import 'package:elementary/elementary.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:test_case/data/service/course_service.dart';
 import 'package:test_case/domain/entity/course/course.dart';
@@ -9,6 +10,7 @@ import 'package:test_case/internal/logger.dart';
 import 'package:test_case/router/app_router.dart';
 import 'package:test_case/util/snack_bar_util.dart';
 import 'package:test_case/util/wm_extensions.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'course_detail_page_model.dart';
@@ -86,19 +88,26 @@ class CourseDetailPageWidgetModel
         final url = await courseService.payCourse(
           payment: CourcePayment(id: order.id),
         );
-        router.root.push(
-          WebViewerRoute(
-            title: 'Оплата',
-            url: url.url,
-            onNavigationRequest: (r) {
-              if (r.url.contains(url.successUrl) ||
-                  r.url.contains(url.failedUrl)) {
-                router.root.pop();
-              }
-              return NavigationDecision.prevent;
-            },
-          ),
-        );
+        if (!kIsWeb) {
+          await router.root.push(
+            WebViewerRoute(
+              title: 'Оплата',
+              url: url.url,
+              onNavigationRequest: (r) {
+                if (r.url.contains(url.successUrl) ||
+                    r.url.contains(url.failedUrl)) {
+                  router.root.pop();
+                }
+                return NavigationDecision.prevent;
+              },
+            ),
+          );
+        } else {
+          launchUrlString(url.url);
+          context.showSnackBar(
+            'Произведите оплату и обновите странцу',
+          );
+        }
       }
       await loadCourse();
       policyController.content(true);
