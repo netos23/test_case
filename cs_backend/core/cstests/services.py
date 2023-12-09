@@ -42,19 +42,22 @@ class CService:
         correct_amount = score
         score = 100 * score / len(questions)
         passed = test.required_score <= score
-        if test.complexity == 'easy':
-            app_score = 25
-        elif test.complexity == 'medium':
-            app_score = 50
-        else:
-            app_score = 100
+        app_score = 0
+        if passed:
+            if test.complexity == 'easy':
+                app_score = 25
+            elif test.complexity == 'medium':
+                app_score = 50
+            else:
+                app_score = 100
         last_result = TestResults.objects.filter(user_id=user.id, test_id=test.id, last_attempt=True).first()
         if last_result:
             user.total_score -= last_result.app_score
-        user.total_score += app_score
+            last_result.last_attempt = False
+            last_result.save()
+        if passed:
+            user.total_score += app_score
         user.save()
-        last_result.last_attempt = False
-        last_result.save()
         test_result = TestResults.objects.create(passed=passed, last_attempt=True, score=int(score), test=test,
                                                  user=user, app_score=app_score)
         created_user_answer = []

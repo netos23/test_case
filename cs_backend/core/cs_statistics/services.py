@@ -6,7 +6,7 @@ class StatisticService:
     @staticmethod
     def get_statistics(user):
         user_level = get_user_level(user)
-        attempts = TestResults.objects.filter(user=user).prefetch("test").all()
+        attempts = TestResults.objects.filter(user=user).prefetch_related("test").all()
         test_count = 0
         passed_test_count = 0
         easy_cnt = 0

@@ -197,6 +197,14 @@ SWAGGER_SETTINGS = {
     },
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR / '.cache',
+        'OPTIONS': {'MAX_ENTRIES': 1000},
+    }
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
 
 from authorization.models import UserLevel
@@ -9,9 +10,17 @@ FOR_AGES = [
 ]
 
 
+def get_cache_user_level():
+    user_levels = cache.get('user_levels')
+    if not user_levels:
+        user_levels = {ul for ul in UserLevel.objects.values_list('score_from', 'score_to', 'level')}
+        cache.set('user_levels', user_levels, 3600)
+    return user_levels
+
+
 def get_user_level(user):
-    levels = UserLevel.objects.all()
+    levels = get_cache_user_level()
     for level in levels:
-        if user.total_score >= level.score_from and user.total_score < level.score_to:
-            return level.name
+        if level[0] <= user.total_score < level[1]:
+            return level[2]
     return "Начинающий"
