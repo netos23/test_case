@@ -28,6 +28,8 @@ abstract class IDetailTestPageWidgetModel extends IWidgetModel
 
   BehaviorSubject<Profile?> get profileController;
 
+  BehaviorSubject<int> get pageIndexController;
+
   ProfileUseCase get profileUseCase;
 
   PageController get pageController;
@@ -64,8 +66,6 @@ class TestPageWidgetModel
     required this.testService,
   }) : super(model);
 
-  int pageNumber = 0;
-
   final TestService testService;
   @override
   final testState = EntityStateNotifier();
@@ -73,6 +73,8 @@ class TestPageWidgetModel
   final testsNameController = TextEditingController();
   @override
   final profileController = BehaviorSubject();
+  @override
+  final pageIndexController = BehaviorSubject.seeded(0);
   @override
   final textsController = BehaviorSubject();
   @override
@@ -136,11 +138,15 @@ class TestPageWidgetModel
   toNextPage() {
     pageController.nextPage(
         duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+    pageIndexController
+        .add((pageIndexController.valueOrNull ?? -1) + 1);
   }
 
   toPrevPage() {
     pageController.previousPage(
         duration: const Duration(milliseconds: 400), curve: Curves.easeOut);
+    pageIndexController
+        .add((pageIndexController.valueOrNull ?? 1) - 1);
   }
 
   @override

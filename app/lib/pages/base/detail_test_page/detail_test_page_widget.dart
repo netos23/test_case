@@ -104,22 +104,43 @@ class DetailTestPageWidget
                     right: 8,
                     child: SizedBox(
                       height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FloatingActionButton(
-                            onPressed: wm.toPrevPage,
-                            child: const Icon(Icons.navigate_before_outlined),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          FloatingActionButton(
-                            onPressed: wm.toNextPage,
-                            child: const Icon(Icons.navigate_next_outlined),
-                          ),
-                        ],
-                      ),
+                      child: StreamBuilder<int>(
+                          stream: wm.pageIndexController,
+                          builder: (context, snapshot) {
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 400),
+                              child: (snapshot.hasData &&
+                                      snapshot.data! ==
+                                          (wm.testState.value?.data?.questions
+                                                  .length ??
+                                              0))
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        if (wm.pageController.initialPage !=
+                                            snapshot.data)
+                                          FloatingActionButton(
+                                            key: UniqueKey(),
+                                            onPressed: wm.toPrevPage,
+                                            child: const Icon(
+                                                Icons.navigate_before_outlined),
+                                          ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        FloatingActionButton(
+                                          onPressed: wm.toNextPage,
+                                          child: const Icon(
+                                              Icons.navigate_next_outlined),
+                                        ),
+                                      ],
+                                    )
+                                  : FloatingActionButton(
+                                      onPressed: wm.toPrevPage,
+                                      child: const Text('Отправить'),
+                                    ),
+                            );
+                          }),
                     ),
                   )
                 ],
