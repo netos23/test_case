@@ -8,12 +8,14 @@ class LevelMap {
   final String? title;
   final List<Level>? levels;
   final List<Message>? helloMessage;
+  final String? image;
 
   // показать текущий уровень (для отрисовки уже пройденных)
   // да костыль
   final int? currLevel;
 
   LevelMap({
+    this.image,
     this.title,
     this.levels,
     this.helloMessage,
@@ -21,12 +23,14 @@ class LevelMap {
   });
 
   LevelMap copyWith(
+    String? image,
     String? title,
     List<Level>? levels,
     List<Message>? helloMessage,
     int? currLevel,
   ) {
     return LevelMap(
+      image: image ?? this.image,
       levels: levels ?? this.levels,
       title: title ?? this.title,
       helloMessage: helloMessage ?? this.helloMessage,

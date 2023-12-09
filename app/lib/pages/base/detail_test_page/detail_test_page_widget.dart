@@ -5,7 +5,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:test_case/domain/entity/test/question.dart';
-import 'package:test_case/domain/entity/test/test.dart';
+import 'package:test_case/domain/entity/test/test_detail.dart';
 import 'package:test_case/domain/entity/test/variant.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:test_case/router/app_router.dart';
@@ -34,19 +34,21 @@ class DetailTestPageWidget
     final canPop = wm.router.canPop();
 
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 600,
-          child: SafeArea(
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  pinned: true,
-                  expandedHeight: 225,
-                  collapsedHeight: 125,
-                  flexibleSpace: Padding(
-                      padding: const EdgeInsets.all(16.0),
+      body: SafeArea(
+        child: Center(
+          child: SizedBox(
+            width: 600,
+            child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    pinned: true,
+                    expandedHeight: 200,
+                    collapsedHeight: 125,
+                    flexibleSpace: SizedBox(
+                      height: 200,
                       child: EntityStateNotifierBuilder(
                         listenableEntityState: wm.testState,
                         builder: (BuildContext context, test) {
@@ -55,45 +57,120 @@ class DetailTestPageWidget
                                   leading: canPop
                                       ? const Card(child: BackButton())
                                       : null,
-                                  image: test!.picture ?? '',
-                                  title: test.name,
+                                  image: test?.picture ?? '',
+                                  title: test?.name ?? 'Тест',
                                 )
                               : ImageCard(
                                   leading: canPop
                                       ? const Card(child: BackButton())
                                       : null,
                                   image: 'assets/images/default_test.jpeg',
-                                  title: 'Тест',
+                                  title: test?.name ?? 'Тест',
                                 );
                         },
-                      )),
-                ),
-                SliverToBoxAdapter(
-                  child: EntityStateNotifierBuilder(
-                    listenableEntityState: wm.testState,
-                    loadingBuilder: (context, data) {
-                      return const Center(
-                        child: LoadingIndicator(),
-                      );
-                    },
-                    builder: (context, testData) {
-                      final questions = testData?.questions ?? [];
-                      return ListView.separated(
-                          itemBuilder: (_, index) {
-                            final question = questions[index];
-                            return QuestionWidget(
-                              question: question,
-                              theme: theme,
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider();
-                          },
-                          itemCount: questions.length);
-                    },
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ];
+              },
+              body: EntityStateNotifierBuilder(
+                listenableEntityState: wm.testState,
+                loadingBuilder: (context, data) {
+                  return const Center(
+                    child: LoadingIndicator(),
+                  );
+                },
+                builder: (BuildContext context, TestDetail? data) {
+                  final questions = data?.questions ?? [];
+                  return Stack(
+                    children: [
+                      PageView(
+                        controller: wm.pageController,
+                        scrollDirection: Axis.horizontal,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: questions
+                            .map((e) => QuestionWidget(
+                                  question: e,
+                                  theme: theme,
+                                  model: wm,
+                                ))
+                            .toList(),
+                      ),
+                      Positioned(
+                        bottom: 16,
+                        right: 8,
+                        child: SizedBox(
+                          height: 40,
+                          child: StreamBuilder<int>(
+                              stream: wm.pageIndexController,
+                              builder: (context, snapshot) {
+                                return AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 400),
+                                  child: (snapshot.hasData &&
+                                          snapshot.data! + 1 !=
+                                              (wm.testState.value?.data
+                                                  ?.questions.length))
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            if (wm.pageController.initialPage !=
+                                                snapshot.data)
+                                              FloatingActionButton(
+                                                key: UniqueKey(),
+                                                onPressed: wm.toPrevPage,
+                                                child: const Icon(Icons
+                                                    .navigate_before_outlined),
+                                              ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            FloatingActionButton(
+                                              onPressed: wm.toNextPage,
+                                              child: const Icon(
+                                                  Icons.navigate_next_outlined),
+                                            ),
+                                          ],
+                                        )
+                                      : Row(
+                                          children: [
+                                            if (wm.pageController.initialPage !=
+                                                snapshot.data)
+                                              FloatingActionButton(
+                                                key: UniqueKey(),
+                                                onPressed: wm.toPrevPage,
+                                                child: const Icon(Icons
+                                                    .navigate_before_outlined),
+                                              ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            SizedBox(
+                                              width: 80,
+                                              child: FloatingActionButton(
+                                                onPressed: () {
+                                                  wm.toResult();
+                                                },
+                                                child: const Text('Отправить'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                );
+                              }),
+                        ),
+                      )
+                    ],
+                  );
+                },
+                // EntityStateNotifierBuilder(
+                //   listenableEntityState: wm.testState,
+                //   loadingBuilder: (context, data) {
+                //     return const Center(
+                //       child: LoadingIndicator(),
+                //     );
+                //   },
+              ),
             ),
           ),
         ),
@@ -103,21 +180,31 @@ class DetailTestPageWidget
 }
 
 class QuestionWidget extends StatelessWidget {
-  const QuestionWidget(
-      {super.key, required this.question, required this.theme});
+  const QuestionWidget({
+    super.key,
+    required this.question,
+    required this.theme,
+    required this.model,
+  });
 
   final Question question;
   final ThemeData theme;
+  final IDetailTestPageWidgetModel model;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            question.question,
-            style: theme.textTheme.titleMedium,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              question.question,
+              style: theme.textTheme.titleSmall
+                  ?.copyWith(fontWeight: FontWeight.w700),
+            ),
           ),
           if (question.picture != null)
             CachedNetworkImage(
@@ -125,35 +212,160 @@ class QuestionWidget extends StatelessWidget {
               imageUrl: question.picture!,
               placeholder: (_, __) => Image.asset(
                 'assets/images/default_test.jpeg',
-                height: double.infinity,
+                height: 180,
                 fit: BoxFit.cover,
               ),
             ),
           switch (question.type) {
-            'single_checked' => RadioVariantWidget(variants: question.variants),
-            // 'multiple_checked' => VariantWidget(variants: question.variants),
-            // 'text' => TextVariantWidget(variants: question.variants),
+            'multiple_checked' => VariantWidget(
+                variants: question.variants ?? [],
+                model: model,
+                questionId: question.id ?? -1,
+              ),
+            'single_checked' => RadioVariantWidget(
+                variants: question.variants ?? [],
+                model: model,
+                questionId: question.id ?? -1,
+              ),
+            'text' => TextVariantWidget(
+                variants: question.variants ?? [],
+                model: model,
+                theme: theme,
+              ),
             _ => const SizedBox.shrink(),
-          }
+          },
         ],
       ),
     );
   }
 }
 
-class RadioVariantWidget extends StatelessWidget {
-  RadioVariantWidget({super.key, required this.variants});
+class TextVariantWidget extends StatelessWidget {
+  const TextVariantWidget({
+    super.key,
+    required this.variants,
+    required this.model,
+    required this.theme,
+  });
 
-  List<Variant> variants;
+  final IDetailTestPageWidgetModel model;
+  final ThemeData theme;
+
+  final List<Variant> variants;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: variants.length,
-      itemBuilder: (_, index){
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (_, index) {
         final variant = variants[index];
-        return ChoiceChip(label: Text(variant.title), selected: false);
-      }
+        return StreamBuilder<Map<int, TextEditingController>>(
+          stream: model.textsController,
+          initialData: const {},
+          builder: (context, snapshot) {
+            final controller = snapshot.hasData
+                ? snapshot.data![variant.id]
+                : TextEditingController();
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: controller,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onBackground,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class VariantWidget extends StatelessWidget {
+  const VariantWidget({
+    super.key,
+    required this.variants,
+    required this.model,
+    required this.questionId,
+  });
+
+  final IDetailTestPageWidgetModel model;
+
+  final List<Variant> variants;
+  final int questionId;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: variants.length,
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (_, index) {
+        final variant = variants[index];
+        return StreamBuilder<Map<int, List<int>>>(
+          stream: model.choosesController,
+          builder: (context, snapshot) {
+            return CheckboxListTile(
+              title: Text(variant.title ?? ''),
+              value: ((model.choosesController.valueOrNull ?? {})[questionId] ??
+                      [])
+                  .contains(variant.id),
+              onChanged: (_) => model.selectVariant(questionId, variant),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class RadioVariantWidget extends StatelessWidget {
+  const RadioVariantWidget({
+    super.key,
+    required this.variants,
+    required this.model,
+    required this.questionId,
+  });
+
+  final int questionId;
+
+  final IDetailTestPageWidgetModel model;
+
+  final List<Variant> variants;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: variants.length,
+      itemBuilder: (_, index) {
+        final variant = variants[index];
+        return StreamBuilder<Map<int, int?>>(
+          stream: model.radioChooseController,
+          builder: (context, snapshot) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.8),
+              child: RadioListTile(
+                title: Text(variant.title ?? ''),
+                onChanged: (_) => model.selectRadio(questionId, variant),
+                // selected: (model.radioChooseController.valueOrNull ??
+                //         {})[questionId] ==
+                //     variant.id,
+                value: variant.id,
+                groupValue:
+                    (model.radioChooseController.valueOrNull ?? {})[questionId],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -223,117 +435,6 @@ class EmptyPage extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class TestWidget extends StatelessWidget {
-  const TestWidget({
-    super.key,
-    required this.test,
-    required this.theme,
-    required this.onTap,
-  });
-
-  final ValueChanged<Test> onTap;
-  final Test test;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    final defaultImage = Image.asset(
-      'assets/images/default_test.jpeg',
-      fit: BoxFit.cover,
-    );
-    return SizedBox(
-      height: 180,
-      child: Card(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: InkWell(
-          onTap: () => onTap(test),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: CachedNetworkImage(
-                  height: double.infinity,
-                  imageUrl: test.picture!,
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) => defaultImage,
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        test.name,
-                        style: theme.textTheme.titleMedium,
-                      ),
-                      const Spacer(),
-                      Text(
-                        test.topic,
-                        style: theme.textTheme.labelLarge,
-                      ),
-                      Text(
-                        test.description,
-                        maxLines: 4,
-                        style: theme.textTheme.labelLarge,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              test.complexity ?? '',
-                              style: theme.textTheme.labelLarge,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              test.forAge ?? '',
-                              style: theme.textTheme.labelLarge,
-                              maxLines: 3,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              test.createdAt ?? '',
-                              style: theme.textTheme.labelLarge,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              test.requiredScore?.toStringAsFixed(2) ?? '',
-                              style: theme.textTheme.labelLarge,
-                              maxLines: 3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

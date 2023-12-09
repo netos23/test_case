@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     "payments",
     "cstests",
     "course",
-    "cs_statistics"
+    "cs_statistics",
+    "recommends"
 ]
 
 MIDDLEWARE = [
@@ -196,6 +197,14 @@ SWAGGER_SETTINGS = {
     },
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR / '.cache',
+        'OPTIONS': {'MAX_ENTRIES': 1000},
+    }
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -236,3 +245,7 @@ AUTH_USER_MODEL = 'authorization.Users'
 ELASTIC_URL = "http://92.118.113.156:9200"
 ELASTIC_PASSWORD = env("ELASTIC_PASSWORD")
 ELASTIC_INDEX = "cyber"
+
+# GigaChat Api
+GIGACHAT_SECRET = env("GIGACHAT_SECRET")
+GIGACHAT_SCOPE = env("GIGACHAT_SCOPE")

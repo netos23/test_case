@@ -49,6 +49,18 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ChatAppRoute.name: (routeData) {
+      final args = routeData.argsAs<ChatAppRouteArgs>(
+          orElse: () => const ChatAppRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChatAppPageWidget(
+          key: args.key,
+          level: args.level,
+          config: args.config,
+        ),
+      );
+    },
     ChooseCityRoute.name: (routeData) {
       final args = routeData.argsAs<ChooseCityRouteArgs>(
           orElse: () => const ChooseCityRouteArgs());
@@ -248,6 +260,16 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    TestResultRoute.name: (routeData) {
+      final args = routeData.argsAs<TestResultRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TestResultPageWidget(
+          key: args.key,
+          testResultResponse: args.testResultResponse,
+        ),
+      );
+    },
     TestTab.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -424,6 +446,49 @@ class ChapterFinRouteArgs {
   @override
   String toString() {
     return 'ChapterFinRouteArgs{key: $key, levelMap: $levelMap}';
+  }
+}
+
+/// generated route for
+/// [ChatAppPageWidget]
+class ChatAppRoute extends PageRouteInfo<ChatAppRouteArgs> {
+  ChatAppRoute({
+    Key? key,
+    Level? level,
+    ChatPageConfiguration? config,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChatAppRoute.name,
+          args: ChatAppRouteArgs(
+            key: key,
+            level: level,
+            config: config,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatAppRoute';
+
+  static const PageInfo<ChatAppRouteArgs> page =
+      PageInfo<ChatAppRouteArgs>(name);
+}
+
+class ChatAppRouteArgs {
+  const ChatAppRouteArgs({
+    this.key,
+    this.level,
+    this.config,
+  });
+
+  final Key? key;
+
+  final Level? level;
+
+  final ChatPageConfiguration? config;
+
+  @override
+  String toString() {
+    return 'ChatAppRouteArgs{key: $key, level: $level, config: $config}';
   }
 }
 
@@ -1101,6 +1166,44 @@ class TestRouteArgs {
   @override
   String toString() {
     return 'TestRouteArgs{key: $key, wmFactory: $wmFactory}';
+  }
+}
+
+/// generated route for
+/// [TestResultPageWidget]
+class TestResultRoute extends PageRouteInfo<TestResultRouteArgs> {
+  TestResultRoute({
+    Key? key,
+    required TestResultResponse testResultResponse,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TestResultRoute.name,
+          args: TestResultRouteArgs(
+            key: key,
+            testResultResponse: testResultResponse,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TestResultRoute';
+
+  static const PageInfo<TestResultRouteArgs> page =
+      PageInfo<TestResultRouteArgs>(name);
+}
+
+class TestResultRouteArgs {
+  const TestResultRouteArgs({
+    this.key,
+    required this.testResultResponse,
+  });
+
+  final Key? key;
+
+  final TestResultResponse testResultResponse;
+
+  @override
+  String toString() {
+    return 'TestResultRouteArgs{key: $key, testResultResponse: $testResultResponse}';
   }
 }
 

@@ -20,6 +20,7 @@ ResponseVariant _$ResponseVariantFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ResponseVariant {
+  int get id => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   List<ChatAction> get actions => throw _privateConstructorUsedError;
 
@@ -35,7 +36,7 @@ abstract class $ResponseVariantCopyWith<$Res> {
           ResponseVariant value, $Res Function(ResponseVariant) then) =
       _$ResponseVariantCopyWithImpl<$Res, ResponseVariant>;
   @useResult
-  $Res call({String message, List<ChatAction> actions});
+  $Res call({int id, String message, List<ChatAction> actions});
 }
 
 /// @nodoc
@@ -51,10 +52,15 @@ class _$ResponseVariantCopyWithImpl<$Res, $Val extends ResponseVariant>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? message = null,
     Object? actions = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -75,7 +81,7 @@ abstract class _$$ResponseVariantImplCopyWith<$Res>
       __$$ResponseVariantImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, List<ChatAction> actions});
+  $Res call({int id, String message, List<ChatAction> actions});
 }
 
 /// @nodoc
@@ -89,10 +95,15 @@ class __$$ResponseVariantImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? message = null,
     Object? actions = null,
   }) {
     return _then(_$ResponseVariantImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -109,12 +120,16 @@ class __$$ResponseVariantImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ResponseVariantImpl implements _ResponseVariant {
   _$ResponseVariantImpl(
-      {required this.message, required final List<ChatAction> actions})
+      {required this.id,
+      required this.message,
+      required final List<ChatAction> actions})
       : _actions = actions;
 
   factory _$ResponseVariantImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResponseVariantImplFromJson(json);
 
+  @override
+  final int id;
   @override
   final String message;
   final List<ChatAction> _actions;
@@ -127,7 +142,7 @@ class _$ResponseVariantImpl implements _ResponseVariant {
 
   @override
   String toString() {
-    return 'ResponseVariant(message: $message, actions: $actions)';
+    return 'ResponseVariant(id: $id, message: $message, actions: $actions)';
   }
 
   @override
@@ -135,6 +150,7 @@ class _$ResponseVariantImpl implements _ResponseVariant {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ResponseVariantImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.message, message) || other.message == message) &&
             const DeepCollectionEquality().equals(other._actions, _actions));
   }
@@ -142,7 +158,7 @@ class _$ResponseVariantImpl implements _ResponseVariant {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, message, const DeepCollectionEquality().hash(_actions));
+      runtimeType, id, message, const DeepCollectionEquality().hash(_actions));
 
   @JsonKey(ignore: true)
   @override
@@ -161,12 +177,15 @@ class _$ResponseVariantImpl implements _ResponseVariant {
 
 abstract class _ResponseVariant implements ResponseVariant {
   factory _ResponseVariant(
-      {required final String message,
+      {required final int id,
+      required final String message,
       required final List<ChatAction> actions}) = _$ResponseVariantImpl;
 
   factory _ResponseVariant.fromJson(Map<String, dynamic> json) =
       _$ResponseVariantImpl.fromJson;
 
+  @override
+  int get id;
   @override
   String get message;
   @override

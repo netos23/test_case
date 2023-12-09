@@ -53,8 +53,8 @@ class ExtendedVariantSerializer(serializers.Serializer):
     picture = serializers.URLField(required=False)
     is_right = serializers.BooleanField(required=False)
     right_answer = serializers.CharField(required=False)
-    user_check = serializers.BooleanField(required=False)
-    user_answer = serializers.CharField(required=False)
+    checked = serializers.BooleanField(required=False)
+    answer = serializers.CharField(required=False)
 
 
 class ExtendedQuestionSerializer(serializers.ModelSerializer):
@@ -70,5 +70,6 @@ class ResultTestResponseSerializer(serializers.Serializer):
     passed = serializers.BooleanField()
     score = serializers.FloatField()
     correct_amount = serializers.IntegerField()
+    total_amount = serializers.IntegerField()
     top_percent = serializers.IntegerField()
     questions = ExtendedQuestionSerializer(many=True)

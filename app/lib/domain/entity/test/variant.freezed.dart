@@ -20,9 +20,15 @@ Variant _$VariantFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Variant {
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   String? get picture => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_right')
+  bool? get isRight => throw _privateConstructorUsedError;
+  @JsonKey(name: 'right_answer')
+  String? get rightAnswer => throw _privateConstructorUsedError;
+  bool? get checked => throw _privateConstructorUsedError;
+  String? get answer => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +40,14 @@ abstract class $VariantCopyWith<$Res> {
   factory $VariantCopyWith(Variant value, $Res Function(Variant) then) =
       _$VariantCopyWithImpl<$Res, Variant>;
   @useResult
-  $Res call({String title, String? picture, int? id});
+  $Res call(
+      {String? title,
+      String? picture,
+      int? id,
+      @JsonKey(name: 'is_right') bool? isRight,
+      @JsonKey(name: 'right_answer') String? rightAnswer,
+      bool? checked,
+      String? answer});
 }
 
 /// @nodoc
@@ -50,15 +63,19 @@ class _$VariantCopyWithImpl<$Res, $Val extends Variant>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = null,
+    Object? title = freezed,
     Object? picture = freezed,
     Object? id = freezed,
+    Object? isRight = freezed,
+    Object? rightAnswer = freezed,
+    Object? checked = freezed,
+    Object? answer = freezed,
   }) {
     return _then(_value.copyWith(
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       picture: freezed == picture
           ? _value.picture
           : picture // ignore: cast_nullable_to_non_nullable
@@ -67,6 +84,22 @@ class _$VariantCopyWithImpl<$Res, $Val extends Variant>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      isRight: freezed == isRight
+          ? _value.isRight
+          : isRight // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      rightAnswer: freezed == rightAnswer
+          ? _value.rightAnswer
+          : rightAnswer // ignore: cast_nullable_to_non_nullable
+              as String?,
+      checked: freezed == checked
+          ? _value.checked
+          : checked // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      answer: freezed == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -78,7 +111,14 @@ abstract class _$$VariantImplCopyWith<$Res> implements $VariantCopyWith<$Res> {
       __$$VariantImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title, String? picture, int? id});
+  $Res call(
+      {String? title,
+      String? picture,
+      int? id,
+      @JsonKey(name: 'is_right') bool? isRight,
+      @JsonKey(name: 'right_answer') String? rightAnswer,
+      bool? checked,
+      String? answer});
 }
 
 /// @nodoc
@@ -92,15 +132,19 @@ class __$$VariantImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = null,
+    Object? title = freezed,
     Object? picture = freezed,
     Object? id = freezed,
+    Object? isRight = freezed,
+    Object? rightAnswer = freezed,
+    Object? checked = freezed,
+    Object? answer = freezed,
   }) {
     return _then(_$VariantImpl(
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       picture: freezed == picture
           ? _value.picture
           : picture // ignore: cast_nullable_to_non_nullable
@@ -109,6 +153,22 @@ class __$$VariantImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      isRight: freezed == isRight
+          ? _value.isRight
+          : isRight // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      rightAnswer: freezed == rightAnswer
+          ? _value.rightAnswer
+          : rightAnswer // ignore: cast_nullable_to_non_nullable
+              as String?,
+      checked: freezed == checked
+          ? _value.checked
+          : checked // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      answer: freezed == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -117,21 +177,38 @@ class __$$VariantImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _$VariantImpl implements _Variant {
-  _$VariantImpl({required this.title, this.picture, this.id});
+  _$VariantImpl(
+      {this.title,
+      this.picture,
+      this.id,
+      @JsonKey(name: 'is_right') this.isRight,
+      @JsonKey(name: 'right_answer') this.rightAnswer,
+      this.checked,
+      this.answer});
 
   factory _$VariantImpl.fromJson(Map<String, dynamic> json) =>
       _$$VariantImplFromJson(json);
 
   @override
-  final String title;
+  final String? title;
   @override
   final String? picture;
   @override
   final int? id;
+  @override
+  @JsonKey(name: 'is_right')
+  final bool? isRight;
+  @override
+  @JsonKey(name: 'right_answer')
+  final String? rightAnswer;
+  @override
+  final bool? checked;
+  @override
+  final String? answer;
 
   @override
   String toString() {
-    return 'Variant(title: $title, picture: $picture, id: $id)';
+    return 'Variant(title: $title, picture: $picture, id: $id, isRight: $isRight, rightAnswer: $rightAnswer, checked: $checked, answer: $answer)';
   }
 
   @override
@@ -141,12 +218,18 @@ class _$VariantImpl implements _Variant {
             other is _$VariantImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.picture, picture) || other.picture == picture) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.isRight, isRight) || other.isRight == isRight) &&
+            (identical(other.rightAnswer, rightAnswer) ||
+                other.rightAnswer == rightAnswer) &&
+            (identical(other.checked, checked) || other.checked == checked) &&
+            (identical(other.answer, answer) || other.answer == answer));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, title, picture, id);
+  int get hashCode => Object.hash(
+      runtimeType, title, picture, id, isRight, rightAnswer, checked, answer);
 
   @JsonKey(ignore: true)
   @override
@@ -164,18 +247,32 @@ class _$VariantImpl implements _Variant {
 
 abstract class _Variant implements Variant {
   factory _Variant(
-      {required final String title,
+      {final String? title,
       final String? picture,
-      final int? id}) = _$VariantImpl;
+      final int? id,
+      @JsonKey(name: 'is_right') final bool? isRight,
+      @JsonKey(name: 'right_answer') final String? rightAnswer,
+      final bool? checked,
+      final String? answer}) = _$VariantImpl;
 
   factory _Variant.fromJson(Map<String, dynamic> json) = _$VariantImpl.fromJson;
 
   @override
-  String get title;
+  String? get title;
   @override
   String? get picture;
   @override
   int? get id;
+  @override
+  @JsonKey(name: 'is_right')
+  bool? get isRight;
+  @override
+  @JsonKey(name: 'right_answer')
+  String? get rightAnswer;
+  @override
+  bool? get checked;
+  @override
+  String? get answer;
   @override
   @JsonKey(ignore: true)
   _$$VariantImplCopyWith<_$VariantImpl> get copyWith =>

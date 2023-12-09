@@ -8,6 +8,7 @@ part 'response_variant.g.dart';
 @freezed
 class ResponseVariant with _$ResponseVariant {
     factory ResponseVariant({
+      required int id,
       required String message,
       required List<ChatAction> actions,
 }) = _ResponseVariant;
