@@ -15,3 +15,4 @@ class Course(models.Model):
     test = ForeignKey(CSTestModel, null=True, on_delete=SET_NULL, blank=True)
     sources = ManyToManyField(SourceModel, blank=True)
     certificate_template = models.URLField(null=True, blank=True)
+    price = models.IntegerField(default=0)

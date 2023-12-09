@@ -6,4 +6,4 @@ from course.models import Course
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = "__all__"
+        exclude = ("generated_tests", "certificate_template")
