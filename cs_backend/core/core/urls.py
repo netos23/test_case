@@ -48,6 +48,7 @@ urlpatterns = [
                   path("order/", include("orders.urls")),
                   path("payment/", include("payments.urls")),
                   path("istests/", include("cstests.urls")),
+                  path("course/", include("course.urls")),
                   path("admin/", admin.site.urls),
                   path("", include("django.contrib.auth.urls")),
                   path("dashboard/", include('dashboard.urls')),

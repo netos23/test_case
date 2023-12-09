@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     "dashboard",
     "orders",
     "payments",
-    "cstests"
+    "cstests",
+    "course"
 ]
 
 MIDDLEWARE = [
@@ -231,5 +232,6 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 AUTH_USER_MODEL = 'authorization.Users'
 
-ELASTIC_URL = "https://cybertest.fbtw.ru"
+ELASTIC_URL = "http://92.118.113.156:9200"
 ELASTIC_PASSWORD = env("ELASTIC_PASSWORD")
+ELASTIC_INDEX = "cyber"
