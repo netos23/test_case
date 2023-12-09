@@ -7,11 +7,16 @@ import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/internal/logger.dart';
 import 'package:test_case/util/snack_bar_util.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
 import 'show_case_page_model.dart';
 import 'show_case_page_widget.dart';
 
 abstract class IShowCasePageWidgetModel extends IWidgetModel {
   EntityStateNotifier<List<ShowCaseBanner>> get bannersState;
+
+  TextEditingController get sourceSearchController;
+
+  GlobalKey get searchKey;
 
   void openLink(String value);
 
@@ -39,8 +44,12 @@ class ShowCasePageWidgetModel
   }) : super(model);
 
   @override
+  final sourceSearchController = TextEditingController();
+  @override
   final bannersState = EntityStateNotifier();
   final BannerService bannerService;
+  @override
+  final searchKey = GlobalKey();
 
   @override
   void initWidgetModel() {
@@ -65,6 +74,7 @@ class ShowCasePageWidgetModel
 
   @override
   void dispose() {
+    sourceSearchController.dispose();
     bannersState.dispose();
     super.dispose();
   }
@@ -81,6 +91,7 @@ class ShowCasePageWidgetModel
     try {
       final pagination = await bannerService.getSources(
         page: page,
+        search: sourceSearchController.text,
       );
 
       return (pagination.results, pagination.next != null);
