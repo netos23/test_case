@@ -222,6 +222,9 @@ class _PhoneWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(16),

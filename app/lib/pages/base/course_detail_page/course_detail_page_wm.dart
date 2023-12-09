@@ -5,10 +5,11 @@ import 'package:test_case/domain/entity/course/course.dart';
 import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/internal/logger.dart';
 import 'package:test_case/util/snack_bar_util.dart';
+import 'package:test_case/util/wm_extensions.dart';
 import 'course_detail_page_model.dart';
 import 'course_detail_page_widget.dart';
 
-abstract interface class ICourseDetailPageWidgetModel implements IWidgetModel {
+abstract interface class ICourseDetailPageWidgetModel implements IWidgetModel,IThemeProvider {
   EntityStateNotifier<Course> get courseState;
 
   Future<void> loadCourse();
@@ -24,6 +25,7 @@ CourseDetailPageWidgetModel defaultCourseDetailPageWidgetModelFactory(
 /// Default widget model for CourseDetailPageWidget
 class CourseDetailPageWidgetModel
     extends WidgetModel<CourseDetailPageWidget, CourseDetailPageModel>
+    with ThemeProvider
     implements ICourseDetailPageWidgetModel {
   CourseDetailPageWidgetModel(
     CourseDetailPageModel model,

@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elementary/elementary.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:test_case/domain/entity/course/course_preview.dart';
 import 'package:test_case/router/app_router.dart';
 import 'package:test_case/util/pagination_builder.dart';
+
 import 'course_page_wm.dart';
 
 // TODO: cover with documentation
@@ -20,8 +20,11 @@ class CoursePageWidget extends ElementaryWidget<ICoursePageWidgetModel> {
   @override
   Widget build(ICoursePageWidgetModel wm) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Курсы'),
+        centerTitle: true,
+      ),
       body: SafeArea(
-
         child: PagePaginationBuilder<CoursePreview>(
           initialPage: 1,
           paginationCallback: wm.loadPages,
@@ -66,10 +69,12 @@ class CoursePreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Card(
-      color: Colors.white,
       clipBehavior: Clip.hardEdge,
-      surfaceTintColor: Colors.white,
       child: InkWell(
         onTap: () {
           final id = course?.id;
@@ -91,14 +96,24 @@ class CoursePreviewWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
               child: Text(
                 course?.name ?? '',
-                style: const TextStyle(
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 8, left: 8, bottom: 8),
-              child: Text(course?.description ?? ''),
+              padding: const EdgeInsets.only(
+                right: 8,
+                left: 8,
+                bottom: 8,
+              ),
+              child: Text(
+                course?.description ?? '',
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                ),
+              ),
             ),
           ],
         ),
