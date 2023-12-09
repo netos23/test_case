@@ -38,7 +38,7 @@ class _ChapterFinPageWidgetState extends State<ChapterFinPageWidget> {
             fit: StackFit.expand,
             children: [
               Image.asset(
-                'assets/images/forest.png',
+                widget.levelMap?.image ?? '',
                 fit: BoxFit.cover,
                 height: 1300,
               ),

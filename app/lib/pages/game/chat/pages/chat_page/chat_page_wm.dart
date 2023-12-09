@@ -75,7 +75,8 @@ class ChatPageWidgetModel extends WidgetModel<ChatPageWidget, ChatPageModel>
   Future<void> onSelected(ResponseVariant value) async {
     final oldStack = chatActions.valueOrNull ?? [];
     final action = oldStack[0];
-    final intercept = await widget.chatInterceptor?.onVariant(action, value);
+
+    final intercept = await widget.chatInterceptor?.onVariant(context, action, value, widget.level);
     if (intercept ?? false) {
       return;
     }
