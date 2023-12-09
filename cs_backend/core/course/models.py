@@ -19,6 +19,7 @@ class Course(models.Model):
     price = models.IntegerField(default=0, verbose_name='Цена курса')
     for_age = models.CharField(max_length=256, choices=FOR_AGES, default='16-90+',
                                verbose_name="Для возрастной категории")
+    profi = models.BooleanField(default=False)
 
     def picture_image(self):
         return mark_safe(f'<img src="{self.picture or ""}" width="150" height="150" /> ')

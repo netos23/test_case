@@ -56,6 +56,7 @@ class CSTestModel(models.Model):
     created_at = models.DateTimeField(default=now, verbose_name="Дата создания")
     required_score = models.IntegerField(default=0, verbose_name="Балл прохождения")
     questions = models.ManyToManyField(QuestionModel, related_name='tests', verbose_name="Вопросы")
+    profi = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Тест"
