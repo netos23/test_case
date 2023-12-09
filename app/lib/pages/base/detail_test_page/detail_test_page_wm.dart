@@ -1,13 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test_case/data/service/test_service.dart';
 import 'package:test_case/domain/entity/test/test_detail.dart';
+import 'package:test_case/domain/entity/test/test_result.dart';
 import 'package:test_case/domain/entity/test/variant.dart';
 import 'package:test_case/domain/models/profile.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
 import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/internal/logger.dart';
+import 'package:test_case/router/app_router.dart';
 import 'package:test_case/util/snack_bar_util.dart';
 import 'package:test_case/util/wm_extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -45,6 +48,8 @@ abstract class IDetailTestPageWidgetModel extends IWidgetModel
   void toNextPage();
 
   void toPrevPage();
+
+  Future<void> toResult();
 }
 
 TestPageWidgetModel defaultDetailTestPageWidgetModelFactory(
@@ -97,8 +102,8 @@ class TestPageWidgetModel
       Map<int, TextEditingController> results = {};
       for (var question in textQuestions) {
         results.addEntries(question.variants
-            .map((e) => MapEntry(e.id!, TextEditingController()))
-            .toList());
+            ?.map((e) => MapEntry(e.id!, TextEditingController()))
+            .toList() ?? []);
       }
 
       textsController.add(results);
@@ -135,18 +140,18 @@ class TestPageWidgetModel
     choosesController.add(current);
   }
 
-  toNextPage() {
+  @override
+  void toNextPage() {
     pageController.nextPage(
         duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-    pageIndexController
-        .add((pageIndexController.valueOrNull ?? -1) + 1);
+    pageIndexController.add((pageIndexController.valueOrNull ?? -1) + 1);
   }
 
-  toPrevPage() {
+  @override
+  void toPrevPage() {
     pageController.previousPage(
         duration: const Duration(milliseconds: 400), curve: Curves.easeOut);
-    pageIndexController
-        .add((pageIndexController.valueOrNull ?? 1) - 1);
+    pageIndexController.add((pageIndexController.valueOrNull ?? 1) - 1);
   }
 
   @override
@@ -179,6 +184,19 @@ class TestPageWidgetModel
   Future<void> openLink(String value) async {
     if (await canLaunchUrlString(value)) {
       launchUrlString(value);
+    }
+  }
+
+  @override
+  Future<void> toResult() async {
+    final response = await testService.checkResult(
+      testResult: TestResult(
+        testId: 1,
+        questions: [],
+      ),
+    );
+    if (context.mounted) {
+      context.router.navigate(TestResultRoute(testResultResponse: response));
     }
   }
 }

@@ -192,15 +192,15 @@ class QuestionWidget extends StatelessWidget {
             ),
           switch (question.type) {
             'multiple_checked' => VariantWidget(
-                variants: question.variants,
+                variants: question.variants ?? [],
                 model: model,
               ),
             'single_checked' => RadioVariantWidget(
-                variants: question.variants,
+                variants: question.variants ?? [],
                 model: model,
               ),
             'text' => TextVariantWidget(
-                variants: question.variants,
+                variants: question.variants ?? [],
                 model: model,
                 theme: theme,
               ),

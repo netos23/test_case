@@ -22,7 +22,7 @@ TestResult _$TestResultFromJson(Map<String, dynamic> json) {
 mixin _$TestResult {
   @JsonKey(name: 'test_id')
   int get testId => throw _privateConstructorUsedError;
-  List<ResultQuestion> get questions => throw _privateConstructorUsedError;
+  List<Question> get questions => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,8 +36,7 @@ abstract class $TestResultCopyWith<$Res> {
           TestResult value, $Res Function(TestResult) then) =
       _$TestResultCopyWithImpl<$Res, TestResult>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'test_id') int testId, List<ResultQuestion> questions});
+  $Res call({@JsonKey(name: 'test_id') int testId, List<Question> questions});
 }
 
 /// @nodoc
@@ -64,7 +63,7 @@ class _$TestResultCopyWithImpl<$Res, $Val extends TestResult>
       questions: null == questions
           ? _value.questions
           : questions // ignore: cast_nullable_to_non_nullable
-              as List<ResultQuestion>,
+              as List<Question>,
     ) as $Val);
   }
 }
@@ -77,8 +76,7 @@ abstract class _$$TestResultImplCopyWith<$Res>
       __$$TestResultImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'test_id') int testId, List<ResultQuestion> questions});
+  $Res call({@JsonKey(name: 'test_id') int testId, List<Question> questions});
 }
 
 /// @nodoc
@@ -103,7 +101,7 @@ class __$$TestResultImplCopyWithImpl<$Res>
       questions: null == questions
           ? _value._questions
           : questions // ignore: cast_nullable_to_non_nullable
-              as List<ResultQuestion>,
+              as List<Question>,
     ));
   }
 }
@@ -113,7 +111,7 @@ class __$$TestResultImplCopyWithImpl<$Res>
 class _$TestResultImpl implements _TestResult {
   _$TestResultImpl(
       {@JsonKey(name: 'test_id') required this.testId,
-      required final List<ResultQuestion> questions})
+      required final List<Question> questions})
       : _questions = questions;
 
   factory _$TestResultImpl.fromJson(Map<String, dynamic> json) =>
@@ -122,9 +120,9 @@ class _$TestResultImpl implements _TestResult {
   @override
   @JsonKey(name: 'test_id')
   final int testId;
-  final List<ResultQuestion> _questions;
+  final List<Question> _questions;
   @override
-  List<ResultQuestion> get questions {
+  List<Question> get questions {
     if (_questions is EqualUnmodifiableListView) return _questions;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_questions);
@@ -167,7 +165,7 @@ class _$TestResultImpl implements _TestResult {
 abstract class _TestResult implements TestResult {
   factory _TestResult(
       {@JsonKey(name: 'test_id') required final int testId,
-      required final List<ResultQuestion> questions}) = _$TestResultImpl;
+      required final List<Question> questions}) = _$TestResultImpl;
 
   factory _TestResult.fromJson(Map<String, dynamic> json) =
       _$TestResultImpl.fromJson;
@@ -176,7 +174,7 @@ abstract class _TestResult implements TestResult {
   @JsonKey(name: 'test_id')
   int get testId;
   @override
-  List<ResultQuestion> get questions;
+  List<Question> get questions;
   @override
   @JsonKey(ignore: true)
   _$$TestResultImplCopyWith<_$TestResultImpl> get copyWith =>

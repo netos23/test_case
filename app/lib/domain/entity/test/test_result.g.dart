@@ -10,7 +10,7 @@ _$TestResultImpl _$$TestResultImplFromJson(Map<String, dynamic> json) =>
     _$TestResultImpl(
       testId: json['test_id'] as int,
       questions: (json['questions'] as List<dynamic>)
-          .map((e) => ResultQuestion.fromJson(e as Map<String, dynamic>))
+          .map((e) => Question.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

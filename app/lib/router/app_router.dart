@@ -40,8 +40,10 @@ import 'package:test_case/pages/game/story_telling_utils.dart';
 import 'package:test_case/pages/web_view/web_view_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../domain/entity/test/test_result_response.dart';
 import '../pages/base/home_page/home_page_widget.dart';
 import '../pages/base/show_case_page/show_case_page.dart';
+import '../pages/base/test_result_page/test_result_page.dart';
 
 part 'app_router.gr.dart';
 

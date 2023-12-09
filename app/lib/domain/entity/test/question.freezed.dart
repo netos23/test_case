@@ -22,7 +22,7 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 mixin _$Question {
   @JsonKey(name: 'explain_answer')
   String get explainAnswer => throw _privateConstructorUsedError;
-  List<Variant> get variants => throw _privateConstructorUsedError;
+  List<Variant>? get variants => throw _privateConstructorUsedError;
   @JsonKey(name: 'final_variants')
   List<Variant>? get finalVariants => throw _privateConstructorUsedError;
   String get question => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $QuestionCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'explain_answer') String explainAnswer,
-      List<Variant> variants,
+      List<Variant>? variants,
       @JsonKey(name: 'final_variants') List<Variant>? finalVariants,
       String question,
       @JsonKey(name: 'is_correct') bool? isCorrect,
@@ -68,7 +68,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   @override
   $Res call({
     Object? explainAnswer = null,
-    Object? variants = null,
+    Object? variants = freezed,
     Object? finalVariants = freezed,
     Object? question = null,
     Object? isCorrect = freezed,
@@ -81,10 +81,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.explainAnswer
           : explainAnswer // ignore: cast_nullable_to_non_nullable
               as String,
-      variants: null == variants
+      variants: freezed == variants
           ? _value.variants
           : variants // ignore: cast_nullable_to_non_nullable
-              as List<Variant>,
+              as List<Variant>?,
       finalVariants: freezed == finalVariants
           ? _value.finalVariants
           : finalVariants // ignore: cast_nullable_to_non_nullable
@@ -123,7 +123,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'explain_answer') String explainAnswer,
-      List<Variant> variants,
+      List<Variant>? variants,
       @JsonKey(name: 'final_variants') List<Variant>? finalVariants,
       String question,
       @JsonKey(name: 'is_correct') bool? isCorrect,
@@ -144,7 +144,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? explainAnswer = null,
-    Object? variants = null,
+    Object? variants = freezed,
     Object? finalVariants = freezed,
     Object? question = null,
     Object? isCorrect = freezed,
@@ -157,10 +157,10 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value.explainAnswer
           : explainAnswer // ignore: cast_nullable_to_non_nullable
               as String,
-      variants: null == variants
+      variants: freezed == variants
           ? _value._variants
           : variants // ignore: cast_nullable_to_non_nullable
-              as List<Variant>,
+              as List<Variant>?,
       finalVariants: freezed == finalVariants
           ? _value._finalVariants
           : finalVariants // ignore: cast_nullable_to_non_nullable
@@ -195,7 +195,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
 class _$QuestionImpl implements _Question {
   _$QuestionImpl(
       {@JsonKey(name: 'explain_answer') required this.explainAnswer,
-      required final List<Variant> variants,
+      final List<Variant>? variants,
       @JsonKey(name: 'final_variants') final List<Variant>? finalVariants,
       required this.question,
       @JsonKey(name: 'is_correct') this.isCorrect,
@@ -211,12 +211,14 @@ class _$QuestionImpl implements _Question {
   @override
   @JsonKey(name: 'explain_answer')
   final String explainAnswer;
-  final List<Variant> _variants;
+  final List<Variant>? _variants;
   @override
-  List<Variant> get variants {
+  List<Variant>? get variants {
+    final value = _variants;
+    if (value == null) return null;
     if (_variants is EqualUnmodifiableListView) return _variants;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_variants);
+    return EqualUnmodifiableListView(value);
   }
 
   final List<Variant>? _finalVariants;
@@ -296,7 +298,7 @@ class _$QuestionImpl implements _Question {
 abstract class _Question implements Question {
   factory _Question(
       {@JsonKey(name: 'explain_answer') required final String explainAnswer,
-      required final List<Variant> variants,
+      final List<Variant>? variants,
       @JsonKey(name: 'final_variants') final List<Variant>? finalVariants,
       required final String question,
       @JsonKey(name: 'is_correct') final bool? isCorrect,
@@ -311,7 +313,7 @@ abstract class _Question implements Question {
   @JsonKey(name: 'explain_answer')
   String get explainAnswer;
   @override
-  List<Variant> get variants;
+  List<Variant>? get variants;
   @override
   @JsonKey(name: 'final_variants')
   List<Variant>? get finalVariants;
