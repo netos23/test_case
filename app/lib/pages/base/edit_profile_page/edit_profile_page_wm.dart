@@ -28,6 +28,16 @@ abstract class IEditProfilePageWidgetModel extends IWidgetModel
 
   BehaviorSubject<Profile?> get profileController;
 
+  BehaviorSubject<bool> get age6Controller;
+
+  BehaviorSubject<bool> get age13Controller;
+
+  BehaviorSubject<bool> get age16Controller;
+
+  BehaviorSubject<int> get totalScoreController;
+
+  BehaviorSubject<bool> get initialController;
+
   onEditProfile();
 }
 
@@ -61,9 +71,16 @@ class EditProfilePageWidgetModel
 
   @override
   BehaviorSubject<String?> genderController = BehaviorSubject();
-
+  BehaviorSubject<bool> age6Controller = BehaviorSubject();
+  BehaviorSubject<bool> age13Controller = BehaviorSubject();
+  BehaviorSubject<bool> age16Controller = BehaviorSubject();
+  BehaviorSubject<bool> initialController = BehaviorSubject();
+  BehaviorSubject<int> totalScoreController = BehaviorSubject();
   @override
   BehaviorSubject<Profile?> profileController = BehaviorSubject<Profile?>();
+  @override
+  BehaviorSubject<List<int>> profileInterestIdsController =
+      BehaviorSubject.seeded([]);
 
   @override
   void initWidgetModel() {
@@ -83,12 +100,16 @@ class EditProfilePageWidgetModel
       phoneNumber.text = event?.phone ?? '';
       bitrhdayController.text = event?.birthDate ?? '';
       genderController.add(event?.gender);
+      age6Controller.add(event?.age6_12 ?? false);
+      age13Controller.add(event?.age13_16 ?? false);
+      age16Controller.add(event?.age16_90 ?? false);
+      totalScoreController.add(event?.totalScore ?? 0);
     });
 
     if (profileUseCase.profile.valueOrNull == null) {
       profileUseCase.loadProfile();
     }
-    if (widget.profile != null){
+    if (widget.profile != null) {
       profileController.add(widget.profile);
     }
   }
@@ -102,6 +123,9 @@ class EditProfilePageWidgetModel
       phone: phoneNumber.text,
       birthDate: bitrhdayController.text,
       gender: genderController.value,
+      age6_12: age6Controller.valueOrNull ?? false,
+      age13_16: age13Controller.valueOrNull ?? false,
+      age16_90: age16Controller.valueOrNull ?? false,
     );
 
     try {
@@ -122,6 +146,11 @@ class EditProfilePageWidgetModel
     bitrhdayController.dispose();
     genderController.close();
     profileController.close();
+    age6Controller.close();
+    age13Controller.close();
+    age16Controller.close();
+    totalScoreController.close();
+    initialController.close();
     super.dispose();
   }
 

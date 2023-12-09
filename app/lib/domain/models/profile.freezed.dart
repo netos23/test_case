@@ -37,6 +37,16 @@ mixin _$Profile {
   String? get brand => throw _privateConstructorUsedError;
   @JsonKey(name: 'tg_chat_start_link')
   String? get tgChatStartLink => throw _privateConstructorUsedError;
+  @JsonKey(name: 'age6_12')
+  bool? get age6_12 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'age13_16')
+  bool? get age13_16 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'age16_90')
+  bool? get age16_90 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_score')
+  int? get totalScore => throw _privateConstructorUsedError;
+  @JsonKey(name: 'initial_passed')
+  bool? get initialPassed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,7 +67,12 @@ abstract class $ProfileCopyWith<$Res> {
       @JsonKey(name: 'role') String? role,
       @JsonKey(name: 'phone') String? phone,
       @JsonKey(name: 'brand') String? brand,
-      @JsonKey(name: 'tg_chat_start_link') String? tgChatStartLink});
+      @JsonKey(name: 'tg_chat_start_link') String? tgChatStartLink,
+      @JsonKey(name: 'age6_12') bool? age6_12,
+      @JsonKey(name: 'age13_16') bool? age13_16,
+      @JsonKey(name: 'age16_90') bool? age16_90,
+      @JsonKey(name: 'total_score') int? totalScore,
+      @JsonKey(name: 'initial_passed') bool? initialPassed});
 }
 
 /// @nodoc
@@ -82,6 +97,11 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
     Object? phone = freezed,
     Object? brand = freezed,
     Object? tgChatStartLink = freezed,
+    Object? age6_12 = freezed,
+    Object? age13_16 = freezed,
+    Object? age16_90 = freezed,
+    Object? totalScore = freezed,
+    Object? initialPassed = freezed,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -120,6 +140,26 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
           ? _value.tgChatStartLink
           : tgChatStartLink // ignore: cast_nullable_to_non_nullable
               as String?,
+      age6_12: freezed == age6_12
+          ? _value.age6_12
+          : age6_12 // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      age13_16: freezed == age13_16
+          ? _value.age13_16
+          : age13_16 // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      age16_90: freezed == age16_90
+          ? _value.age16_90
+          : age16_90 // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      totalScore: freezed == totalScore
+          ? _value.totalScore
+          : totalScore // ignore: cast_nullable_to_non_nullable
+              as int?,
+      initialPassed: freezed == initialPassed
+          ? _value.initialPassed
+          : initialPassed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -140,7 +180,12 @@ abstract class _$$ProfileImplCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       @JsonKey(name: 'role') String? role,
       @JsonKey(name: 'phone') String? phone,
       @JsonKey(name: 'brand') String? brand,
-      @JsonKey(name: 'tg_chat_start_link') String? tgChatStartLink});
+      @JsonKey(name: 'tg_chat_start_link') String? tgChatStartLink,
+      @JsonKey(name: 'age6_12') bool? age6_12,
+      @JsonKey(name: 'age13_16') bool? age13_16,
+      @JsonKey(name: 'age16_90') bool? age16_90,
+      @JsonKey(name: 'total_score') int? totalScore,
+      @JsonKey(name: 'initial_passed') bool? initialPassed});
 }
 
 /// @nodoc
@@ -163,6 +208,11 @@ class __$$ProfileImplCopyWithImpl<$Res>
     Object? phone = freezed,
     Object? brand = freezed,
     Object? tgChatStartLink = freezed,
+    Object? age6_12 = freezed,
+    Object? age13_16 = freezed,
+    Object? age16_90 = freezed,
+    Object? totalScore = freezed,
+    Object? initialPassed = freezed,
   }) {
     return _then(_$ProfileImpl(
       email: null == email
@@ -201,6 +251,26 @@ class __$$ProfileImplCopyWithImpl<$Res>
           ? _value.tgChatStartLink
           : tgChatStartLink // ignore: cast_nullable_to_non_nullable
               as String?,
+      age6_12: freezed == age6_12
+          ? _value.age6_12
+          : age6_12 // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      age13_16: freezed == age13_16
+          ? _value.age13_16
+          : age13_16 // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      age16_90: freezed == age16_90
+          ? _value.age16_90
+          : age16_90 // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      totalScore: freezed == totalScore
+          ? _value.totalScore
+          : totalScore // ignore: cast_nullable_to_non_nullable
+              as int?,
+      initialPassed: freezed == initialPassed
+          ? _value.initialPassed
+          : initialPassed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -218,7 +288,12 @@ class _$ProfileImpl implements _Profile {
       @JsonKey(name: 'role') this.role,
       @JsonKey(name: 'phone') this.phone,
       @JsonKey(name: 'brand') this.brand,
-      @JsonKey(name: 'tg_chat_start_link') this.tgChatStartLink});
+      @JsonKey(name: 'tg_chat_start_link') this.tgChatStartLink,
+      @JsonKey(name: 'age6_12') this.age6_12,
+      @JsonKey(name: 'age13_16') this.age13_16,
+      @JsonKey(name: 'age16_90') this.age16_90,
+      @JsonKey(name: 'total_score') this.totalScore,
+      @JsonKey(name: 'initial_passed') this.initialPassed});
 
   factory _$ProfileImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProfileImplFromJson(json);
@@ -249,10 +324,25 @@ class _$ProfileImpl implements _Profile {
   @override
   @JsonKey(name: 'tg_chat_start_link')
   final String? tgChatStartLink;
+  @override
+  @JsonKey(name: 'age6_12')
+  final bool? age6_12;
+  @override
+  @JsonKey(name: 'age13_16')
+  final bool? age13_16;
+  @override
+  @JsonKey(name: 'age16_90')
+  final bool? age16_90;
+  @override
+  @JsonKey(name: 'total_score')
+  final int? totalScore;
+  @override
+  @JsonKey(name: 'initial_passed')
+  final bool? initialPassed;
 
   @override
   String toString() {
-    return 'Profile(email: $email, firstName: $firstName, secondName: $secondName, birthDate: $birthDate, gender: $gender, role: $role, phone: $phone, brand: $brand, tgChatStartLink: $tgChatStartLink)';
+    return 'Profile(email: $email, firstName: $firstName, secondName: $secondName, birthDate: $birthDate, gender: $gender, role: $role, phone: $phone, brand: $brand, tgChatStartLink: $tgChatStartLink, age6_12: $age6_12, age13_16: $age13_16, age16_90: $age16_90, totalScore: $totalScore, initialPassed: $initialPassed)';
   }
 
   @override
@@ -272,13 +362,36 @@ class _$ProfileImpl implements _Profile {
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.brand, brand) || other.brand == brand) &&
             (identical(other.tgChatStartLink, tgChatStartLink) ||
-                other.tgChatStartLink == tgChatStartLink));
+                other.tgChatStartLink == tgChatStartLink) &&
+            (identical(other.age6_12, age6_12) || other.age6_12 == age6_12) &&
+            (identical(other.age13_16, age13_16) ||
+                other.age13_16 == age13_16) &&
+            (identical(other.age16_90, age16_90) ||
+                other.age16_90 == age16_90) &&
+            (identical(other.totalScore, totalScore) ||
+                other.totalScore == totalScore) &&
+            (identical(other.initialPassed, initialPassed) ||
+                other.initialPassed == initialPassed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, firstName, secondName,
-      birthDate, gender, role, phone, brand, tgChatStartLink);
+  int get hashCode => Object.hash(
+      runtimeType,
+      email,
+      firstName,
+      secondName,
+      birthDate,
+      gender,
+      role,
+      phone,
+      brand,
+      tgChatStartLink,
+      age6_12,
+      age13_16,
+      age16_90,
+      totalScore,
+      initialPassed);
 
   @JsonKey(ignore: true)
   @override
@@ -304,7 +417,12 @@ abstract class _Profile implements Profile {
           @JsonKey(name: 'role') final String? role,
           @JsonKey(name: 'phone') final String? phone,
           @JsonKey(name: 'brand') final String? brand,
-          @JsonKey(name: 'tg_chat_start_link') final String? tgChatStartLink}) =
+          @JsonKey(name: 'tg_chat_start_link') final String? tgChatStartLink,
+          @JsonKey(name: 'age6_12') final bool? age6_12,
+          @JsonKey(name: 'age13_16') final bool? age13_16,
+          @JsonKey(name: 'age16_90') final bool? age16_90,
+          @JsonKey(name: 'total_score') final int? totalScore,
+          @JsonKey(name: 'initial_passed') final bool? initialPassed}) =
       _$ProfileImpl;
 
   factory _Profile.fromJson(Map<String, dynamic> json) = _$ProfileImpl.fromJson;
@@ -335,6 +453,21 @@ abstract class _Profile implements Profile {
   @override
   @JsonKey(name: 'tg_chat_start_link')
   String? get tgChatStartLink;
+  @override
+  @JsonKey(name: 'age6_12')
+  bool? get age6_12;
+  @override
+  @JsonKey(name: 'age13_16')
+  bool? get age13_16;
+  @override
+  @JsonKey(name: 'age16_90')
+  bool? get age16_90;
+  @override
+  @JsonKey(name: 'total_score')
+  int? get totalScore;
+  @override
+  @JsonKey(name: 'initial_passed')
+  bool? get initialPassed;
   @override
   @JsonKey(ignore: true)
   _$$ProfileImplCopyWith<_$ProfileImpl> get copyWith =>
