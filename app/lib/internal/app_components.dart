@@ -10,7 +10,7 @@ import 'package:test_case/data/service/auth_service.dart';
 import 'package:test_case/data/service/banner_service.dart';
 import 'package:test_case/data/service/geozones_service.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
-import 'package:test_case/router/app_router.dart';
+import 'package:test_case/pages/game/chat/domain/manager/sound_controller.dart';
 
 const timeout = Duration(seconds: 30);
 
@@ -27,6 +27,7 @@ class AppComponents {
   late final AuthService authService = AuthService(dio);
   late final BannerService bannerService = BannerService(dio);
   late final GeozonesService geozonesService = GeozonesService(dio);
+  final soundController = SoundController();
 
   final TokenRepository tokenRepository = TokenRepository();
 
@@ -55,5 +56,6 @@ class AppComponents {
         dio: dio,
       ),
     );
+    await soundController.init();
   }
 }

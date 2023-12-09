@@ -16,7 +16,7 @@ sealed class ChatAction with _$ChatAction {
 
   const factory ChatAction.responce({
     @Default(Duration.zero) Duration duration,
-    ChatMessage? message,
+    required ChatMessage message,
     @Default(<ResponseVariant>[]) List<ResponseVariant> variants,
   }) = ResponceChatAction;
 

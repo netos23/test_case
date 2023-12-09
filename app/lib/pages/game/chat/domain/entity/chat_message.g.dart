@@ -14,10 +14,9 @@ _$ChatMessageImpl _$$ChatMessageImplFromJson(Map<String, dynamic> json) =>
       attachment: json['attachment'] == null
           ? null
           : Attachment.fromJson(json['attachment'] as Map<String, dynamic>),
-      links: (json['links'] as List<dynamic>?)
-              ?.map((e) => ChatMessageLink.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const <ChatMessageLink>[],
+      links: json['links'] == null
+          ? null
+          : ChatMessageLink.fromJson(json['links'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ChatMessageImplToJson(_$ChatMessageImpl instance) =>

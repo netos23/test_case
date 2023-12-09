@@ -30,11 +30,11 @@ ChatAction _$ChatActionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ChatAction {
   Duration get duration => throw _privateConstructorUsedError;
-  ChatMessage? get message => throw _privateConstructorUsedError;
+  ChatMessage get message => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Duration duration, ChatMessage message) message,
-    required TResult Function(Duration duration, ChatMessage? message,
+    required TResult Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)
         responce,
   }) =>
@@ -42,7 +42,7 @@ mixin _$ChatAction {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Duration duration, ChatMessage message)? message,
-    TResult? Function(Duration duration, ChatMessage? message,
+    TResult? Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)?
         responce,
   }) =>
@@ -50,7 +50,7 @@ mixin _$ChatAction {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Duration duration, ChatMessage message)? message,
-    TResult Function(Duration duration, ChatMessage? message,
+    TResult Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)?
         responce,
     required TResult orElse(),
@@ -89,7 +89,7 @@ abstract class $ChatActionCopyWith<$Res> {
   @useResult
   $Res call({Duration duration, ChatMessage message});
 
-  $ChatMessageCopyWith<$Res>? get message;
+  $ChatMessageCopyWith<$Res> get message;
 }
 
 /// @nodoc
@@ -114,7 +114,7 @@ class _$ChatActionCopyWithImpl<$Res, $Val extends ChatAction>
           : duration // ignore: cast_nullable_to_non_nullable
               as Duration,
       message: null == message
-          ? _value.message!
+          ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as ChatMessage,
     ) as $Val);
@@ -122,12 +122,8 @@ class _$ChatActionCopyWithImpl<$Res, $Val extends ChatAction>
 
   @override
   @pragma('vm:prefer-inline')
-  $ChatMessageCopyWith<$Res>? get message {
-    if (_value.message == null) {
-      return null;
-    }
-
-    return $ChatMessageCopyWith<$Res>(_value.message!, (value) {
+  $ChatMessageCopyWith<$Res> get message {
+    return $ChatMessageCopyWith<$Res>(_value.message, (value) {
       return _then(_value.copyWith(message: value) as $Val);
     });
   }
@@ -171,14 +167,6 @@ class __$$MessageChatActionImplCopyWithImpl<$Res>
           : message // ignore: cast_nullable_to_non_nullable
               as ChatMessage,
     ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ChatMessageCopyWith<$Res> get message {
-    return $ChatMessageCopyWith<$Res>(_value.message, (value) {
-      return _then(_value.copyWith(message: value));
-    });
   }
 }
 
@@ -233,7 +221,7 @@ class _$MessageChatActionImpl implements MessageChatAction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Duration duration, ChatMessage message) message,
-    required TResult Function(Duration duration, ChatMessage? message,
+    required TResult Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)
         responce,
   }) {
@@ -244,7 +232,7 @@ class _$MessageChatActionImpl implements MessageChatAction {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Duration duration, ChatMessage message)? message,
-    TResult? Function(Duration duration, ChatMessage? message,
+    TResult? Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)?
         responce,
   }) {
@@ -255,7 +243,7 @@ class _$MessageChatActionImpl implements MessageChatAction {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Duration duration, ChatMessage message)? message,
-    TResult Function(Duration duration, ChatMessage? message,
+    TResult Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)?
         responce,
     required TResult orElse(),
@@ -332,12 +320,10 @@ abstract class _$$ResponceChatActionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Duration duration,
-      ChatMessage? message,
-      List<ResponseVariant> variants});
+      {Duration duration, ChatMessage message, List<ResponseVariant> variants});
 
   @override
-  $ChatMessageCopyWith<$Res>? get message;
+  $ChatMessageCopyWith<$Res> get message;
 }
 
 /// @nodoc
@@ -352,7 +338,7 @@ class __$$ResponceChatActionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? duration = null,
-    Object? message = freezed,
+    Object? message = null,
     Object? variants = null,
   }) {
     return _then(_$ResponceChatActionImpl(
@@ -360,10 +346,10 @@ class __$$ResponceChatActionImplCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as Duration,
-      message: freezed == message
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as ChatMessage?,
+              as ChatMessage,
       variants: null == variants
           ? _value._variants
           : variants // ignore: cast_nullable_to_non_nullable
@@ -377,7 +363,7 @@ class __$$ResponceChatActionImplCopyWithImpl<$Res>
 class _$ResponceChatActionImpl implements ResponceChatAction {
   const _$ResponceChatActionImpl(
       {this.duration = Duration.zero,
-      this.message,
+      required this.message,
       final List<ResponseVariant> variants = const <ResponseVariant>[],
       final String? $type})
       : _variants = variants,
@@ -390,7 +376,7 @@ class _$ResponceChatActionImpl implements ResponceChatAction {
   @JsonKey()
   final Duration duration;
   @override
-  final ChatMessage? message;
+  final ChatMessage message;
   final List<ResponseVariant> _variants;
   @override
   @JsonKey()
@@ -435,7 +421,7 @@ class _$ResponceChatActionImpl implements ResponceChatAction {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Duration duration, ChatMessage message) message,
-    required TResult Function(Duration duration, ChatMessage? message,
+    required TResult Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)
         responce,
   }) {
@@ -446,7 +432,7 @@ class _$ResponceChatActionImpl implements ResponceChatAction {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(Duration duration, ChatMessage message)? message,
-    TResult? Function(Duration duration, ChatMessage? message,
+    TResult? Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)?
         responce,
   }) {
@@ -457,7 +443,7 @@ class _$ResponceChatActionImpl implements ResponceChatAction {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Duration duration, ChatMessage message)? message,
-    TResult Function(Duration duration, ChatMessage? message,
+    TResult Function(Duration duration, ChatMessage message,
             List<ResponseVariant> variants)?
         responce,
     required TResult orElse(),
@@ -510,7 +496,7 @@ class _$ResponceChatActionImpl implements ResponceChatAction {
 abstract class ResponceChatAction implements ChatAction {
   const factory ResponceChatAction(
       {final Duration duration,
-      final ChatMessage? message,
+      required final ChatMessage message,
       final List<ResponseVariant> variants}) = _$ResponceChatActionImpl;
 
   factory ResponceChatAction.fromJson(Map<String, dynamic> json) =
@@ -519,7 +505,7 @@ abstract class ResponceChatAction implements ChatAction {
   @override
   Duration get duration;
   @override
-  ChatMessage? get message;
+  ChatMessage get message;
   List<ResponseVariant> get variants;
   @override
   @JsonKey(ignore: true)

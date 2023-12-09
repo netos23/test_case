@@ -24,7 +24,7 @@ mixin _$ChatMessage {
   String get message => throw _privateConstructorUsedError;
   DateTime get dateTime => throw _privateConstructorUsedError;
   Attachment? get attachment => throw _privateConstructorUsedError;
-  List<ChatMessageLink> get links => throw _privateConstructorUsedError;
+  ChatMessageLink? get links => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,10 +43,11 @@ abstract class $ChatMessageCopyWith<$Res> {
       String message,
       DateTime dateTime,
       Attachment? attachment,
-      List<ChatMessageLink> links});
+      ChatMessageLink? links});
 
   $ChatUserCopyWith<$Res> get user;
   $AttachmentCopyWith<$Res>? get attachment;
+  $ChatMessageLinkCopyWith<$Res>? get links;
 }
 
 /// @nodoc
@@ -66,7 +67,7 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
     Object? message = null,
     Object? dateTime = null,
     Object? attachment = freezed,
-    Object? links = null,
+    Object? links = freezed,
   }) {
     return _then(_value.copyWith(
       user: null == user
@@ -85,10 +86,10 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
           ? _value.attachment
           : attachment // ignore: cast_nullable_to_non_nullable
               as Attachment?,
-      links: null == links
+      links: freezed == links
           ? _value.links
           : links // ignore: cast_nullable_to_non_nullable
-              as List<ChatMessageLink>,
+              as ChatMessageLink?,
     ) as $Val);
   }
 
@@ -111,6 +112,18 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
       return _then(_value.copyWith(attachment: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatMessageLinkCopyWith<$Res>? get links {
+    if (_value.links == null) {
+      return null;
+    }
+
+    return $ChatMessageLinkCopyWith<$Res>(_value.links!, (value) {
+      return _then(_value.copyWith(links: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -126,12 +139,14 @@ abstract class _$$ChatMessageImplCopyWith<$Res>
       String message,
       DateTime dateTime,
       Attachment? attachment,
-      List<ChatMessageLink> links});
+      ChatMessageLink? links});
 
   @override
   $ChatUserCopyWith<$Res> get user;
   @override
   $AttachmentCopyWith<$Res>? get attachment;
+  @override
+  $ChatMessageLinkCopyWith<$Res>? get links;
 }
 
 /// @nodoc
@@ -149,7 +164,7 @@ class __$$ChatMessageImplCopyWithImpl<$Res>
     Object? message = null,
     Object? dateTime = null,
     Object? attachment = freezed,
-    Object? links = null,
+    Object? links = freezed,
   }) {
     return _then(_$ChatMessageImpl(
       user: null == user
@@ -168,10 +183,10 @@ class __$$ChatMessageImplCopyWithImpl<$Res>
           ? _value.attachment
           : attachment // ignore: cast_nullable_to_non_nullable
               as Attachment?,
-      links: null == links
-          ? _value._links
+      links: freezed == links
+          ? _value.links
           : links // ignore: cast_nullable_to_non_nullable
-              as List<ChatMessageLink>,
+              as ChatMessageLink?,
     ));
   }
 }
@@ -184,8 +199,7 @@ class _$ChatMessageImpl implements _ChatMessage {
       required this.message,
       required this.dateTime,
       this.attachment,
-      final List<ChatMessageLink> links = const <ChatMessageLink>[]})
-      : _links = links;
+      this.links});
 
   factory _$ChatMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatMessageImplFromJson(json);
@@ -198,14 +212,8 @@ class _$ChatMessageImpl implements _ChatMessage {
   final DateTime dateTime;
   @override
   final Attachment? attachment;
-  final List<ChatMessageLink> _links;
   @override
-  @JsonKey()
-  List<ChatMessageLink> get links {
-    if (_links is EqualUnmodifiableListView) return _links;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_links);
-  }
+  final ChatMessageLink? links;
 
   @override
   String toString() {
@@ -223,13 +231,13 @@ class _$ChatMessageImpl implements _ChatMessage {
                 other.dateTime == dateTime) &&
             (identical(other.attachment, attachment) ||
                 other.attachment == attachment) &&
-            const DeepCollectionEquality().equals(other._links, _links));
+            (identical(other.links, links) || other.links == links));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, user, message, dateTime,
-      attachment, const DeepCollectionEquality().hash(_links));
+  int get hashCode =>
+      Object.hash(runtimeType, user, message, dateTime, attachment, links);
 
   @JsonKey(ignore: true)
   @override
@@ -251,7 +259,7 @@ abstract class _ChatMessage implements ChatMessage {
       required final String message,
       required final DateTime dateTime,
       final Attachment? attachment,
-      final List<ChatMessageLink> links}) = _$ChatMessageImpl;
+      final ChatMessageLink? links}) = _$ChatMessageImpl;
 
   factory _ChatMessage.fromJson(Map<String, dynamic> json) =
       _$ChatMessageImpl.fromJson;
@@ -265,7 +273,7 @@ abstract class _ChatMessage implements ChatMessage {
   @override
   Attachment? get attachment;
   @override
-  List<ChatMessageLink> get links;
+  ChatMessageLink? get links;
   @override
   @JsonKey(ignore: true)
   _$$ChatMessageImplCopyWith<_$ChatMessageImpl> get copyWith =>

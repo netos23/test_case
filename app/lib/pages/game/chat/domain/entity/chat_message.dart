@@ -15,7 +15,7 @@ sealed class ChatMessage with _$ChatMessage {
     required String message,
     required DateTime dateTime,
     Attachment? attachment,
-    @Default(<ChatMessageLink>[]) List<ChatMessageLink> links,
+    ChatMessageLink? links,
   }) = _ChatMessage;
 
   factory ChatMessage.fromJson(Map<String, dynamic> json) =>

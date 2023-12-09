@@ -30,9 +30,7 @@ _$ResponceChatActionImpl _$$ResponceChatActionImplFromJson(
       duration: json['duration'] == null
           ? Duration.zero
           : Duration(microseconds: json['duration'] as int),
-      message: json['message'] == null
-          ? null
-          : ChatMessage.fromJson(json['message'] as Map<String, dynamic>),
+      message: ChatMessage.fromJson(json['message'] as Map<String, dynamic>),
       variants: (json['variants'] as List<dynamic>?)
               ?.map((e) => ResponseVariant.fromJson(e as Map<String, dynamic>))
               .toList() ??
