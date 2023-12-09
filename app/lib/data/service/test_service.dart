@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
 import 'package:test_case/domain/entity/test/test.dart';
 import 'package:test_case/domain/entity/test/test_detail.dart';
+import 'package:test_case/domain/entity/test/test_result.dart';
 
 part 'test_service.g.dart';
 
@@ -14,9 +15,12 @@ abstract class TestService {
 
   @GET('/istests/detail/{id}/')
   Future<TestDetail> getTestDetail({
-    @queryParam int? id,
+    @Path() int? id,
   });
 
   @GET('/istests/tests/')
   Future<List<Test>> getTests();
+
+  @POST('/istests/check_result/')
+  Future<List<TestResult>> checkResult();
 }

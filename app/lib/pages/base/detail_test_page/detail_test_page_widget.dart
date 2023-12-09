@@ -4,7 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:test_case/domain/entity/test/question.dart';
 import 'package:test_case/domain/entity/test/test.dart';
+import 'package:test_case/domain/entity/test/variant.dart';
 import 'package:test_case/pages/components/loading_indicator.dart';
 import 'package:test_case/router/app_router.dart';
 import 'package:test_case/widgets_kit/image_card.dart';
@@ -14,7 +16,8 @@ import 'detail_test_page_wm.dart';
 // TODO: cover with documentation
 /// Main widget for ShowCasePage module
 @RoutePage()
-class DetailTestPageWidget extends ElementaryWidget<IDetailTestPageWidgetModel> {
+class DetailTestPageWidget
+    extends ElementaryWidget<IDetailTestPageWidgetModel> {
   const DetailTestPageWidget({
     Key? key,
     required this.testId,
@@ -34,31 +37,36 @@ class DetailTestPageWidget extends ElementaryWidget<IDetailTestPageWidgetModel> 
       body: Center(
         child: SizedBox(
           width: 600,
-          child:SafeArea(
+          child: SafeArea(
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
                   automaticallyImplyLeading: false,
                   pinned: true,
-                  expandedHeight: 300,
+                  expandedHeight: 225,
                   collapsedHeight: 125,
                   flexibleSpace: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: EntityStateNotifierBuilder(
-                      listenableEntityState: wm.testState,
-                      builder: (BuildContext context, test) {
-                        return (test?.picture != null) ? ImageCard.network(
-                          leading: canPop ? const Card(child: BackButton()) : null,
-                          image: test!.picture ?? '',
-                          title: test.name,
-                        ) : ImageCard.network(
-                          leading: canPop ? const Card(child: BackButton()) : null,
-                          image: 'assets/images/default_test.jpeg',
-                          title: 'Тест',
-                        );
-                      },
-                    )
-                  ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: EntityStateNotifierBuilder(
+                        listenableEntityState: wm.testState,
+                        builder: (BuildContext context, test) {
+                          return (test?.picture?.isNotEmpty == true)
+                              ? ImageCard.network(
+                                  leading: canPop
+                                      ? const Card(child: BackButton())
+                                      : null,
+                                  image: test!.picture ?? '',
+                                  title: test.name,
+                                )
+                              : ImageCard(
+                                  leading: canPop
+                                      ? const Card(child: BackButton())
+                                      : null,
+                                  image: 'assets/images/default_test.jpeg',
+                                  title: 'Тест',
+                                );
+                        },
+                      )),
                 ),
                 SliverToBoxAdapter(
                   child: EntityStateNotifierBuilder(
@@ -69,8 +77,19 @@ class DetailTestPageWidget extends ElementaryWidget<IDetailTestPageWidgetModel> 
                       );
                     },
                     builder: (context, testData) {
-                      final test = testData ?? [];
-                      return const SizedBox();
+                      final questions = testData?.questions ?? [];
+                      return ListView.separated(
+                          itemBuilder: (_, index) {
+                            final question = questions[index];
+                            return QuestionWidget(
+                              question: question,
+                              theme: theme,
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider();
+                          },
+                          itemCount: questions.length);
                     },
                   ),
                 ),
@@ -79,6 +98,62 @@ class DetailTestPageWidget extends ElementaryWidget<IDetailTestPageWidgetModel> 
           ),
         ),
       ),
+    );
+  }
+}
+
+class QuestionWidget extends StatelessWidget {
+  const QuestionWidget(
+      {super.key, required this.question, required this.theme});
+
+  final Question question;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            question.question,
+            style: theme.textTheme.titleMedium,
+          ),
+          if (question.picture != null)
+            CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: question.picture!,
+              placeholder: (_, __) => Image.asset(
+                'assets/images/default_test.jpeg',
+                height: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+          switch (question.type) {
+            'single_checked' => RadioVariantWidget(variants: question.variants),
+            // 'multiple_checked' => VariantWidget(variants: question.variants),
+            // 'text' => TextVariantWidget(variants: question.variants),
+            _ => const SizedBox.shrink(),
+          }
+        ],
+      ),
+    );
+  }
+}
+
+class RadioVariantWidget extends StatelessWidget {
+  RadioVariantWidget({super.key, required this.variants});
+
+  List<Variant> variants;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: variants.length,
+      itemBuilder: (_, index){
+        final variant = variants[index];
+        return ChoiceChip(label: Text(variant.title), selected: false);
+      }
     );
   }
 }
@@ -167,7 +242,7 @@ class TestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultImage = Image.asset(
-      'assets/images/default_test.png',
+      'assets/images/default_test.jpeg',
       fit: BoxFit.cover,
     );
     return SizedBox(
