@@ -8,6 +8,7 @@ import 'package:test_case/domain/entity/auth/auth_email_part2_request.dart';
 import 'package:test_case/domain/use_case/profile_use_case.dart';
 import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/internal/logger.dart';
+import 'package:test_case/router/app_router.dart';
 import 'package:test_case/util/snack_bar_util.dart';
 import 'package:test_case/util/wm_extensions.dart';
 import 'package:rxdart/rxdart.dart';
@@ -92,6 +93,9 @@ class AuthPageWidgetModel extends WidgetModel<AuthPageWidget, AuthPageModel>
         // ignore: use_build_context_synchronously
         context.showErrorSnackBar('Пользователь не найден');
       }
+      if (error.response?.statusCode == 451){
+        router.push(RegisterRoute());
+      }
 
       authStateController.add(AuthState.phone);
       throw Exception(
@@ -102,7 +106,6 @@ class AuthPageWidgetModel extends WidgetModel<AuthPageWidget, AuthPageModel>
         // ignore: use_build_context_synchronously
         context.showErrorSnackBar('Неизвестная ошибка');
       }
-
       authStateController.add(AuthState.phone);
       logger.f(e);
       rethrow;

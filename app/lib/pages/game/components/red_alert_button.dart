@@ -1,8 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:test_case/pages/game/components/red_button_variant.dart';
+import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/router/app_router.dart';
-
 import '../../../domain/models/game/level.dart';
 
 class RedAlertButton extends StatelessWidget {
@@ -86,6 +85,9 @@ class _ModalSheetContentState extends State<ModalSheetContent> {
               },
             ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+            ),
             onPressed: numberOfChecked == -1
                 ? null
                 : () {
@@ -95,14 +97,7 @@ class _ModalSheetContentState extends State<ModalSheetContent> {
                     final rightAnswer = widget.level?.variant
                         ?.indexWhere((element) => element.isTrue);
                     if (numberOfChecked == rightAnswer) {
-                      context.router.popUntilRouteWithName(
-                        ChapterFinRoute.name,
-                      );
-                      context.router.push(
-                        TellingRoute(
-                          messages: widget.level?.byeMessage ?? [],
-                        ),
-                      );
+                      win(context, widget.level);
                     } else {
                       context.router.popUntilRouteWithName(
                         ChapterFinRoute.name,
@@ -114,10 +109,31 @@ class _ModalSheetContentState extends State<ModalSheetContent> {
                       );
                     }
                   },
-            child: const Text('Проверить'),
+            child: const Text(
+              'Проверить',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> win(BuildContext context, Level? level) async {
+    context.router.popUntilRouteWithName(
+      ChapterFinRoute.name,
+    );
+    context.router.push(
+      TellingRoute(
+        messages: widget.level?.byeMessage ?? [],
+      ),
+    );
+
+    AppComponents().gameRepository.passedGame.value = {
+      ...AppComponents().gameRepository.passedGame.value,
+      widget.level?.id ?? 0
+    };
   }
 }

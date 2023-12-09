@@ -50,12 +50,18 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                           ? SizedBox(
                               width: 600,
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  MenuItem(
-                                      onTap: wm.onEditProfileTap,
-                                      title: 'Мои данные',
-                                      icon: Icons.person),
-                                  const Divider(),
+                                  Column(
+                                    children: [
+                                      MenuItem(
+                                          onTap: wm.onEditProfileTap,
+                                          title: 'Мои данные',
+                                          icon: Icons.person),
+                                      const Divider(),
+                                    ],
+                                  ),
+                                  const SizedBox.shrink(),
                                   Flexible(
                                     child: Image.asset(
                                       'assets/images/logo_large.png',
@@ -69,7 +75,7 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Expanded(
-                                  flex: 10,
+                                  flex: 3,
                                   child: Image.asset(
                                     'assets/images/logo_large.png',
                                     width: width,
@@ -77,7 +83,6 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 3,
                                   child: Text(
                                     'Что бы не потерять свои достижения зарегистрируйтесь или\n войдите в аккаунт',
                                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -91,9 +96,10 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                                 Expanded(
                                   child: SizedBox(
                                     width: 500,
-                                    child: Row(
+                                    child: Column(
                                       children: [
                                         Expanded(
+                                          flex: 3,
                                           child: FilledButton(
                                             style: theme.filledButtonTheme.style
                                                 ?.copyWith(
@@ -117,15 +123,16 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
+                                        const Spacer(),
                                         Expanded(
+                                          flex: 3,
                                           child: OutlinedButton(
                                               onPressed: () => context.router
                                                   .push(RegisterRoute()),
-                                              child: const Text(
-                                                  'Зарегистрироваться')),
+                                              child: const Center(
+                                                child: Text(
+                                                    'Зарегистрироваться'),
+                                              )),
                                         )
                                       ],
                                     ),

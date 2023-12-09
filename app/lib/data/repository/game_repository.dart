@@ -1,3 +1,4 @@
+import 'package:rxdart/rxdart.dart';
 import 'package:test_case/domain/models/game/level.dart';
 import 'package:test_case/pages/game/components/red_button_variant.dart';
 import 'package:test_case/pages/game/domain/shop_page_configuration.dart';
@@ -7,11 +8,15 @@ import 'package:test_case/router/app_router.dart';
 import '../../domain/models/game/level_map.dart';
 
 class GameRepository {
+
+  BehaviorSubject<Set<int>> passedGame = BehaviorSubject.seeded({});
+
   List<LevelMap> levels = [
     LevelMap(
       title: 'Путешествие в магазин!',
       levels: [
         Level(
+          id: 1,
           numeric: 1,
           helloMessage: [
             Message(
@@ -59,6 +64,7 @@ class GameRepository {
           ),
         ),
         Level(
+          id: 2,
           numeric: 2,
           helloMessage: [
             Message(
@@ -101,6 +107,7 @@ class GameRepository {
           ),
         ),
         Level(
+          id: 3,
           numeric: 3,
           helloMessage: [
             Message(
@@ -143,6 +150,7 @@ class GameRepository {
           ),
         ),
         Level(
+          id: 4,
           numeric: 4,
           helloMessage: [
             Message(
@@ -184,6 +192,7 @@ class GameRepository {
           ),
         ),
         Level(
+          id: 5,
           numeric: 5,
           helloMessage: [
             Message(
@@ -219,6 +228,7 @@ class GameRepository {
           ),
         ),
         Level(
+          id: 6,
           numeric: 6,
           helloMessage: [
             Message(
@@ -256,6 +266,7 @@ class GameRepository {
           ),
         ),
         Level(
+          id: 7,
           numeric: 7,
           helloMessage: [
             Message(
@@ -291,6 +302,7 @@ class GameRepository {
           ),
         ),
         Level(
+          id: 8,
           numeric: 8,
           helloMessage: [
             Message(
