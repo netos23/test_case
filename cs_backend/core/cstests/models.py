@@ -59,6 +59,9 @@ class TestResults(models.Model):
     last_attempt = models.BooleanField()
     passed = models.BooleanField()
 
+    class Meta:
+        ordering = ['-id']
+
 
 class UserAnswers(models.Model):
     test_result = models.ForeignKey(TestResults, on_delete=models.CASCADE)

@@ -36,7 +36,7 @@ class ElasticClient:
     def indices(self):
         return self.__elastic.indices
 
-    def search_sources(self, query: str, size=1000) -> list:
+    def search_sources(self, query: str, size=1000, operator="and") -> list:
         data = {
             "query": {
                 "bool": {
@@ -48,7 +48,7 @@ class ElasticClient:
                                     "title^2",
                                     "topic^3"
                                 ],
-                                "operator": "and",
+                                "operator": operator,
                                 "fuzziness": "AUTO"
                             }
                         }

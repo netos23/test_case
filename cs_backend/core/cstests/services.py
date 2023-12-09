@@ -15,28 +15,30 @@ class CService:
         questions = test.questions.all()
         user_answers = []
         for question in questions:
-            user_variants = user_questions[question.id]
-            is_correct = True
             variants = question.variants.values()
-            user_answer = []
-            for variant in variants:
-                user_variant = user_variants[variant['id']]
-                if question.type == 'text':
-                    if user_variant['answer'] != variant['right_answer']:
-                        is_correct = False
-                    variant['user_answer'] = user_variant['answer']
-                    user_answer.append(user_variant['answer'])
-                else:
-                    if user_variant['checked'] != variant['is_right']:
-                        is_correct = False
-                    variant['user_check'] = user_variant['checked']
-                    if user_variant['checked']:
-                        user_answer.append(str(user_variant['id']))
+            is_correct = False
+            if question.id in user_questions:
+                user_variants = user_questions[question.id]
+                is_correct = True
+                user_answer = []
+                for variant in variants:
+                    user_variant = user_variants[variant['id']]
+                    if question.type == 'text':
+                        if user_variant['answer'] != variant['right_answer']:
+                            is_correct = False
+                        variant['user_answer'] = user_variant['answer']
+                        user_answer.append(user_variant['answer'])
+                    else:
+                        if user_variant['checked'] != variant['is_right']:
+                            is_correct = False
+                        variant['user_check'] = user_variant['checked']
+                        if user_variant['checked']:
+                            user_answer.append(str(user_variant['id']))
+                user_answers.append([question, ",".join(user_answer), is_correct])
+                if is_correct:
+                    score += 1
             question.is_correct = is_correct
             question.final_variants = variants
-            user_answers.append([question, ",".join(user_answer), is_correct])
-            if is_correct:
-                score += 1
         correct_amount = score
         score = 100 * score / len(questions)
         passed = test.required_score <= score
