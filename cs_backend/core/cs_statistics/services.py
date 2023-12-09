@@ -1,3 +1,4 @@
+from authorization.models import Users
 from cstests.models import TestResults
 from utils.constants import get_user_level
 
@@ -31,3 +32,15 @@ class StatisticService:
                 "total_test_amount": test_count,
                 "attempt_amount": len(attempts), "easy_test_count": easy_cnt, "medium_test_count": medium_cnt,
                 "hard_test_count": hard_cnt, "success_results": test_results}
+
+    @staticmethod
+    def get_top_users():
+        users = Users.objects.filter(total_score__gt=0).order_by("-total_score").all()[:20]
+        top_data = []
+        for user in users:
+            top_data.append({
+                "name": user.first_name + " " + user.last_name,
+                "level": get_user_level(user),
+                "total_score": user.total_score
+            })
+        return top_data
