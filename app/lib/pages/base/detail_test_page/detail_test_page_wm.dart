@@ -3,6 +3,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test_case/data/service/test_service.dart';
+import 'package:test_case/domain/entity/test/question.dart';
 import 'package:test_case/domain/entity/test/test_detail.dart';
 import 'package:test_case/domain/entity/test/test_result.dart';
 import 'package:test_case/domain/entity/test/variant.dart';
@@ -192,7 +193,8 @@ class TestPageWidgetModel
     final response = await testService.checkResult(
       testResult: TestResult(
         testId: 1,
-        questions: [],
+        questions: [
+        ],
       ),
     );
     if (context.mounted) {

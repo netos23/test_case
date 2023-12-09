@@ -21,7 +21,7 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Question {
   @JsonKey(name: 'explain_answer')
-  String get explainAnswer => throw _privateConstructorUsedError;
+  String? get explainAnswer => throw _privateConstructorUsedError;
   List<Variant>? get variants => throw _privateConstructorUsedError;
   @JsonKey(name: 'final_variants')
   List<Variant>? get finalVariants => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $QuestionCopyWith<$Res> {
       _$QuestionCopyWithImpl<$Res, Question>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'explain_answer') String explainAnswer,
+      {@JsonKey(name: 'explain_answer') String? explainAnswer,
       List<Variant>? variants,
       @JsonKey(name: 'final_variants') List<Variant>? finalVariants,
       String question,
@@ -67,7 +67,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? explainAnswer = null,
+    Object? explainAnswer = freezed,
     Object? variants = freezed,
     Object? finalVariants = freezed,
     Object? question = null,
@@ -77,10 +77,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? id = freezed,
   }) {
     return _then(_value.copyWith(
-      explainAnswer: null == explainAnswer
+      explainAnswer: freezed == explainAnswer
           ? _value.explainAnswer
           : explainAnswer // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       variants: freezed == variants
           ? _value.variants
           : variants // ignore: cast_nullable_to_non_nullable
@@ -122,7 +122,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'explain_answer') String explainAnswer,
+      {@JsonKey(name: 'explain_answer') String? explainAnswer,
       List<Variant>? variants,
       @JsonKey(name: 'final_variants') List<Variant>? finalVariants,
       String question,
@@ -143,7 +143,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? explainAnswer = null,
+    Object? explainAnswer = freezed,
     Object? variants = freezed,
     Object? finalVariants = freezed,
     Object? question = null,
@@ -153,10 +153,10 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? id = freezed,
   }) {
     return _then(_$QuestionImpl(
-      explainAnswer: null == explainAnswer
+      explainAnswer: freezed == explainAnswer
           ? _value.explainAnswer
           : explainAnswer // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       variants: freezed == variants
           ? _value._variants
           : variants // ignore: cast_nullable_to_non_nullable
@@ -194,7 +194,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _$QuestionImpl implements _Question {
   _$QuestionImpl(
-      {@JsonKey(name: 'explain_answer') required this.explainAnswer,
+      {@JsonKey(name: 'explain_answer') this.explainAnswer,
       final List<Variant>? variants,
       @JsonKey(name: 'final_variants') final List<Variant>? finalVariants,
       required this.question,
@@ -210,7 +210,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   @JsonKey(name: 'explain_answer')
-  final String explainAnswer;
+  final String? explainAnswer;
   final List<Variant>? _variants;
   @override
   List<Variant>? get variants {
@@ -297,7 +297,7 @@ class _$QuestionImpl implements _Question {
 
 abstract class _Question implements Question {
   factory _Question(
-      {@JsonKey(name: 'explain_answer') required final String explainAnswer,
+      {@JsonKey(name: 'explain_answer') final String? explainAnswer,
       final List<Variant>? variants,
       @JsonKey(name: 'final_variants') final List<Variant>? finalVariants,
       required final String question,
@@ -311,7 +311,7 @@ abstract class _Question implements Question {
 
   @override
   @JsonKey(name: 'explain_answer')
-  String get explainAnswer;
+  String? get explainAnswer;
   @override
   List<Variant>? get variants;
   @override

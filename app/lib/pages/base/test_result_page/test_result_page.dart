@@ -79,7 +79,7 @@ class QuestionWidget extends StatelessWidget {
                         question.question,
                       ),
                       Text(
-                        question.explainAnswer,
+                        question.explainAnswer ?? '',
                       ),
                       ...question.finalVariants?.map((e) {
                             if (question.type == 'text') {

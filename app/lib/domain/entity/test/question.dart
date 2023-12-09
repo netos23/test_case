@@ -12,7 +12,7 @@ class Question with _$Question {
     includeIfNull: false,
   )
   factory Question({
-    @JsonKey(name: 'explain_answer') required String explainAnswer,
+    @JsonKey(name: 'explain_answer')  String? explainAnswer,
     List<Variant>? variants,
     @JsonKey(name: 'final_variants') List<Variant>? finalVariants,
     required String question,
