@@ -1,7 +1,10 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart' hide TestRoute;
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/entity/test/question.dart';
 import 'package:test_case/domain/entity/test/test_result_response.dart';
+
+import '../../../router/app_router.dart';
 
 @RoutePage()
 class TestResultPageWidget extends StatelessWidget {
@@ -15,6 +18,12 @@ class TestResultPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          context.router.navigate(TestRoute());
+        },
+        child: Icon(Icons.house),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -36,6 +45,9 @@ class TestResultPageWidget extends StatelessWidget {
                   value: testResultResponse.correctAmount! /
                       testResultResponse.questions.length,
                   strokeWidth: 30,
+                  color: testResultResponse.passed == true
+                      ? Colors.green
+                      : Colors.red,
                 ),
               ),
             ),
@@ -134,10 +146,10 @@ class QuestionWidget extends StatelessWidget {
                                             ),
                                           ),
                                           Icon(
-                                            e.isRight == true
+                                            question.isCorrect == true
                                                 ? Icons.check
                                                 : Icons.close,
-                                            color: e.isRight == true
+                                            color: question.isCorrect == true
                                                 ? Colors.green
                                                 : Colors.red,
                                           ),

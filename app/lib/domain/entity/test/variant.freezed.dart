@@ -27,6 +27,8 @@ mixin _$Variant {
   bool? get isRight => throw _privateConstructorUsedError;
   @JsonKey(name: 'right_answer')
   String? get rightAnswer => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_correct')
+  bool? get isCorrect => throw _privateConstructorUsedError;
   bool? get checked => throw _privateConstructorUsedError;
   String? get answer => throw _privateConstructorUsedError;
 
@@ -46,6 +48,7 @@ abstract class $VariantCopyWith<$Res> {
       int? id,
       @JsonKey(name: 'is_right') bool? isRight,
       @JsonKey(name: 'right_answer') String? rightAnswer,
+      @JsonKey(name: 'is_correct') bool? isCorrect,
       bool? checked,
       String? answer});
 }
@@ -68,6 +71,7 @@ class _$VariantCopyWithImpl<$Res, $Val extends Variant>
     Object? id = freezed,
     Object? isRight = freezed,
     Object? rightAnswer = freezed,
+    Object? isCorrect = freezed,
     Object? checked = freezed,
     Object? answer = freezed,
   }) {
@@ -92,6 +96,10 @@ class _$VariantCopyWithImpl<$Res, $Val extends Variant>
           ? _value.rightAnswer
           : rightAnswer // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCorrect: freezed == isCorrect
+          ? _value.isCorrect
+          : isCorrect // ignore: cast_nullable_to_non_nullable
+              as bool?,
       checked: freezed == checked
           ? _value.checked
           : checked // ignore: cast_nullable_to_non_nullable
@@ -117,6 +125,7 @@ abstract class _$$VariantImplCopyWith<$Res> implements $VariantCopyWith<$Res> {
       int? id,
       @JsonKey(name: 'is_right') bool? isRight,
       @JsonKey(name: 'right_answer') String? rightAnswer,
+      @JsonKey(name: 'is_correct') bool? isCorrect,
       bool? checked,
       String? answer});
 }
@@ -137,6 +146,7 @@ class __$$VariantImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? isRight = freezed,
     Object? rightAnswer = freezed,
+    Object? isCorrect = freezed,
     Object? checked = freezed,
     Object? answer = freezed,
   }) {
@@ -161,6 +171,10 @@ class __$$VariantImplCopyWithImpl<$Res>
           ? _value.rightAnswer
           : rightAnswer // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCorrect: freezed == isCorrect
+          ? _value.isCorrect
+          : isCorrect // ignore: cast_nullable_to_non_nullable
+              as bool?,
       checked: freezed == checked
           ? _value.checked
           : checked // ignore: cast_nullable_to_non_nullable
@@ -183,6 +197,7 @@ class _$VariantImpl implements _Variant {
       this.id,
       @JsonKey(name: 'is_right') this.isRight,
       @JsonKey(name: 'right_answer') this.rightAnswer,
+      @JsonKey(name: 'is_correct') this.isCorrect,
       this.checked,
       this.answer});
 
@@ -202,13 +217,16 @@ class _$VariantImpl implements _Variant {
   @JsonKey(name: 'right_answer')
   final String? rightAnswer;
   @override
+  @JsonKey(name: 'is_correct')
+  final bool? isCorrect;
+  @override
   final bool? checked;
   @override
   final String? answer;
 
   @override
   String toString() {
-    return 'Variant(title: $title, picture: $picture, id: $id, isRight: $isRight, rightAnswer: $rightAnswer, checked: $checked, answer: $answer)';
+    return 'Variant(title: $title, picture: $picture, id: $id, isRight: $isRight, rightAnswer: $rightAnswer, isCorrect: $isCorrect, checked: $checked, answer: $answer)';
   }
 
   @override
@@ -222,14 +240,16 @@ class _$VariantImpl implements _Variant {
             (identical(other.isRight, isRight) || other.isRight == isRight) &&
             (identical(other.rightAnswer, rightAnswer) ||
                 other.rightAnswer == rightAnswer) &&
+            (identical(other.isCorrect, isCorrect) ||
+                other.isCorrect == isCorrect) &&
             (identical(other.checked, checked) || other.checked == checked) &&
             (identical(other.answer, answer) || other.answer == answer));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, title, picture, id, isRight, rightAnswer, checked, answer);
+  int get hashCode => Object.hash(runtimeType, title, picture, id, isRight,
+      rightAnswer, isCorrect, checked, answer);
 
   @JsonKey(ignore: true)
   @override
@@ -252,6 +272,7 @@ abstract class _Variant implements Variant {
       final int? id,
       @JsonKey(name: 'is_right') final bool? isRight,
       @JsonKey(name: 'right_answer') final String? rightAnswer,
+      @JsonKey(name: 'is_correct') final bool? isCorrect,
       final bool? checked,
       final String? answer}) = _$VariantImpl;
 
@@ -269,6 +290,9 @@ abstract class _Variant implements Variant {
   @override
   @JsonKey(name: 'right_answer')
   String? get rightAnswer;
+  @override
+  @JsonKey(name: 'is_correct')
+  bool? get isCorrect;
   @override
   bool? get checked;
   @override
