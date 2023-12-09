@@ -11,6 +11,7 @@ class CoursePreview with _$CoursePreview {
     String? name,
     String? picture,
     String? description,
+    int? price,
   }) = _CoursePreview;
 
   factory CoursePreview.fromJson(Map<String, dynamic> json) => _$CoursePreviewFromJson(json);

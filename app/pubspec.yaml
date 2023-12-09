@@ -52,6 +52,7 @@ dependencies:
   ogp_data_extract: ^0.1.4
   onesignal_flutter: ^5.0.4
   just_audio: ^0.9.36
+  fl_chart: ^0.65.0
 
 
 

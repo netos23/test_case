@@ -4,9 +4,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/entity/test/test_result_response.dart';
+import 'package:test_case/data/repository/token_ropository.dart';
 import 'package:test_case/domain/models/game/level.dart';
 import 'package:test_case/domain/models/game/level_map.dart';
 import 'package:test_case/domain/models/profile.dart';
+import 'package:test_case/internal/app_components.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_widget.dart';
 import 'package:test_case/pages/base/auth_code_page/auth_code_page_wm.dart';
 import 'package:test_case/pages/base/auth_page/auth_page_widget.dart';
@@ -27,6 +29,7 @@ import 'package:test_case/pages/base/register_page/register_page_wm.dart';
 import 'package:test_case/pages/base/test_page/test_page_widget.dart';
 import 'package:test_case/pages/base/test_page/test_page_wm.dart';
 import 'package:test_case/pages/base/test_result_page/test_result_page.dart';
+import 'package:test_case/pages/base/top_users_page/top_users_page.dart';
 import 'package:test_case/pages/choose_city_page/choose_city_page.dart';
 import 'package:test_case/pages/game/chat/chat_app.dart';
 import 'package:test_case/pages/game/components/empty_character_page.dart';
@@ -59,6 +62,9 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: TestResultRoute.page),
         AutoRoute(
           page: ChatAppRoute.page,
+        ),
+        AutoRoute(
+          page: TopUsersRoute.page,
         ),
         AutoRoute(page: WebViewerRoute.page),
         AutoRoute(
@@ -109,6 +115,11 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(page: CourseRoute.page, initial: true),
                 AutoRoute(
                   page: CourseDetailRoute.page,
+                  guards: [
+                    AuthGuard(
+                      AppComponents().tokenRepository,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -136,6 +147,34 @@ class AppRouter extends _$AppRouter {
           ],
         ),
       ];
+}
+
+class AuthGuard extends AutoRouteGuard {
+  final TokenRepository tokenRepository;
+
+  AuthGuard(
+    this.tokenRepository,
+  );
+
+  @override
+  void onNavigation(
+    NavigationResolver resolver,
+    StackRouter router,
+  ) {
+    var status = true;
+
+    if (!tokenRepository.auth) {
+      resolver.redirect(
+        AuthRoute(
+          authCallback: (profile) {
+            resolver.next(profile is Profile);
+          },
+        ),
+      );
+    } else {
+      resolver.next(status);
+    }
+  }
 }
 
 @RoutePage(name: 'ShowCaseTab')

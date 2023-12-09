@@ -125,7 +125,7 @@ class AuthPageWidgetModel extends WidgetModel<AuthPageWidget, AuthPageModel>
       final profile = await profileUseCase.loadProfile();
 
       final callback = widget.authCallback;
-      // callback?.call(profile);
+      callback?.call(profile);
       if (callback == null) {
         router.pop();
       }

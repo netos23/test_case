@@ -49,24 +49,20 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                       child: isLogin
                           ? SizedBox(
                               width: 600,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              child: ListView(
                                 children: [
-                                  Column(
-                                    children: [
-                                      MenuItem(
-                                          onTap: wm.onEditProfileTap,
-                                          title: 'Мои данные',
-                                          icon: Icons.person),
-                                      const Divider(),
-                                    ],
+                                  MenuItem(
+                                    onTap: wm.onEditProfileTap,
+                                    title: 'Мои данные',
+                                    icon: Icons.person,
                                   ),
-                                  const SizedBox.shrink(),
-                                  Flexible(
-                                    child: Image.asset(
-                                      'assets/images/logo_large.png',
-                                    ),
+                                  const Divider(),
+                                  MenuItem(
+                                    onTap: wm.openTop,
+                                    title: 'Топ пользователей',
+                                    icon: Icons.score,
                                   ),
+                                  const Divider(),
                                 ],
                               ),
                             )
@@ -130,8 +126,8 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                                               onPressed: () => context.router
                                                   .push(RegisterRoute()),
                                               child: const Center(
-                                                child: Text(
-                                                    'Зарегистрироваться'),
+                                                child:
+                                                    Text('Зарегистрироваться'),
                                               )),
                                         )
                                       ],
