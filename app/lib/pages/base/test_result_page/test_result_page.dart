@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart' hide TestRoute;
 import 'package:flutter/material.dart';
 import 'package:test_case/domain/entity/test/question.dart';
@@ -22,7 +21,7 @@ class TestResultPageWidget extends StatelessWidget {
         onPressed: () {
           context.router.navigate(TestRoute());
         },
-        child: Icon(Icons.house),
+        child: const Icon(Icons.house),
       ),
       body: SafeArea(
         child: ListView(
@@ -106,19 +105,22 @@ class QuestionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
+    final correct = question.isCorrect ?? false;
     return Card(
+      clipBehavior: Clip.hardEdge,
+      color: correct ? colorScheme.surface : colorScheme.errorContainer,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16))),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Icon(
-                question.isCorrect == true ? Icons.check : Icons.close,
-                color: question.isCorrect == true ? Colors.green : Colors.red,
-              )
-            ],
-          ),
           ExpansionTile(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+            ),
             title: Text(
               question.question,
               maxLines: 2,
@@ -168,34 +170,48 @@ class QuestionWidget extends StatelessWidget {
                                   ),
                                 );
                               } else {
-                                return Row(
-                                  children: [
-                                    if (question.type == 'multiple_checked')
-                                      Checkbox(
-                                          value: e.checked, onChanged: null),
-                                    if (question.type == 'single_checked')
-                                      Radio<bool>(
-                                          value: e.checked ?? false,
-                                          groupValue: true,
-                                          onChanged: null),
-                                    Text(e.title ?? ''),
-                                    const Spacer(),
-                                    if (e.checked == true)
-                                      Icon(
-                                        e.isRight == true
-                                            ? Icons.check
-                                            : Icons.close,
-                                        color: e.isRight == true
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                  ],
-                                );
+                                return switch (question.type) {
+                                  'multiple_checked' => CheckboxListTile(
+                                      value: e.checked,
+                                      onChanged: null,
+                                      title: Text(e.title ?? ''),
+                                      secondary: e.checked == true
+                                          ? (Icon(
+                                              e.isRight == true
+                                                  ? Icons.check
+                                                  : Icons.close,
+                                              color: e.isRight == true
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ))
+                                          : null,
+                                    ),
+                                  'single_checked' => RadioListTile(
+                                      value: e.checked ?? false,
+                                      groupValue: true,
+                                      title: Text(e.title ?? ''),
+                                      onChanged: null,
+                                      secondary: e.checked == true
+                                          ? (Icon(
+                                              e.isRight == true
+                                                  ? Icons.check
+                                                  : Icons.close,
+                                              color: e.isRight == true
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ))
+                                          : null,
+                                    ),
+                                  _ => const SizedBox.shrink()
+                                };
                               }
                             }) ??
                             [],
                         Text(
                           question.explainAnswer ?? '',
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onErrorContainer,
+                          ),
                         ),
                       ],
                     ),
