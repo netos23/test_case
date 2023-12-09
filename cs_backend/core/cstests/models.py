@@ -49,3 +49,19 @@ class CSTestModel(models.Model):
     created_at = models.DateTimeField(default=now)
     required_score = models.IntegerField(default=0)
     questions = models.ManyToManyField(QuestionModel, related_name='tests')
+
+
+class TestResults(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    test = models.ForeignKey(CSTestModel, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    created_at = models.DateTimeField(default=now)
+    last_attempt = models.BooleanField()
+    passed = models.BooleanField()
+
+
+class UserAnswers(models.Model):
+    test_result = models.ForeignKey(TestResults, on_delete=models.CASCADE)
+    question = models.ForeignKey(QuestionModel, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=1024)
+    is_correct = models.BooleanField()

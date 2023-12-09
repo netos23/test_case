@@ -47,11 +47,13 @@ class _BannerService implements BannerService {
   Future<Pagination<Source>> getSources({
     int? page,
     int? pageSize,
+    String? search,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'page_size': pageSize,
+      r'search': search,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

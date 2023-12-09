@@ -16,7 +16,7 @@ from orders.models import OrderModel
 
 class PaymentCreateView(generics.GenericAPIView):
     class PaymentsCreateSerializer(serializers.Serializer):
-        id = serializers.CharField(required=True)
+        id = serializers.IntegerField(required=True)
 
     class PaymentResponse(serializers.Serializer):
         url = serializers.URLField()

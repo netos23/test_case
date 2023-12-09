@@ -43,5 +43,5 @@ class CheckResultView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = ResultTestRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        result = CService.check_result(serializer.validated_data)
+        result = CService.check_result(serializer.validated_data, self.request.user)
         return Response(data=self.serializer_class(result).data)

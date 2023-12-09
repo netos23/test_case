@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     "orders",
     "payments",
     "cstests",
-    "course"
+    "course",
+    "cs_statistics"
 ]
 
 MIDDLEWARE = [
@@ -235,3 +236,7 @@ AUTH_USER_MODEL = 'authorization.Users'
 ELASTIC_URL = "http://92.118.113.156:9200"
 ELASTIC_PASSWORD = env("ELASTIC_PASSWORD")
 ELASTIC_INDEX = "cyber"
+
+# GigaChat Api
+GIGACHAT_SECRET = env("GIGACHAT_SECRET")
+GIGACHAT_SCOPE = env("GIGACHAT_SCOPE")

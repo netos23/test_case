@@ -31,6 +31,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
       DATABASE_PORT: ${DATABASE_PORT}
+      GIGACHAT_SECRET: ${GIGACHAT_SECRET}
+      GIGACHAT_SCOPE: ${GIGACHAT_SCOPE}
   full_db:
     container_name: full_db
     image: postgres:13.12

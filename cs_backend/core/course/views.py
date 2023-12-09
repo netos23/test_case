@@ -33,4 +33,7 @@ class CourseViewSet(viewsets.ModelViewSet):
             order = OrderModel.objects.filter(user_id=request.auth.get("user_id"), course_id=data['id']).first()
             if order is not None:
                 data['payed'] = order.status == 2
+        if not data.get('payed') and data.get('price', 0) > 0:
+            data['educational_text'] = ''
+            data['sources'] = []
         return Response(data)
