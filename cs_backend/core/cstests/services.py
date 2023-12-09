@@ -26,12 +26,12 @@ class CService:
                     if question.type == 'text':
                         if user_variant['answer'] != variant['right_answer']:
                             is_correct = False
-                        variant['user_answer'] = user_variant['answer']
+                        variant['answer'] = user_variant['answer']
                         user_answer.append(user_variant['answer'])
                     else:
                         if user_variant['checked'] != variant['is_right']:
                             is_correct = False
-                        variant['user_check'] = user_variant['checked']
+                        variant['checked'] = user_variant['checked']
                         if user_variant['checked']:
                             user_answer.append(str(user_variant['id']))
                 user_answers.append([question, ",".join(user_answer), is_correct])
