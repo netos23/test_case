@@ -26,8 +26,7 @@ abstract interface class ICourseDetailPageWidgetModel
 
   void changePolicy(bool? value);
 
-  void openTest() {
-  }
+  void openTest(int courseId);
 }
 
 CourseDetailPageWidgetModel defaultCourseDetailPageWidgetModelFactory(
@@ -124,7 +123,7 @@ class CourseDetailPageWidgetModel
   }
 
   @override
-  void openTest() {
-    // TODO: implement openTest
+  void openTest(int courseId) {
+    router.push(DetailTestRoute(testId: courseId));
   }
 }

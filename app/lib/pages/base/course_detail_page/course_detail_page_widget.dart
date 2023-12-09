@@ -354,7 +354,7 @@ class CourseDetailPageWidget
                           shape: const RoundedRectangleBorder(),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: wm.openTest,
+                        onPressed: () => wm.openTest(courseId),
                         child: Center(
                           child: const Text('Пройти тест'),
                         ),
